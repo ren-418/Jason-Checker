@@ -1,0 +1,161 @@
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    backgroundColor: ({ darkMode }) => (darkMode ? "#121212" : "#FFFFFF"),
+    color: ({ darkMode }) => (darkMode ? "#E7E7E7" : "#3C3C3C"),
+    borderRadius: 12,
+    maxWidth: 900,
+    width: "100%",
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+    border: "1px solid #7E7E7E",
+    fontFamily: "'Inter', sans-serif",
+    padding: "2px",
+  },
+  content: {
+    padding: theme.spacing(0.4),
+    paddingBottom: theme.spacing(0.8),
+    paddingLeft: theme.spacing(1.5),
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: theme.spacing(1),
+    fontFamily: "'Inter', sans-serif",
+    color: ({ darkMode }) => (darkMode ? "#E7E7E7" : "#3C3C3C"),
+  },
+  subtitle: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(0.8),
+    fontFamily: "'Inter', sans-serif",
+    color: ({ darkMode }) => (darkMode ? "#E7E7E7" : "#3C3C3C"),
+    fontSize: 13,
+  },
+  icon: {
+    marginRight: theme.spacing(1),
+    color: ({ darkMode }) => (darkMode ? "#E7E7E7" : "#3C3C3C"),
+  },
+  sectionTitle: {
+    color: "#0094FF",
+    fontWeight: "bold",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    fontFamily: "'Inter', sans-serif",
+    fontSize: 15,
+  },
+  phantomTitle: {
+    color: "#6C3D8A",
+    fontWeight: "bold",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    fontFamily: "'Inter', sans-serif",
+    fontSize: 15,
+  },
+  releaseTime: {
+    color: theme.palette.type === "dark" ? "#E7E7E7" : "#000000",
+    fontSize: 12,
+    textAlign: "left",
+    fontFamily: "'Inter', sans-serif",
+    marginBottom: theme.spacing(-2),
+    marginLeft: theme.spacing(-2),
+  },
+  rightColumnContainer: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    justifyContent: "space-between",
+  },
+  mapContainer: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginTop: "-16px",
+    userSelect: "none",
+  },
+  mapImage: {
+    maxWidth: "90%",
+    maxHeight: "90%",
+    objectFit: "contain",
+    borderRadius: "8px",
+    userSelect: "none",
+    pointerEvents: "none",
+  },
+  marketplaceButton: {
+    width: "60px",
+    height: "30px",
+    borderRadius: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: theme.spacing(0.8),
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "flex-start",
+    paddingLeft: 0,
+    marginLeft: theme.spacing(-2),
+  },
+  qPing: {
+    background:
+      "linear-gradient(90deg, rgb(215, 174, 251) 0%, rgb(142, 68, 173) 100%)",
+    borderRadius: "8px",
+    marginBottom: "8px",
+    padding: "4px 8px",
+    minHeight: "75px",
+    "& .MuiListItemText-primary": {
+      color: "black",
+      fontFamily: "'Inter', sans-serif",
+    },
+  },
+  qPingDarkMode: {
+    background:
+      "linear-gradient(90deg, rgb(215, 174, 251) 0%, rgb(142, 68, 173) 100%)",
+    borderRadius: "8px",
+    marginBottom: "8px",
+    padding: "4px 8px",
+    minHeight: "75px",
+    "& .MuiListItemText-primary": {
+      color: "black",
+      fontFamily: "'Inter', sans-serif",
+    },
+  },
+  standardAdmissionContainer: {
+    borderRadius: "6px",
+    padding: theme.spacing(0.8),
+    margin: `${theme.spacing(0.8)}px ${theme.spacing(1.5)}px 0 ${theme.spacing(
+      -0.8
+    )}px`,
+    cursor: "pointer",
+    display: "inline-block",
+    minWidth: "min-content",
+    maxWidth: "100%",
+    height: "105px",
+    overflow: "auto",
+  },
+  standardAdmissionDark: {
+    backgroundColor: "#5252524D",
+    border: "1px solid #5E5E5E",
+  },
+  standardAdmissionLight: {
+    backgroundColor: "#52525233",
+    border: "1px solid #5E5E5E66",
+  },
+  earlyMonitor: {
+    backgroundColor: "transparent",
+    color: "black",
+    borderRadius: 12,
+    maxWidth: 900,
+    width: "100%",
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+    border: "1px solid #7E7E7E",
+    fontFamily: "'Inter', sans-serif",
+    padding: "2px",
+  },
+}));
+
+export default useStyles;

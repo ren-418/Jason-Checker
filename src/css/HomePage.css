@@ -1,0 +1,287 @@
+.home-page {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+.add-url-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 75%;
+}
+
+.add-url-form .MuiOutlinedInput-root,
+.add-url-form .MuiFormControl-fullWidth {
+  border-radius: 8px;
+}
+.add-url-form .MuiOutlinedInput-notchedOutline {
+  border-color: #430003 !important;
+  border-radius: 8px;
+}
+
+.add-url-form label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.add-url-form input {
+  font-size: 1rem;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+/* Dark Mode Styles */
+.dark-mode-add-url {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dark-mode-add-url textarea {
+  font-size: 1rem;
+  padding: 5px;
+  margin-bottom: 10px;
+  background-color: grey;
+  color: #ddd; /* Lighter text for contrast */
+  border: 1px solid #888; /* Slightly visible border for better UI */
+  cursor: pointer;
+}
+.input-container {
+  position: relative;
+}
+
+input {
+  /* Your existing styles for the input field */
+  padding-right: 40px; /* Leave space for the suggestion */
+}
+
+.suggestion {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #888;
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+.search-bar input {
+  padding: 7.5px 10px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 90%;
+}
+.search-bar1 input {
+  padding: 7.5px 10px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 90%;
+}
+.search-bar-dark-mode,
+.search-bar {
+  width: 60%;
+  position: relative;
+  margin: 0 0 16px;
+}
+.search-bar1-dark-mode,
+.search-bar1 {
+  width: 75%;
+  position: relative;
+  margin: 0 0 16px;
+}
+
+.search-bar-dark-mode input {
+  padding: 7.5px 10px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: 1px solid #430003;
+  width: 90%;
+  background-color: #0d0d0d;
+  color: #e7e7e7;
+}
+
+.search-bar1-dark-mode input {
+  padding: 7.5px 10px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: 1px solid #430003;
+  width: 90%;
+  background-color: #0d0d0d;
+  color: #e7e7e7;
+}
+
+.suggestion-dark-mode {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #ddd;
+  padding-right: 20px;
+}
+
+.url-list {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
+}
+
+.url-list thead tr {
+  background-color: #670004;
+  border-radius: 6px 6px 0px 0px;
+  color: #ffffff;
+  text-align: left;
+}
+
+.url-list th,
+.url-list td {
+  padding: 12px 10px;
+}
+.url-list th {
+  text-align: center;
+  padding-top: 20px;
+}
+
+/* Light Mode Styles (unchanged) */
+.light-mode tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.light-mode tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.light-mode tbody tr:last-of-type {
+  border-bottom: 2px solid #06061e;
+}
+
+.light-mode tbody tr:hover {
+  background-color: #dddddd;
+}
+
+/* Dark Mode Styles */
+.dark-mode tbody tr {
+  border-bottom: 1px solid #444444; /* Darker border for contrast */
+}
+
+.dark-mode tbody tr:nth-of-type(even) {
+  background-color: #333333; /* Darker background */
+}
+
+.dark-mode tbody tr:last-of-type {
+  border-bottom: 2px solid #00b89c; /* Slightly brighter shade for contrast */
+}
+
+.dark-mode tbody tr:hover {
+  background-color: #555555; /* Slightly lighter hover effect */
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+.url-input {
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+
+.search-bar input {
+  padding: 10px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 90%;
+  margin: 10px 5%;
+}
+
+.search-bar-dark-mode input {
+  padding: 10px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 90%;
+  margin: 10px 5%;
+  background-color: grey;
+  color: #ddd;
+}
+
+th.sortable:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.remove-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.remove-button-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.remove-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-icon {
+  font-size: 20px;
+  color: #cc0000;
+}
+
+.remove-icon:hover {
+  color: #ff0000;
+}
+
+.filter-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+@media (min-width: 768px) {
+  .url-input {
+    height: 200px;
+    width: 500px;
+  }
+}
+
+@media (min-width: 992px) {
+  .url-input {
+    height: 300px;
+    width: 750px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .url-input {
+    height: 400px;
+    width: 1000px;
+  }
+}

@@ -1,0 +1,141 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #171717;
+  padding: 20px; /* Add some padding for smaller screens */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px; /* Increased the max width for the login form */
+  width: 100%;
+  padding: 20px; /* Add padding for better spacing */
+  /* Optional: add background color and border for better visibility */
+}
+
+.login-form > * {
+  margin-bottom: 10px;
+}
+
+.login-form > *:last-child {
+  margin-bottom: 0;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px; /* Increased padding for better UX */
+  border: 1px solid #430003;
+  border-radius: 10px;
+  font-size: 14px; /* Increased font size */
+  outline: none;
+  background-color: #0d0d0d;
+  color: #fff;
+}
+
+.login-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.login-form button[type="submit"] {
+  margin-top: 30px;
+  width: 100%;
+  padding: 10px; /* Increased padding for better UX */
+  border: none;
+  border-radius: 10px;
+  background-color: #670004;
+  color: #fff;
+  font-size: 14px; /* Increased font size */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.or {
+  color: #950006;
+  font-size: 14px; /* Increased font size */
+  margin: 30px 0;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.or::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  width: 42%;
+  background-color: #950006;
+}
+.or::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 42%;
+  background-color: #950006;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px; /* Increased padding for better UX */
+  border-radius: 10px;
+  background-color: transparent;
+  color: #bfbfbf;
+  font-size: 14px; /* Increased font size */
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid #bfbfbf;
+}
+
+.login-form button:hover {
+  background-color: #950006;
+}
+
+.forgotString {
+  font-size: 14px; /* Increased font size */
+  color: #ffffff;
+}
+
+.forgotString span {
+  font-size: 14px; /* Increased font size */
+  color: #e3ad00;
+  cursor: pointer;
+}
+
+.error-message {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f8d7da;
+  color: #721c24;
+  text-align: center;
+  font-size: 14px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+button.backToLogin {
+  width: 100%;
+  padding: 10px; /* Increased padding for better UX */
+  border: none;
+  border-radius: 10px;
+  background-color: #670004;
+  color: #fff;
+  font-size: 14px; /* Increased font size */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Center the form and logo container on different screen sizes */
