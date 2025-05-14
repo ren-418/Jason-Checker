@@ -32,6 +32,7 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
   const [audio, setAudio] = React.useState("airplane_chime.mp3");
   const [volume, setVolume] = React.useState(50);
   const [desktopNotif, setDesktopNotif] = React.useState(false);
+  const [betaModalOpen, setBetaModalOpen] = React.useState(false);
 
   const handleSettingsClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -349,8 +350,6 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
             Phantom Event Discovery (BETA)
           </Button>
           <Button
-            component={Link}
-            to="/artist-search"
             sx={{
               background: "#7a0a0a",
               color: "#fff",
@@ -361,6 +360,7 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
               textTransform: "none",
               "&:hover": { background: "#a31515" },
             }}
+            onClick={() => setBetaModalOpen(true)}
           >
             Phantom Artist Search (BETA)
           </Button>
@@ -376,6 +376,58 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
           </IconButton>
         </Box>
       </Toolbar>
+      <Dialog
+        open={betaModalOpen}
+        onClose={() => setBetaModalOpen(false)}
+        maxWidth="xs"
+        PaperProps={{
+          sx: {
+            background: mode === 'dark' ? '#18171b' : '#fff',
+            borderRadius: 3,
+            color: mode === 'dark' ? '#fff' : '#222',
+            boxShadow: 8,
+            p: 0,
+          },
+        }}
+      >
+        <DialogContent sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: 400 }}>
+          <Box sx={{
+            background: mode === 'dark' ? '#111' : '#fff',
+            borderRadius: 2,
+            boxShadow: '0 2px 8px 0 rgba(0,0,0,0.25)',
+            border: '2px solid #222',
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: 350,
+          }}>
+            <Typography variant="h6" align="center" fontWeight={600} mb={2}>
+              This Product is in Beta
+            </Typography>
+            <Typography align="center" mb={3}>
+              Thank you for trying our beta product. Please acknowledge that you understand this and sign ups for the product will be available soon. Please Provide feedback.
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{
+                background: '#7a0a0a',
+                color: '#fff',
+                borderRadius: 2,
+                fontWeight: 700,
+                px: 4,
+                py: 1,
+                fontSize: 16,
+                boxShadow: 1,
+                '&:hover': { background: '#a31515' },
+              }}
+              onClick={() => setBetaModalOpen(false)}
+            >
+              ACKNOWLEDGE
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </AppBar>
   );
 };
