@@ -17,7 +17,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useState } from "react";
-import LogoutButton from "../components/LogoutButton";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import urlsData from "../services/urls.json";
@@ -149,7 +148,6 @@ export default function UrlMonitor() {
 
   return (
     <div className={styles.container}>
-      <LogoutButton />
       <Toolbar />
       <div className={styles.card}>
         {/* Add URLs Section */}
@@ -216,7 +214,27 @@ export default function UrlMonitor() {
           </Typography>
         </Box>
       </div>
-
+      <Box textAlign="center" my={3}>
+        <Button
+          variant="contained"
+          sx={{
+            background: "primary.main",
+            color: "white",
+            borderRadius: 3,
+            px: 5,
+            py: 1.2,
+            fontWeight: 600,
+            fontSize: 18,
+            textTransform: "none",
+            boxShadow: 1,
+            "&:hover": { background: "primary.dark" },
+            mr: 2,
+          }}
+          onClick={() => setArtistModalOpen(true)}
+        >
+          Artist Added Date Monitor
+        </Button>
+      </Box>
       <TextField
         variant="outlined"
         placeholder="Search"
@@ -296,10 +314,11 @@ export default function UrlMonitor() {
                     styles.tbodyRow + (isChecked ? " " + styles.rowChecked : "")
                   }
                   sx={{
-                    background: idx % 2 === 0
-                      ? theme.palette.background.paper
-                      : theme.palette.action.hover,
-                    transition: 'background 0.18s',
+                    background:
+                      idx % 2 === 0
+                        ? theme.palette.background.paper
+                        : theme.palette.action.hover,
+                    transition: "background 0.18s",
                   }}
                 >
                   {/* Remove */}
@@ -374,13 +393,13 @@ export default function UrlMonitor() {
                       onChange={() => handleCheck(eventId)}
                       sx={{
                         color: theme.palette.primary.main,
-                        '&.Mui-checked': {
-                          color: '#fff',
-                          backgroundColor: '#222',
-                          borderRadius: '6px',
+                        "&.Mui-checked": {
+                          color: "#fff",
+                          backgroundColor: "#222",
+                          borderRadius: "6px",
                         },
-                        '&.Mui-checked:hover': {
-                          backgroundColor: '#222',
+                        "&.Mui-checked:hover": {
+                          backgroundColor: "#222",
                         },
                       }}
                     />
@@ -391,10 +410,16 @@ export default function UrlMonitor() {
                       variant="contained"
                       className={styles.filtersBtn}
                       sx={{
-                        background: idx % 2 === 0 ? theme.palette.primary.main : theme.palette.info.main,
+                        background:
+                          idx % 2 === 0
+                            ? theme.palette.primary.main
+                            : theme.palette.info.main,
                         color: "#fff",
                         "&:hover": {
-                          background: idx % 2 === 0 ? theme.palette.primary.dark : theme.palette.info.dark,
+                          background:
+                            idx % 2 === 0
+                              ? theme.palette.primary.dark
+                              : theme.palette.info.dark,
                         },
                       }}
                       onClick={() => setFiltersModalOpen(true)}
@@ -446,7 +471,14 @@ export default function UrlMonitor() {
           },
         }}
       >
-        <DialogTitle sx={{ textAlign: "center", fontWeight: 700, color: theme.palette.text.primary, bgcolor: theme.palette.background.default }}>
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            fontWeight: 700,
+            color: theme.palette.text.primary,
+            bgcolor: theme.palette.background.default,
+          }}
+        >
           Artist Added Date Monitor
           <IconButton
             aria-label="close"
@@ -484,23 +516,70 @@ export default function UrlMonitor() {
             }}
             InputLabelProps={{ style: { color: theme.palette.text.primary } }}
           />
-          <Box sx={{ mt: 2, bgcolor: theme.palette.background.default, borderRadius: 2, overflow: "hidden" }}>
-            <Table sx={{ minWidth: 500, bgcolor: theme.palette.background.default }}>
+          <Box
+            sx={{
+              mt: 2,
+              bgcolor: theme.palette.background.default,
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            <Table
+              sx={{ minWidth: 500, bgcolor: theme.palette.background.default }}
+            >
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ bgcolor: theme.palette.primary.main, color: "#fff", fontWeight: 700 }}>Name</TableCell>
-                  <TableCell sx={{ bgcolor: theme.palette.primary.main, color: "#fff", fontWeight: 700 }}>Artist ID</TableCell>
-                  <TableCell sx={{ bgcolor: theme.palette.primary.main, color: "#fff", fontWeight: 700 }}>Actions</TableCell>
+                  <TableCell
+                    sx={{
+                      bgcolor: theme.palette.primary.main,
+                      color: "#fff",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      bgcolor: theme.palette.primary.main,
+                      color: "#fff",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Artist ID
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      bgcolor: theme.palette.primary.main,
+                      color: "#fff",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Actions
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {filteredArtists.map((artist, idx) => (
-                  <TableRow key={artist.id} sx={{ bgcolor: theme.palette.background.paper }}>
-                    <TableCell sx={{ color: theme.palette.text.primary, fontWeight: 500 }}>{artist.name}</TableCell>
+                  <TableRow
+                    key={artist.id}
+                    sx={{ bgcolor: theme.palette.background.paper }}
+                  >
+                    <TableCell
+                      sx={{
+                        color: theme.palette.text.primary,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {artist.name}
+                    </TableCell>
                     <TableCell>
                       <a
                         href="#"
-                        style={{ color: theme.palette.primary.main, textDecoration: "underline", fontWeight: 500 }}
+                        style={{
+                          color: theme.palette.primary.main,
+                          textDecoration: "underline",
+                          fontWeight: 500,
+                        }}
                       >
                         {artist.id}
                       </a>
@@ -509,7 +588,15 @@ export default function UrlMonitor() {
                       <Button
                         variant="contained"
                         className={styles.removeBtn}
-                        sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 3, fontWeight: 600, px: 2, py: 0.5, fontSize: 15 }}
+                        sx={{
+                          background: theme.palette.primary.main,
+                          color: "#fff",
+                          borderRadius: 3,
+                          fontWeight: 600,
+                          px: 2,
+                          py: 0.5,
+                          fontSize: 15,
+                        }}
                         onClick={() => handleRemoveArtist(artist.id)}
                       >
                         Remove
@@ -537,97 +624,484 @@ export default function UrlMonitor() {
           },
         }}
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: theme.palette.background.paper, color: theme.palette.text.primary, fontWeight: 700, fontSize: 22, pb: 1 }}>
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            fontWeight: 700,
+            fontSize: 22,
+            pb: 1,
+          }}
+        >
           <Box>
-            <Button variant="contained" sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 2, fontWeight: 700, mr: 2, px: 3, py: 0.5 }}>EVENT LOGS</Button>
-            <Button variant="contained" sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 2, fontWeight: 700, px: 3, py: 0.5 }}>TEMPLATES</Button>
+            <Button
+              variant="contained"
+              sx={{
+                background: theme.palette.primary.main,
+                color: "#fff",
+                borderRadius: 2,
+                fontWeight: 700,
+                mr: 2,
+                px: 3,
+                py: 0.5,
+              }}
+            >
+              EVENT LOGS
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                background: theme.palette.primary.main,
+                color: "#fff",
+                borderRadius: 2,
+                fontWeight: 700,
+                px: 3,
+                py: 0.5,
+              }}
+            >
+              TEMPLATES
+            </Button>
           </Box>
-          <IconButton onClick={() => setFiltersModalOpen(false)} sx={{ color: theme.palette.text.primary }}><CloseIcon /></IconButton>
+          <IconButton
+            onClick={() => setFiltersModalOpen(false)}
+            sx={{ color: theme.palette.text.primary }}
+          >
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ p: 3, bgcolor: theme.palette.background.default }}>
-          <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={3}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            gap={3}
+          >
             {/* Left Side: Filters and Notes */}
             <Box flex={1.2}>
               <Box display="flex" alignItems="center" gap={2} mb={2}>
-                <Typography fontWeight={700} fontSize={18} color={theme.palette.text.primary}>Date:</Typography>
-                <Typography fontWeight={500} fontSize={18} color={theme.palette.text.primary}>Thu, May 22, 2025 8:00 PM</Typography>
+                <Typography
+                  fontWeight={700}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Date:
+                </Typography>
+                <Typography
+                  fontWeight={500}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Thu, May 22, 2025 8:00 PM
+                </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap={2} mb={2}>
-                <Typography fontWeight={700} fontSize={18} color={theme.palette.text.primary}>Name:</Typography>
-                <Typography fontWeight={500} fontSize={18} color={theme.palette.text.primary}>Brad Paisley: Truck Still Works World Tour</Typography>
+                <Typography
+                  fontWeight={700}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Name:
+                </Typography>
+                <Typography
+                  fontWeight={500}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Brad Paisley: Truck Still Works World Tour
+                </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap={2} mb={2}>
-                <Typography fontWeight={700} fontSize={18} color={theme.palette.text.primary}>Venue:</Typography>
-                <Typography fontWeight={500} fontSize={18} color={theme.palette.text.primary}>Kettlehouse Amphitheater, Bonner, MT</Typography>
+                <Typography
+                  fontWeight={700}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Venue:
+                </Typography>
+                <Typography
+                  fontWeight={500}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Kettlehouse Amphitheater, Bonner, MT
+                </Typography>
               </Box>
               <Box display="flex" alignItems="center" gap={2} mb={2}>
-                <Typography fontWeight={700} fontSize={18} color={theme.palette.text.primary}>Price Range:</Typography>
-                <Typography fontWeight={500} fontSize={18} color={theme.palette.text.primary}>N/A</Typography>
+                <Typography
+                  fontWeight={700}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  Price Range:
+                </Typography>
+                <Typography
+                  fontWeight={500}
+                  fontSize={18}
+                  color={theme.palette.text.primary}
+                >
+                  N/A
+                </Typography>
               </Box>
               {/* Filter Row */}
               <Box display="flex" gap={2} mb={2}>
-                <TextField select label="Sections" value="CENTER, LAWN" SelectProps={{ native: true }} sx={{ minWidth: 140, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
+                <TextField
+                  select
+                  label="Sections"
+                  value="CENTER, LAWN"
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 140,
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                  }}
+                  InputProps={{
+                    sx: { color: theme.palette.text.primary, fontWeight: 600 },
+                  }}
+                  InputLabelProps={{
+                    sx: { color: theme.palette.text.primary },
+                  }}
+                >
                   <option value="CENTER, LAWN">CENTER, LAWN</option>
                 </TextField>
-                <TextField select label="Rows" value="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
+                <TextField
+                  select
+                  label="Rows"
+                  value="Rows"
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 100,
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                  }}
+                  InputProps={{
+                    sx: { color: theme.palette.text.primary, fontWeight: 600 },
+                  }}
+                  InputLabelProps={{
+                    sx: { color: theme.palette.text.primary },
+                  }}
+                >
                   <option value="Rows">Rows</option>
                 </TextField>
-                <Box display="flex" alignItems="center" sx={{ bgcolor: theme.palette.background.paper, borderRadius: 2, px: 1 }}>
-                  <TextField label="$" value="$0" sx={{ width: 60, bgcolor: 'transparent' }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }} />
-                  <Typography color={theme.palette.text.primary} fontWeight={700} mx={1}>-</Typography>
-                  <TextField label="$" value="" sx={{ width: 60, bgcolor: 'transparent' }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }} />
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  sx={{
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                    px: 1,
+                  }}
+                >
+                  <TextField
+                    label="$"
+                    value="$0"
+                    sx={{ width: 60, bgcolor: "transparent" }}
+                    InputProps={{
+                      sx: {
+                        color: theme.palette.text.primary,
+                        fontWeight: 600,
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: { color: theme.palette.text.primary },
+                    }}
+                  />
+                  <Typography
+                    color={theme.palette.text.primary}
+                    fontWeight={700}
+                    mx={1}
+                  >
+                    -
+                  </Typography>
+                  <TextField
+                    label="$"
+                    value=""
+                    sx={{ width: 60, bgcolor: "transparent" }}
+                    InputProps={{
+                      sx: {
+                        color: theme.palette.text.primary,
+                        fontWeight: 600,
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: { color: theme.palette.text.primary },
+                    }}
+                  />
                 </Box>
-                <TextField select label="Min. Seats" value="2+" SelectProps={{ native: true }} sx={{ minWidth: 80, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
+                <TextField
+                  select
+                  label="Min. Seats"
+                  value="2+"
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 80,
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                  }}
+                  InputProps={{
+                    sx: { color: theme.palette.text.primary, fontWeight: 600 },
+                  }}
+                  InputLabelProps={{
+                    sx: { color: theme.palette.text.primary },
+                  }}
+                >
                   <option value="2+">2+</option>
                 </TextField>
-                <TextField select label="Excluded Ticket Types" value="Verified Resale, ..." SelectProps={{ native: true }} sx={{ minWidth: 180, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
-                  <option value="Verified Resale, ...">Verified Resale, ...</option>
+                <TextField
+                  select
+                  label="Excluded Ticket Types"
+                  value="Verified Resale, ..."
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 180,
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 2,
+                  }}
+                  InputProps={{
+                    sx: { color: theme.palette.text.primary, fontWeight: 600 },
+                  }}
+                  InputLabelProps={{
+                    sx: { color: theme.palette.text.primary },
+                  }}
+                >
+                  <option value="Verified Resale, ...">
+                    Verified Resale, ...
+                  </option>
                 </TextField>
-                <IconButton sx={{ color: theme.palette.text.primary, ml: 1 }}><DeleteIcon /></IconButton>
+                <IconButton sx={{ color: theme.palette.text.primary, ml: 1 }}>
+                  <DeleteIcon />
+                </IconButton>
               </Box>
-              <Button variant="contained" sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 2, fontWeight: 700, px: 4, py: 1, mb: 2 }}>Add Filter</Button>
+              <Button
+                variant="contained"
+                sx={{
+                  background: theme.palette.primary.main,
+                  color: "#fff",
+                  borderRadius: 2,
+                  fontWeight: 700,
+                  px: 4,
+                  py: 1,
+                  mb: 2,
+                }}
+              >
+                Add Filter
+              </Button>
               <Box display="flex" gap={2}>
-                <Box flex={1} sx={{ bgcolor: theme.palette.background.default, border: `2px solid ${theme.palette.primary.main}`, borderRadius: 3, p: 2, minHeight: 160 }}>
-                  <Typography fontWeight={700} color={theme.palette.text.primary} mb={1}>Notes</Typography>
+                <Box
+                  flex={1}
+                  sx={{
+                    bgcolor: theme.palette.background.default,
+                    border: `2px solid ${theme.palette.primary.main}`,
+                    borderRadius: 3,
+                    p: 2,
+                    minHeight: 160,
+                  }}
+                >
+                  <Typography
+                    fontWeight={700}
+                    color={theme.palette.text.primary}
+                    mb={1}
+                  >
+                    Notes
+                  </Typography>
                 </Box>
-                <Box flex={1} sx={{ bgcolor: theme.palette.background.paper, borderRadius: 3, p: 2, minHeight: 160 }}>
-                  <Typography fontWeight={700} color={theme.palette.text.primary} mb={1}>Extra Filter Options</Typography>
+                <Box
+                  flex={1}
+                  sx={{
+                    bgcolor: theme.palette.background.paper,
+                    borderRadius: 3,
+                    p: 2,
+                    minHeight: 160,
+                  }}
+                >
+                  <Typography
+                    fontWeight={700}
+                    color={theme.palette.text.primary}
+                    mb={1}
+                  >
+                    Extra Filter Options
+                  </Typography>
                   <Box display="flex" gap={2} mb={2}>
-                    <TextField select label="Sections" value="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
+                    <TextField
+                      select
+                      label="Sections"
+                      value="Sections"
+                      SelectProps={{ native: true }}
+                      sx={{
+                        minWidth: 120,
+                        bgcolor: theme.palette.background.paper,
+                        borderRadius: 2,
+                      }}
+                      InputProps={{
+                        sx: {
+                          color: theme.palette.text.primary,
+                          fontWeight: 600,
+                        },
+                      }}
+                      InputLabelProps={{
+                        sx: { color: theme.palette.text.primary },
+                      }}
+                    >
                       <option value="Sections">Sections</option>
                     </TextField>
-                    <TextField select label="Rows" value="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.background.paper, borderRadius: 2 }} InputProps={{ sx: { color: theme.palette.text.primary, fontWeight: 600 } }} InputLabelProps={{ sx: { color: theme.palette.text.primary } }}>
+                    <TextField
+                      select
+                      label="Rows"
+                      value="Rows"
+                      SelectProps={{ native: true }}
+                      sx={{
+                        minWidth: 100,
+                        bgcolor: theme.palette.background.paper,
+                        borderRadius: 2,
+                      }}
+                      InputProps={{
+                        sx: {
+                          color: theme.palette.text.primary,
+                          fontWeight: 600,
+                        },
+                      }}
+                      InputLabelProps={{
+                        sx: { color: theme.palette.text.primary },
+                      }}
+                    >
                       <option value="Rows">Rows</option>
                     </TextField>
                   </Box>
-                  <Button variant="contained" sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 2, fontWeight: 700, px: 4, py: 1 }}>Add Filter</Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: theme.palette.primary.main,
+                      color: "#fff",
+                      borderRadius: 2,
+                      fontWeight: 700,
+                      px: 4,
+                      py: 1,
+                    }}
+                  >
+                    Add Filter
+                  </Button>
                 </Box>
               </Box>
               <Box mt={3}>
-                <Typography fontWeight={700} color={theme.palette.text.primary} mb={1}>Section Types</Typography>
+                <Typography
+                  fontWeight={700}
+                  color={theme.palette.text.primary}
+                  mb={1}
+                >
+                  Section Types
+                </Typography>
                 <Box display="flex" gap={2} flexWrap="wrap">
-                  {['ADA', 'CENTER', 'LAWN', 'LEFT', 'PIT', 'RIGHT'].map((type) => (
-                    <Button key={type} variant="contained" sx={{ background: theme.palette.mode === 'dark' ? '#3949ab' : '#3f51b5', color: '#fff', borderRadius: 8, fontWeight: 700, px: 3, py: 0.5 }}>{type}</Button>
-                  ))}
+                  {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(
+                    (type) => (
+                      <Button
+                        key={type}
+                        variant="contained"
+                        sx={{
+                          background:
+                            theme.palette.mode === "dark"
+                              ? "#3949ab"
+                              : "#3f51b5",
+                          color: "#fff",
+                          borderRadius: 8,
+                          fontWeight: 700,
+                          px: 3,
+                          py: 0.5,
+                        }}
+                      >
+                        {type}
+                      </Button>
+                    )
+                  )}
                 </Box>
               </Box>
             </Box>
             {/* Right Side: Seat Map */}
-            <Box flex={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center" sx={{ bgcolor: theme.palette.background.paper, borderRadius: 3, p: 2, minHeight: 400 }}>
-              <Box display="flex" justifyContent="flex-end" width="100%" gap={1} mb={1}>
-                <IconButton sx={{ color: theme.palette.mode === 'dark' ? '#3949ab' : '#3f51b5' }}><ZoomInIcon /></IconButton>
-                <IconButton sx={{ color: theme.palette.mode === 'dark' ? '#3949ab' : '#3f51b5' }}><ZoomOutIcon /></IconButton>
+            <Box
+              flex={1}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                bgcolor: theme.palette.background.paper,
+                borderRadius: 3,
+                p: 2,
+                minHeight: 400,
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                width="100%"
+                gap={1}
+                mb={1}
+              >
+                <IconButton
+                  sx={{
+                    color:
+                      theme.palette.mode === "dark" ? "#3949ab" : "#3f51b5",
+                  }}
+                >
+                  <ZoomInIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color:
+                      theme.palette.mode === "dark" ? "#3949ab" : "#3f51b5",
+                  }}
+                >
+                  <ZoomOutIcon />
+                </IconButton>
               </Box>
-              <Box flex={1} display="flex" alignItems="center" justifyContent="center" width="100%" height="100%">
+              <Box
+                flex={1}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width="100%"
+                height="100%"
+              >
                 {/* Seat map placeholder */}
-                <Box sx={{ width: 350, height: 300, bgcolor: theme.palette.mode === 'dark' ? '#d1a3f7' : '#ede7f6', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography color={theme.palette.text.primary} fontWeight={700} fontSize={32}>SEAT MAP</Typography>
+                <Box
+                  sx={{
+                    width: 350,
+                    height: 300,
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#d1a3f7" : "#ede7f6",
+                    borderRadius: 4,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    color={theme.palette.text.primary}
+                    fontWeight={700}
+                    fontSize={32}
+                  >
+                    SEAT MAP
+                  </Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
           <Box display="flex" justifyContent="flex-end" mt={4}>
-            <Button variant="contained" sx={{ background: theme.palette.primary.main, color: '#fff', borderRadius: 2, fontWeight: 700, px: 5, py: 1.5, fontSize: 18 }}>Submit</Button>
+            <Button
+              variant="contained"
+              sx={{
+                background: theme.palette.primary.main,
+                color: "#fff",
+                borderRadius: 2,
+                fontWeight: 700,
+                px: 5,
+                py: 1.5,
+                fontSize: 18,
+              }}
+            >
+              Submit
+            </Button>
           </Box>
         </DialogContent>
       </Dialog>
@@ -645,25 +1119,36 @@ export default function UrlMonitor() {
           },
         }}
       >
-        <DialogContent sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: 400 }}>
+        <DialogContent
+          sx={{
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minWidth: 400,
+          }}
+        >
           <Typography variant="h6" align="center" fontWeight={600} mb={2}>
             This Product is in Beta
           </Typography>
           <Typography align="center" mb={3}>
-            Thank you for trying our beta product. Please acknowledge that you understand this and sign ups for the product will be available soon. Please Provide feedback.
+            Thank you for trying our beta product. Please acknowledge that you
+            understand this and sign ups for the product will be available soon.
+            Please Provide feedback.
           </Typography>
           <Button
             variant="contained"
             sx={{
               background: theme.palette.primary.main,
-              color: '#fff',
+              color: "#fff",
               borderRadius: 2,
               fontWeight: 700,
               px: 4,
               py: 1,
               fontSize: 16,
               boxShadow: 1,
-              '&:hover': { background: theme.palette.primary.dark },
+              "&:hover": { background: theme.palette.primary.dark },
             }}
             onClick={() => setBetaModalOpen(false)}
           >

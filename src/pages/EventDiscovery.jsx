@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
-import LogoutButton from '../components/LogoutButton';
 
 const dummyEvents = [
   {
@@ -62,7 +61,6 @@ export default function EventDetailView() {
 
   return (
     <>
-      <LogoutButton />
       <Container maxWidth="md" sx={{ py: 4 }}>
         {/* Top bar */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
