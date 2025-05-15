@@ -133,10 +133,10 @@ export default function EventDetailView() {
               }}
             >
               <FilterListIcon sx={{ color: isDark ? "#aaa" : "#444", mr: 1 }} />
-          <TextField
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+              <TextField
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 variant="standard"
                 InputProps={{ disableUnderline: true }}
                 sx={{
@@ -164,8 +164,8 @@ export default function EventDetailView() {
                 <SearchIcon />
               </IconButton>
             </Box>
-          <Button
-            variant="contained"
+            <Button
+              variant="contained"
               sx={{
                 background: theme.palette.primary.main,
                 color: theme.palette.mode === "light" ? "#fff" : "#232323",
@@ -187,15 +187,15 @@ export default function EventDetailView() {
               onClick={() => setExpanded((v) => !v)}
             >
               {expanded ? "Expanded View" : "Compact View"}
-          </Button>
-        </Box>
+            </Button>
+          </Box>
         </Container>
       </Box>
 
       {/* Margin between search and blog */}
       <Box sx={{ height: 70 }} />
 
-        {/* Event Cards */}
+      {/* Event Cards */}
       <Container maxWidth="md" sx={{ pt: 1, px: { xs: 1, sm: 2, md: 0 } }}>
         {pagedEvents.map((event, idx) => {
           const hasBadge =
@@ -699,21 +699,6 @@ export default function EventDetailView() {
                 }}
               >
                 Filters
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#facc15",
-                  color: "#23293a",
-                  borderRadius: 2,
-                  fontWeight: "normal",
-                  px: 3,
-                  py: 0.5,
-                  fontSize: 16,
-                  "&:hover": { bgcolor: "#ffe066" },
-                }}
-              >
-                Early Monitor
               </Button>
               <IconButton
                 sx={{
