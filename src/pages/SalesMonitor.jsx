@@ -303,217 +303,301 @@ export default function SalesMonitor() {
       </Box>
 
       {/* Table */}
-      <Paper
-        sx={{
-          boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          backgroundColor: theme.palette.mode === "dark" ? "#262626" : "#fff",
-        }}
-      >
-        <Table>
-          <TableHead>
-            <TableRow
-              sx={{
-                backgroundColor:
-                  theme.palette.mode === "dark" ? "#262626" : "#0f172a",
-              }}
-            >
-              <TableCell
+      <Box sx={{ width: "100%", overflowX: "auto", mt: 2 }}>
+        <Paper
+          sx={{
+            boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            backgroundColor: theme.palette.mode === "dark" ? "#262626" : "#fff",
+            minWidth: 1100,
+          }}
+        >
+          <Table sx={{ tableLayout: "fixed", minWidth: 1100 }}>
+            <TableHead>
+              <TableRow
                 sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#262626" : "#0f172a",
                 }}
               >
-                Event Name
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Venue
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Date
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Offer
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Price Range
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                URL
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Add Event
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Add Artist
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredEvents.map((event) => (
-              <TableRow key={event.id}>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  {event.name}
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 220,
+                  }}
+                >
+                  Event Name
                 </TableCell>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  {event.venue}
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 200,
+                  }}
+                >
+                  Venue
                 </TableCell>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  {event.datetime.toLocaleString("en-US", {
-                    weekday: "short",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 180,
+                  }}
+                >
+                  Date
                 </TableCell>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  {event.offer}
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 120,
+                  }}
+                >
+                  Offer
                 </TableCell>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  {event.price}
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 100,
+                  }}
+                >
+                  Price Range
                 </TableCell>
-                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
-                  <a
-                    href="#"
-                    style={{
-                      color: "#40a9ff",
-                      textDecoration: "underline",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {event.url}
-                  </a>
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 120,
+                  }}
+                >
+                  URL
                 </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      background:
-                        theme.palette.mode === "light"
-                          ? theme.palette.primary.main
-                          : "#fff",
-                      color:
-                        theme.palette.mode === "light" ? "#fff" : "#232323",
-                      borderRadius: 16,
-                      fontWeight: 400,
-                      px: 3,
-                      py: 1,
-                      minWidth: 90,
-                      boxShadow: 1,
-                      textTransform: "none",
-                      fontSize: 15,
-                      whiteSpace: "nowrap",
-                      "&:hover": {
-                        background:
-                          theme.palette.mode === "light"
-                            ? "#17213a"
-                            : "#f3f4f6",
-                        color:
-                          theme.palette.mode === "light" ? "#fff" : "#232323",
-                      },
-                      transition: "background 0.18s, color 0.18s",
-                    }}
-                  >
-                    Add Event
-                  </Button>
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 120,
+                  }}
+                >
+                  Add Event
                 </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      background:
-                        theme.palette.mode === "light"
-                          ? theme.palette.primary.main
-                          : "#fff",
-                      color:
-                        theme.palette.mode === "light" ? "#fff" : "#232323",
-                      borderRadius: 16,
-                      fontWeight: 400,
-                      px: 3,
-                      py: 1,
-                      minWidth: 90,
-                      boxShadow: 1,
-                      textTransform: "none",
-                      fontSize: 15,
-                      whiteSpace: "nowrap",
-                      "&:hover": {
-                        background:
-                          theme.palette.mode === "light"
-                            ? "#17213a"
-                            : "#f3f4f6",
-                        color:
-                          theme.palette.mode === "light" ? "#fff" : "#232323",
-                      },
-                      transition: "background 0.18s, color 0.18s",
-                    }}
-                  >
-                    Add Artist
-                  </Button>
+                <TableCell
+                  sx={{
+                    color: "white",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: 120,
+                  }}
+                >
+                  Add Artist
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+            </TableHead>
+            <TableBody>
+              {filteredEvents.map((event) => (
+                <TableRow key={event.id}>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {event.name}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {event.venue}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {event.datetime.toLocaleString("en-US", {
+                      weekday: "short",
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {event.offer}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {event.price}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    <a
+                      href="#"
+                      style={{
+                        color: "#40a9ff",
+                        textDecoration: "underline",
+                        fontWeight: 500,
+                        wordBreak: 'break-all',
+                      }}
+                    >
+                      {event.url}
+                    </a>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                      p: { xs: 0.5, sm: 1.5 },
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        background:
+                          theme.palette.mode === "light"
+                            ? theme.palette.primary.main
+                            : "#fff",
+                        color:
+                          theme.palette.mode === "light" ? "#fff" : "#232323",
+                        borderRadius: 16,
+                        fontWeight: 400,
+                        px: { xs: 1.5, sm: 3 },
+                        py: { xs: 0.5, sm: 1 },
+                        minWidth: { xs: 0, sm: 90 },
+                        maxWidth: { xs: 110, sm: 'none' },
+                        boxShadow: 1,
+                        textTransform: "none",
+                        fontSize: { xs: 13, sm: 15 },
+                        whiteSpace: "nowrap",
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        '&:hover': {
+                          background:
+                            theme.palette.mode === "light"
+                              ? "#17213a"
+                              : "#f3f4f6",
+                          color:
+                            theme.palette.mode === "light" ? "#fff" : "#232323",
+                        },
+                        transition: "background 0.18s, color 0.18s",
+                      }}
+                    >
+                      Add Event
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      border: `1px solid ${theme.palette.divider}`,
+                      wordBreak: 'break-word',
+                      verticalAlign: 'middle',
+                      p: { xs: 0.5, sm: 1.5 },
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        background:
+                          theme.palette.mode === "light"
+                            ? theme.palette.primary.main
+                            : "#fff",
+                        color:
+                          theme.palette.mode === "light" ? "#fff" : "#232323",
+                        borderRadius: 16,
+                        fontWeight: 400,
+                        px: { xs: 1.5, sm: 3 },
+                        py: { xs: 0.5, sm: 1 },
+                        minWidth: { xs: 0, sm: 90 },
+                        maxWidth: { xs: 110, sm: 'none' },
+                        boxShadow: 1,
+                        textTransform: "none",
+                        fontSize: { xs: 13, sm: 15 },
+                        whiteSpace: "nowrap",
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        '&:hover': {
+                          background:
+                            theme.palette.mode === "light"
+                              ? "#17213a"
+                              : "#f3f4f6",
+                          color:
+                            theme.palette.mode === "light" ? "#fff" : "#232323",
+                        },
+                        transition: "background 0.18s, color 0.18s",
+                      }}
+                    >
+                      Add Artist
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </Box>
     </Container>
   );
 }

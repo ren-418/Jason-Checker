@@ -644,7 +644,6 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
               size="medium"
               sx={{
                 bgcolor: theme.palette.mode === "dark" ? "#fff" : "#fff",
-                color: theme.palette.mode === "dark" ? "black" : "black",
                 borderRadius: 2,
                 fontSize: 18,
                 mr: 0,
@@ -653,6 +652,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                   fontSize: 18,
                   p: "10px 14px",
                   height: "44px",
+                  color: theme.palette.mode === "dark" ? "#000" : undefined,
                 },
                 "& .MuiOutlinedInput-root": {
                   borderRadius: 2,
@@ -661,13 +661,19 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                 },
               }}
               InputProps={{
-                sx: { borderRadius: 2, fontSize: 18, height: "44px", p: 0 },
+                sx: {
+                  borderRadius: 2,
+                  fontSize: 18,
+                  height: "44px",
+                  p: 0,
+                  color: theme.palette.mode === "dark" ? "#000" : undefined,
+                },
               }}
             />
             <IconButton
               sx={{
                 bgcolor: theme.palette.primary.main,
-                color: theme.palette.mode === "dark" ? "#fff" : "#fff",
+                color: theme.palette.mode === "dark" ? "black" : "#fff",
                 borderRadius: 2,
                 width: 44,
                 height: 44,

@@ -904,7 +904,7 @@ export default function UrlMonitor() {
               width: 56,
               height: 56,
               "&:hover": {
-                bgcolor: theme.palette.mode === "dark" ? "#f3f4f6" : "#7a0a0a",
+                bgcolor: theme.palette.mode === "dark" ? "#f3f4f6" : "#0f172a",
                 color: theme.palette.mode === "dark" ? "#0f172a" : "#fff",
               },
               fontSize: 32,

@@ -133,10 +133,10 @@ export default function EventDetailView() {
               }}
             >
               <FilterListIcon sx={{ color: isDark ? "#aaa" : "#444", mr: 1 }} />
-              <TextField
-                placeholder="Search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+          <TextField
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
                 variant="standard"
                 InputProps={{ disableUnderline: true }}
                 sx={{
@@ -164,8 +164,8 @@ export default function EventDetailView() {
                 <SearchIcon />
               </IconButton>
             </Box>
-            <Button
-              variant="contained"
+          <Button
+            variant="contained"
               sx={{
                 background: theme.palette.primary.main,
                 color: theme.palette.mode === "light" ? "#fff" : "#232323",
@@ -187,15 +187,15 @@ export default function EventDetailView() {
               onClick={() => setExpanded((v) => !v)}
             >
               {expanded ? "Expanded View" : "Compact View"}
-            </Button>
-          </Box>
+          </Button>
+        </Box>
         </Container>
       </Box>
 
       {/* Margin between search and blog */}
       <Box sx={{ height: 70 }} />
 
-      {/* Event Cards */}
+        {/* Event Cards */}
       <Container maxWidth="md" sx={{ pt: 1, px: { xs: 1, sm: 2, md: 0 } }}>
         {pagedEvents.map((event, idx) => {
           const hasBadge =
@@ -971,28 +971,6 @@ export default function EventDetailView() {
           </Typography>
           {/* Two buttons: Disable and Remove */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button
-              variant="outlined"
-              disabled
-              sx={{
-                borderRadius: 2,
-                fontWeight: "normal",
-                px: 4,
-                py: 1,
-                fontSize: 16,
-                color: isDark ? "#aaa" : "#888",
-                borderColor: isDark ? "#444" : "#bbb",
-                bgcolor: isDark ? "#232228" : "#f3f4f6",
-                "&.Mui-disabled": {
-                  color: isDark ? "#555" : "#bbb",
-                  borderColor: isDark ? "#333" : "#eee",
-                  bgcolor: isDark ? "#232228" : "#f3f4f6",
-                  opacity: 1,
-                },
-              }}
-            >
-              Disable
-            </Button>
             <Button
               variant="contained"
               color="error"
