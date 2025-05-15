@@ -334,7 +334,7 @@ export default function UrlMonitor() {
                       cursor: col.sortable ? "pointer" : "default",
                       userSelect: "none",
                       color: "#ffffff",
-                      fontWeight: 500,
+                      fontWeight: 700,
                       whiteSpace: "nowrap",
                       textAlign: "center",
                     }}
@@ -587,7 +587,7 @@ export default function UrlMonitor() {
                       bgcolor: theme.palette.primary.main,
                       color:
                         theme.palette.mode === "light" ? "#fff" : "#0f172a",
-                      fontWeight: 500,
+                      fontWeight: 700,
                     }}
                   >
                     Name
@@ -597,7 +597,7 @@ export default function UrlMonitor() {
                       bgcolor: theme.palette.primary.main,
                       color:
                         theme.palette.mode === "light" ? "#fff" : "#0f172a",
-                      fontWeight: 500,
+                      fontWeight: 700,
                     }}
                   >
                     Artist ID
@@ -607,7 +607,7 @@ export default function UrlMonitor() {
                       bgcolor: theme.palette.primary.main,
                       color:
                         theme.palette.mode === "light" ? "#fff" : "#0f172a",
-                      fontWeight: 500,
+                      fontWeight: 700,
                     }}
                   >
                     Actions

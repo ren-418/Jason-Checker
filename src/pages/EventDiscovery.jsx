@@ -475,7 +475,7 @@ export default function EventDetailView() {
                         px: 2,
                         py: 0.5,
                         borderRadius: 999,
-                        fontWeight: 700,
+                        fontWeight: 400,
                         fontSize: 13,
                         boxShadow: 2,
                         letterSpacing: 0.5,
@@ -689,7 +689,9 @@ export default function EventDetailView() {
             <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
               <Button
                 variant="contained"
-                color="error"
+                style={{
+                  color: theme.palette.mode === "light" ? "white" : "black",
+                }}
                 sx={{
                   borderRadius: 2,
                   fontWeight: "normal",
@@ -777,21 +779,21 @@ export default function EventDetailView() {
                       1, 2, 3 <b>(3)</b>
                     </TableCell>
                     <TableCell>
-                      <a href="#" style={{ color: "#2563eb", fontWeight: 600 }}>
-                        Link 1
-                      </a>{" "}
                       <Button
                         size="small"
                         sx={{
                           ml: 1,
-                          bgcolor: "#2563eb",
-                          color: "#fff",
+                          bgcolor:
+                            theme.palette.mode === "light"
+                              ? "#0f172a"
+                              : "white",
+                          color:
+                            theme.palette.mode === "light" ? "#fff" : "black",
                           borderRadius: 2,
                           fontWeight: "normal",
                           px: 2,
                           py: 0.5,
                           fontSize: 14,
-                          "&:hover": { bgcolor: "#174ea6" },
                         }}
                       >
                         Buy
@@ -806,21 +808,21 @@ export default function EventDetailView() {
                       11, 12 <b>(2)</b>
                     </TableCell>
                     <TableCell>
-                      <a href="#" style={{ color: "#2563eb", fontWeight: 600 }}>
-                        Link 1
-                      </a>{" "}
                       <Button
                         size="small"
                         sx={{
                           ml: 1,
-                          bgcolor: "#2563eb",
-                          color: "#fff",
+                          bgcolor:
+                            theme.palette.mode === "light"
+                              ? "#0f172a"
+                              : "white",
+                          color:
+                            theme.palette.mode === "light" ? "#fff" : "black",
                           borderRadius: 2,
                           fontWeight: "normal",
                           px: 2,
                           py: 0.5,
                           fontSize: 14,
-                          "&:hover": { bgcolor: "#174ea6" },
                         }}
                       >
                         Buy
