@@ -13,148 +13,458 @@ import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTheme } from "@mui/material/styles";
+import styles from "./UrlMonitor.module.css";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import dayjs from "dayjs";
-import DatePicker from "@mui/lab/DatePicker";
+// import DatePicker from "@mui/lab/DatePicker";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { v4 as uuidv4 } from "uuid";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// Generate 100 sample events
+function generateSampleEvents() {
+  const venues = [
+    "The Bell House, Brooklyn, NY",
+    "Brooklyn Steel, Brooklyn, United States",
+    "The Studio At The Bomb Factory, Dallas, United States",
+    "Royale, Boston, United States",
+    "House of Blues Orlando, Orlando, FL",
+    "The Wiltern, Los Angeles, CA",
+    "COS Torwar, Warszawa",
+    "Atlas Arena, Łódź",
+    "Etihad Arena, Yas Bay, Abu Dhabi",
+    "MSG, New York, NY",
+  ];
+  const offers = [
+    "ONSALE",
+    "Artist Presale",
+    "Spotify Presale",
+    "BIT Presale",
+    "Venue Presale",
+    "Chase Cardholder Preferred Tickets",
+  ];
+  const prices = ["TBD", "N/A", "$45", "$60", "$100", "$150", "$200"];
+  const names = [
+    "Aaron & Josh Do Improv-athon",
+    "Anamanaguchi",
+    "Steven Wilson - The Overview Tour",
+    "STING 3.0 TOUR",
+    "Kylie Minogue: TENSION TOUR 2025",
+    "Fast Lane Access - Bop To The Top Summer 2025",
+    "Jiaoying Summers: What Specie Are You? Tour",
+    "Morgan Wallen: I'm The Problem Tour",
+    "Dave Matthews Band",
+    "Billy Joel",
+  ];
+  // Generate events for 5 different days
+  const baseDate = new Date();
+  baseDate.setHours(0, 0, 0, 0);
+  let events = [];
+  for (let d = 0; d < 5; d++) {
+    for (let i = 0; i < 20; i++) {
+      const minutes = (i % 48) * 15;
+      const eventDate = new Date(
+        baseDate.getTime() + d * 86400000 + minutes * 60000
+      );
+      const dateStr = eventDate.toLocaleString("en-US", {
+        weekday: "short",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+      events.push({
+        id: uuidv4(),
+        name: names[i % names.length] + (i % 3 === 0 ? " EVENING SHOW" : ""),
+        venue: venues[i % venues.length],
+        datetime: eventDate,
+        offer: offers[i % offers.length],
+        price: prices[i % prices.length],
+        url: Math.random().toString(36).substring(2, 12).toUpperCase(),
+        dateStr,
+      });
+    }
+  }
+  return events;
+}
 
-const timeSlots = [
-  "3:00 PM",
-  "4:00 PM",
-  "4:45 PM",
-  "5:00 PM",
-  "5:15 PM",
-  "5:30 PM",
-  "6:00 PM",
-];
+const allEvents = generateSampleEvents();
 
-const dummyEvents = [
-  {
-    id: "1",
-    name: '"AL SON DE ELLAS"',
-    venue: "Rose & Alfred Miniaci Performing Arts Center, Ft Lauderdale, FL",
-    datetime: "Sun, June 8, 2025 7:30 PM",
-    offer: "ONSALE",
-    price: "TBD",
-    url: "0D0062A6DE8D34DF",
-  },
-  {
-    id: "2",
-    name: '2025 Jeff Chang "Continuum: OUR STORY World Tour"',
-    venue: "The Theater at MSG, New York, NY",
-    datetime: "Sat, October 4, 2025 10:00 PM",
-    offer: "Venue Presale, Chase Cardholder Preferred Tickets",
-    price: "TBD",
-    url: "3B0062A9CE3710E3",
-  },
-];
+function getTimeSlots() {
+  const slots = [];
+  let d = new Date();
+  d.setHours(0, 0, 0, 0);
+  for (let i = 0; i < 48; i++) {
+    const hour = d.getHours();
+    const min = d.getMinutes();
+    const ampm = hour < 12 ? "AM" : "PM";
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+    slots.push(`${hour12}:${min.toString().padStart(2, "0")} ${ampm}`);
+    d.setMinutes(d.getMinutes() + 15);
+  }
+  return slots;
+}
+
+const timeSlots = getTimeSlots();
 
 export default function SalesMonitor() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [search, setSearch] = useState("");
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState(0);
+  const theme = useTheme();
+
+  // Filter events by date, time slot, and search
+  const filteredEvents = allEvents.filter((e) => {
+    // Date match (ignore time)
+    const eventDate = dayjs(e.datetime);
+    const isSameDay = eventDate.isSame(selectedDate, "day");
+    if (!isSameDay) return false;
+    // Time slot match
+    const slotStart = dayjs(selectedDate)
+      .hour(0)
+      .minute(0)
+      .add(selectedSlot * 15, "minute");
+    const slotEnd = slotStart.add(15, "minute");
+    if (
+      !(
+        eventDate.isSame(slotStart) ||
+        (eventDate.isAfter(slotStart) && eventDate.isBefore(slotEnd))
+      )
+    )
+      return false;
+    // Search match
+    const searchStr = search.toLowerCase();
+    return (
+      e.name.toLowerCase().includes(searchStr) ||
+      e.venue.toLowerCase().includes(searchStr) ||
+      e.offer.toLowerCase().includes(searchStr) ||
+      e.url.toLowerCase().includes(searchStr)
+    );
+  });
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      {/* Sales Day + Time Slots */}
+      {/* Sales Day */}
       <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+        <Typography variant="subtitle1" fontWeight="bold" mb={0.5}>
           Sales Day
         </Typography>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <DatePicker
-              value={selectedDate}
-              onChange={(newDate) => setSelectedDate(newDate)}
-              slotProps={{
-                textField: {
-                  size: "small",
-                  variant: "outlined",
-                  sx: { bgcolor: "white", borderRadius: 1 },
-                },
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              {timeSlots.map((slot) => (
-                <Button
-                  key={slot}
-                  variant={selectedSlot === slot ? "contained" : "outlined"}
-                  color="primary"
-                  size="small"
-                  onClick={() => setSelectedSlot(slot)}
-                >
-                  {slot}
-                </Button>
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
       </Box>
-
-      {/* Search */}
-      <Box sx={{ mb: 2 }}>
+      {/* Search & DatePicker Row */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          mb: 2,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            value={selectedDate}
+            onChange={(newDate) => setSelectedDate(newDate)}
+            slotProps={{
+              textField: {
+                variant: "outlined",
+                size: "small",
+                fullWidth: true,
+                sx: {
+                  minWidth: { xs: "100%", sm: 180 },
+                  width: { xs: "100%", sm: "auto" },
+                  bgcolor: theme.palette.mode === "dark" ? "#23293a" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                  borderRadius: 999,
+                  border:
+                    theme.palette.mode === "dark"
+                      ? "1.5px solid #444"
+                      : "1.5px solid #d1d5db",
+                  fontSize: 16,
+                  boxShadow: "0 2px 8px 0 rgba(0,0,0,0.08)",
+                  px: 2,
+                  py: 1.5,
+                  height: 48,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                    fontSize: 16,
+                    padding: 0,
+                  },
+                  "& .MuiSvgIcon-root": {
+                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                  outline: "none",
+                },
+                InputLabelProps: {
+                  shrink: true,
+                  style: {
+                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                  },
+                },
+              },
+            }}
+          />
+        </LocalizationProvider>
         <TextField
           placeholder="Search"
-          fullWidth
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          variant="outlined"
+          size="small"
+          fullWidth
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
             ),
+            sx: {
+              bgcolor: theme.palette.mode === "dark" ? "#23293a" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+              borderRadius: 999,
+              border:
+                theme.palette.mode === "dark"
+                  ? "1.5px solid #444"
+                  : "1.5px solid #d1d5db",
+              fontSize: 16,
+              boxShadow: "0 2px 8px 0 rgba(0,0,0,0.08)",
+              px: 2,
+              py: 1.5,
+              height: 48,
+              minWidth: { xs: "100%", sm: 260 },
+            },
           }}
-          variant="outlined"
-          size="small"
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            borderRadius: 999,
+            width: { xs: "100%", sm: "auto" },
+          }}
         />
+      </Box>
+      {/* Time Tabs */}
+      <Box sx={{ mb: 2, overflowX: "auto", bgcolor: "transparent" }}>
+        <Tabs
+          value={selectedSlot}
+          onChange={(_, v) => setSelectedSlot(v)}
+          variant="scrollable"
+          scrollButtons="auto"
+          TabIndicatorProps={{ style: { background: "#0f172a", height: 3 } }}
+          sx={{ minHeight: 44 }}
+        >
+          {timeSlots.map((slot, idx) => (
+            <Tab
+              key={slot}
+              label={slot}
+              value={idx}
+              sx={{
+                minWidth: 90,
+                fontWeight: 600,
+                transition: "background 0.18s, color 0.18s",
+              }}
+            />
+          ))}
+        </Tabs>
       </Box>
 
       {/* Table */}
-      <Paper>
+      <Paper
+        sx={{ boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)", borderRadius: 4 }}
+      >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#8B0000" }}>
-              <TableCell sx={{ color: "white" }}>Event Name</TableCell>
-              <TableCell sx={{ color: "white" }}>Venue</TableCell>
-              <TableCell sx={{ color: "white" }}>Date</TableCell>
-              <TableCell sx={{ color: "white" }}>Offer</TableCell>
-              <TableCell sx={{ color: "white" }}>Price Range</TableCell>
-              <TableCell sx={{ color: "white" }}>URL</TableCell>
-              <TableCell sx={{ color: "white" }}>Add Event</TableCell>
-              <TableCell sx={{ color: "white" }}>Add Artist</TableCell>
+            <TableRow
+              sx={{
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#23293a" : "#0f172a",
+              }}
+            >
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Event Name
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Venue
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Date
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Offer
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Price Range
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                URL
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Add Event
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: "white",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Add Artist
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {dummyEvents
-              .filter((e) =>
-                e.name.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((event) => (
-                <TableRow key={event.id}>
-                  <TableCell>{event.name}</TableCell>
-                  <TableCell>{event.venue}</TableCell>
-                  <TableCell>{event.datetime}</TableCell>
-                  <TableCell>{event.offer}</TableCell>
-                  <TableCell>{event.price}</TableCell>
-                  <TableCell>
-                    <a href="#" style={{ color: "#40a9ff" }}>
-                      {event.url}
-                    </a>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="contained" color="error" size="small">
-                      Add Event
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="contained" color="error" size="small">
-                      Add Artist
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {filteredEvents.map((event) => (
+              <TableRow key={event.id}>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {event.name}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {event.venue}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {event.datetime.toLocaleString("en-US", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {event.offer}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  {event.price}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", textAlign: "center" }}>
+                  <a
+                    href="#"
+                    style={{
+                      color: "#40a9ff",
+                      textDecoration: "underline",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {event.url}
+                  </a>
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      background: "#0f172a",
+                      color: "#fff",
+                      borderRadius: 16,
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      minWidth: 90,
+                      boxShadow: 1,
+                      textTransform: "none",
+                      fontSize: 15,
+                      whiteSpace: "nowrap",
+                      "&:hover": {
+                        background: "#23293a",
+                        color: "#fff",
+                      },
+                      transition: "background 0.18s, color 0.18s",
+                    }}
+                  >
+                    Add Event
+                  </Button>
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      background: "#0f172a",
+                      color: "#fff",
+                      borderRadius: 16,
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      minWidth: 90,
+                      boxShadow: 1,
+                      textTransform: "none",
+                      fontSize: 15,
+                      whiteSpace: "nowrap",
+                      "&:hover": {
+                        background: "#23293a",
+                        color: "#fff",
+                      },
+                      transition: "background 0.18s, color 0.18s",
+                    }}
+                  >
+                    Add Artist
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Paper>

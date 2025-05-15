@@ -13,7 +13,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import Popover from "@mui/material/Popover";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import logo from "../assets/logo2.png";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -25,14 +24,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useTheme } from "@mui/material/styles";
 
-const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
+const Header = ({ mode = "dark", toggleMode = () => {} }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [audio, setAudio] = React.useState("airplane_chime.mp3");
   const [volume, setVolume] = React.useState(50);
   const [desktopNotif, setDesktopNotif] = React.useState(false);
   const [betaModalOpen, setBetaModalOpen] = React.useState(false);
+  const theme = useTheme();
 
   const handleSettingsClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,18 +72,40 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ background: "#000", boxShadow: "none", p: 0 }}
+      sx={{
+        background:
+          theme.palette.mode === "dark"
+            ? "#23293a"
+            : theme.palette.primary.main,
+        boxShadow:
+          theme.palette.mode === "dark"
+            ? "0 2px 12px 0 rgba(20,20,40,0.45)"
+            : "none",
+        borderBottom:
+          theme.palette.mode === "dark" ? "1.5px solid #222b3a" : "none",
+        p: 0,
+      }}
     >
       <Toolbar sx={{ justifyContent: "space-between", minHeight: 64 }}>
         {/* Left: Avatar and Email */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Avatar
-            src={logo}
-            alt="avatar"
-            sx={{ width: 40, height: 40, mr: 1 }}
-          />
-          <Typography variant="body1" sx={{ color: "#fff", fontWeight: 500 }}>
-            kylekopitar@gmail.com
+            sx={{
+              width: 40,
+              height: 40,
+              mr: 1,
+              bgcolor: mode === "dark" ? "#0f172a" : "#fff",
+              color: mode === "dark" ? "#fff" : "#23293a",
+              fontWeight: 700,
+              fontSize: 24,
+              borderRadius: 2,
+            }}
+            variant="square"
+          >
+            J
+          </Avatar>
+          <Typography variant="body1" sx={{ color: "#fff", fontWeight: 700 }}>
+            Jason
           </Typography>
           <IconButton
             size="small"
@@ -129,14 +152,86 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
             </Button>
           </Popover>
           <Switch
-            checked={mode === 'dark'}
+            checked={mode === "dark"}
             onChange={toggleMode}
             sx={{
               ml: 1,
-              '& .MuiSwitch-switchBase.Mui-checked': { color: mode === 'dark' ? '#fff' : '#000' },
-              '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: mode === 'dark' ? '#fff' : '#000' },
+              "& .MuiSwitch-switchBase": {
+                color: "#a3a6ae",
+              },
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: "#fff",
+              },
+              "& .MuiSwitch-switchBase + .MuiSwitch-track": {
+                backgroundColor: "#a3a6ae",
+                opacity: 1,
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: "#23293a",
+                opacity: 1,
+              },
+              "& .MuiSwitch-thumb": {
+                backgroundColor: "#fff",
+              },
             }}
           />
+          <Button
+            component={Link}
+            to="/sales"
+            sx={{
+              background: "#fff",
+              color: "#23293a",
+              borderRadius: 999,
+              px: 3,
+              py: 1,
+              fontWeight: 500,
+              textTransform: "none",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 2px 8px 0 rgba(0,0,0,0.18)"
+                  : 1,
+              border:
+                theme.palette.mode === "dark" ? "1.5px solid #23293a" : "none",
+              "&:hover": {
+                background: "#f3f4f6",
+                color: theme.palette.mode === "dark" ? "#23293a" : "#23293a",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? "0 4px 16px 0 rgba(0,0,0,0.22)"
+                    : 1,
+              },
+            }}
+          >
+            Jason Event Discovery (BETA)
+          </Button>
+          <Button
+            sx={{
+              background: "#fff",
+              color: "#23293a",
+              borderRadius: 999,
+              px: 3,
+              py: 1,
+              fontWeight: 500,
+              textTransform: "none",
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? "0 2px 8px 0 rgba(0,0,0,0.18)"
+                  : 1,
+              border:
+                theme.palette.mode === "dark" ? "1.5px solid #23293a" : "none",
+              "&:hover": {
+                background: "#f3f4f6",
+                color: theme.palette.mode === "dark" ? "#23293a" : "#23293a",
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? "0 4px 16px 0 rgba(0,0,0,0.22)"
+                    : 1,
+              },
+            }}
+            onClick={() => setBetaModalOpen(true)}
+          >
+            Jason Artist Search (BETA)
+          </Button>
         </Box>
         {/* Modal Dialog for Manage Audio Files */}
         <Dialog
@@ -325,46 +420,11 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
             >
               This featu
               <span style={{ fontWeight: 600 }}>
-                es only works on the Phantom Application.
+                es only works on the Jason Application.
               </span>
             </Alert>
           </DialogContent>
         </Dialog>
-
-        {/* Center: Red pill buttons */}
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Button
-            component={Link}
-            to="/sales"
-            sx={{
-              background: "#7a0a0a",
-              color: "#fff",
-              borderRadius: 999,
-              px: 3,
-              py: 1,
-              fontWeight: 500,
-              textTransform: "none",
-              "&:hover": { background: "#a31515" },
-            }}
-          >
-            Phantom Event Discovery (BETA)
-          </Button>
-          <Button
-            sx={{
-              background: "#7a0a0a",
-              color: "#fff",
-              borderRadius: 999,
-              px: 3,
-              py: 1,
-              fontWeight: 500,
-              textTransform: "none",
-              "&:hover": { background: "#a31515" },
-            }}
-            onClick={() => setBetaModalOpen(true)}
-          >
-            Phantom Artist Search (BETA)
-          </Button>
-        </Box>
 
         {/* Right: Home and Ticket icons */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -382,44 +442,57 @@ const Header = ({ mode = 'dark', toggleMode = () => {} }) => {
         maxWidth="xs"
         PaperProps={{
           sx: {
-            background: mode === 'dark' ? '#18171b' : '#fff',
+            background: mode === "dark" ? "#18171b" : "#fff",
             borderRadius: 3,
-            color: mode === 'dark' ? '#fff' : '#222',
+            color: mode === "dark" ? "#fff" : "#222",
             boxShadow: 8,
             p: 0,
           },
         }}
       >
-        <DialogContent sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: 400 }}>
-          <Box sx={{
-            background: mode === 'dark' ? '#111' : '#fff',
-            borderRadius: 2,
-            boxShadow: '0 2px 8px 0 rgba(0,0,0,0.25)',
-            border: '2px solid #222',
+        <DialogContent
+          sx={{
             p: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            minWidth: 350,
-          }}>
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minWidth: 400,
+          }}
+        >
+          <Box
+            sx={{
+              background: mode === "dark" ? "#111" : "#fff",
+              borderRadius: 2,
+              boxShadow: "0 2px 8px 0 rgba(0,0,0,0.25)",
+              border: "2px solid #222",
+              p: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              minWidth: 350,
+            }}
+          >
             <Typography variant="h6" align="center" fontWeight={600} mb={2}>
               This Product is in Beta
             </Typography>
             <Typography align="center" mb={3}>
-              Thank you for trying our beta product. Please acknowledge that you understand this and sign ups for the product will be available soon. Please Provide feedback.
+              Thank you for trying our beta product. Please acknowledge that you
+              understand this and sign ups for the product will be available
+              soon. Please Provide feedback.
             </Typography>
             <Button
               variant="contained"
               sx={{
-                background: '#7a0a0a',
-                color: '#fff',
+                background: "#7a0a0a",
+                color: "#fff",
                 borderRadius: 2,
                 fontWeight: 700,
                 px: 4,
                 py: 1,
                 fontSize: 16,
                 boxShadow: 1,
-                '&:hover': { background: '#a31515' },
+                "&:hover": { background: "#a31515" },
               }}
               onClick={() => setBetaModalOpen(false)}
             >

@@ -33,6 +33,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import DialogActions from "@mui/material/DialogActions";
+
+import dayjs from "dayjs";
 const urlsArray = Object.entries(urlsData); // [ [eventId, data], ... ]
 
 export default function UrlMonitor() {
@@ -61,6 +63,7 @@ export default function UrlMonitor() {
   ]);
   const [filtersModalOpen, setFiltersModalOpen] = useState(false);
   const [betaModalOpen, setBetaModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(dayjs());
 
   const handleRemove = (id) => {
     setUrls((prev) => prev.filter(([eventId]) => eventId !== id));
@@ -149,7 +152,28 @@ export default function UrlMonitor() {
   return (
     <div className={styles.container}>
       <Toolbar />
-      <div className={styles.card}>
+      <div
+        className={styles.card}
+        style={{
+          background: theme.palette.mode === "dark" ? "#23293a" : "#fff",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 2px 16px 0 rgba(20,20,40,0.18)"
+              : "0 2px 16px 0 rgba(0,0,0,0.10)",
+          borderRadius: 14,
+          border:
+            theme.palette.mode === "dark"
+              ? "1.5px solid #23293a"
+              : "1.5px solid #d1d5db",
+          maxWidth: 900,
+          width: "100%",
+          margin: "32px auto 24px auto",
+          padding: "24px 24px 18px 24px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {/* Add URLs Section */}
         <TextField
           label="Add URLs"
@@ -173,16 +197,21 @@ export default function UrlMonitor() {
           <Button
             variant="contained"
             sx={{
-              background: "primary.main",
-              color: "white",
-              borderRadius: 3,
+              background:
+                theme.palette.mode === "light" ? "#0f172a" : "#eceef0",
+              color: theme.palette.mode === "light" ? "#fff" : "#0f172a",
+              borderRadius: 16,
               px: 5,
               py: 1.2,
               fontWeight: 600,
               fontSize: 18,
               textTransform: "none",
               boxShadow: 1,
-              "&:hover": { background: "primary.dark" },
+              "&:hover": {
+                background:
+                  theme.palette.mode === "light" ? "#17213a" : "#f3f4f6",
+                color: theme.palette.mode === "light" ? "#fff" : "#0f172a",
+              },
             }}
           >
             Add URLs
@@ -203,31 +232,26 @@ export default function UrlMonitor() {
           >
             Total: {filteredUrls.length} / 3500
           </Typography>
-          <Typography
-            sx={{
-              fontWeight: 500,
-              fontSize: 16,
-              color: theme.palette.text.primary,
-            }}
-          >
-            Total Early URLs: 171 - 200
-          </Typography>
         </Box>
       </div>
       <Box textAlign="center" my={3}>
         <Button
           variant="contained"
           sx={{
-            background: "primary.main",
-            color: "white",
-            borderRadius: 3,
+            background: theme.palette.mode === "light" ? "#0f172a" : "#eceef0",
+            color: theme.palette.mode === "light" ? "#fff" : "#0f172a",
+            borderRadius: 16,
             px: 5,
             py: 1.2,
             fontWeight: 600,
             fontSize: 18,
             textTransform: "none",
             boxShadow: 1,
-            "&:hover": { background: "primary.dark" },
+            "&:hover": {
+              background:
+                theme.palette.mode === "light" ? "#17213a" : "#f3f4f6",
+              color: theme.palette.mode === "light" ? "#fff" : "#0f172a",
+            },
             mr: 2,
           }}
           onClick={() => setArtistModalOpen(true)}
@@ -235,29 +259,20 @@ export default function UrlMonitor() {
           Artist Added Date Monitor
         </Button>
       </Box>
-      <TextField
-        variant="outlined"
-        placeholder="Search"
-        fullWidth
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon color="action" />
-            </InputAdornment>
-          ),
-          sx: {
-            fontSize: 18,
-            borderRadius: 2,
-            background: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-            marginBottom: 2,
-          },
+      <div
+        className={styles.tableWrapper}
+        style={{
+          background: theme.palette.mode === "dark" ? "#23293a" : "#fff",
+          borderRadius: 18,
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 4px 32px 0 rgba(0,0,0,0.18)"
+              : "0 4px 32px 0 rgba(0,0,0,0.12)",
+          margin: "0 auto",
+          width: "100%",
+          overflowX: "auto",
         }}
-        className={styles.searchInput}
-      />
-      <div className={styles.tableWrapper}>
+      >
         <Table
           className={styles.table}
           sx={{
@@ -269,34 +284,47 @@ export default function UrlMonitor() {
           }}
         >
           <TableHead>
-            <TableRow className={styles.theadRow}>
-              {columns.map((col, i) => (
-                <TableCell
-                  key={col.key}
-                  className={
-                    i === 0
-                      ? styles.thLeft + " " + styles.theadCell
-                      : i === columns.length - 1
-                      ? styles.thRight + " " + styles.theadCell
-                      : styles.theadCell
-                  }
-                  onClick={col.sortable ? () => handleSort(col.key) : undefined}
-                  style={{
-                    cursor: col.sortable ? "pointer" : "default",
-                    userSelect: "none",
-                    color: "white",
-                  }}
-                >
-                  {col.label}
-                  {col.sortable &&
-                    sortConfig.key === col.key &&
-                    (sortConfig.direction === "asc" ? (
-                      <ArrowDownwardIcon className={styles.theadSortIcon} />
-                    ) : (
-                      <ArrowUpwardIcon className={styles.theadSortIcon} />
-                    ))}
-                </TableCell>
-              ))}
+            <TableRow
+              className={styles.theadRow}
+              sx={{
+                background:
+                  theme.palette.mode === "dark" ? "#23293a" : "#0f172a",
+              }}
+            >
+              {columns
+                .filter((col) => col.key !== "stubhub")
+                .map((col, i) => (
+                  <TableCell
+                    key={col.key}
+                    className={
+                      i === 0
+                        ? styles.thLeft + " " + styles.theadCell
+                        : i === columns.length - 2 // -2 because we removed one column
+                        ? styles.thRight + " " + styles.theadCell
+                        : styles.theadCell
+                    }
+                    onClick={
+                      col.sortable ? () => handleSort(col.key) : undefined
+                    }
+                    sx={{
+                      cursor: col.sortable ? "pointer" : "default",
+                      userSelect: "none",
+                      color: "#ffffff",
+                      fontWeight: 700,
+                      whiteSpace: "nowrap",
+                      textAlign: "center",
+                    }}
+                  >
+                    {col.label}
+                    {col.sortable &&
+                      sortConfig.key === col.key &&
+                      (sortConfig.direction === "asc" ? (
+                        <ArrowDownwardIcon className={styles.theadSortIcon} />
+                      ) : (
+                        <ArrowUpwardIcon className={styles.theadSortIcon} />
+                      ))}
+                  </TableCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -305,14 +333,10 @@ export default function UrlMonitor() {
                 Array.isArray(data.presales) && data.presales.length > 0;
               const isTicketmaster = data.site === "ticketmaster";
               const showVivid = !isTicketmaster;
-              const showStubhub = hasPresales;
               const isChecked = checkedRows[eventId];
               return (
                 <TableRow
                   key={eventId}
-                  className={
-                    styles.tbodyRow + (isChecked ? " " + styles.rowChecked : "")
-                  }
                   sx={{
                     background:
                       idx % 2 === 0
@@ -324,10 +348,21 @@ export default function UrlMonitor() {
                   {/* Remove */}
                   <TableCell className={styles.td}>
                     <IconButton
-                      color="error"
                       onClick={() => handleRemove(eventId)}
+                      sx={{
+                        color:
+                          theme.palette.mode === "dark" ? "#fff" : "#0f172a",
+                        p: 0.5,
+                        "&:hover": {
+                          background: theme.palette.action.hover,
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "#ff5252"
+                              : theme.palette.error.dark,
+                        },
+                      }}
                     >
-                      <DeleteIcon />
+                      <DeleteIcon sx={{ color: "inherit" }} />
                     </IconButton>
                   </TableCell>
                   {/* Price Range */}
@@ -350,17 +385,6 @@ export default function UrlMonitor() {
                   </TableCell>
                   {/* Venue */}
                   <TableCell className={styles.td}>{data.venue}</TableCell>
-                  {/* Stubhub Link */}
-                  <TableCell className={styles.td} align="center">
-                    {showStubhub && (
-                      <img
-                        src={stubhubIcon}
-                        alt="StubHub"
-                        className={styles.imgMarketplace}
-                        style={{ margin: 0 }}
-                      />
-                    )}
-                  </TableCell>
                   {/* Vivid Link */}
                   <TableCell className={styles.td} align="center">
                     {showVivid && (
@@ -373,7 +397,10 @@ export default function UrlMonitor() {
                     )}
                   </TableCell>
                   {/* Event ID */}
-                  <TableCell className={styles.td}>
+                  <TableCell
+                    className={styles.td}
+                    sx={{ whiteSpace: "nowrap", textAlign: "center" }}
+                  >
                     <a
                       href="#"
                       style={{
@@ -410,17 +437,19 @@ export default function UrlMonitor() {
                       variant="contained"
                       className={styles.filtersBtn}
                       sx={{
-                        background:
-                          idx % 2 === 0
-                            ? theme.palette.primary.main
-                            : theme.palette.info.main,
-                        color: "#fff",
+                        background: "#fff",
+                        color: "#0f172a",
+                        borderRadius: 12,
+                        boxShadow: 1,
+                        fontWeight: 600,
+                        px: 3,
+                        py: 1,
+                        minWidth: 90,
                         "&:hover": {
-                          background:
-                            idx % 2 === 0
-                              ? theme.palette.primary.dark
-                              : theme.palette.info.dark,
+                          background: "#f3f4f6",
+                          color: "#0f172a",
                         },
+                        transition: "background 0.18s, color 0.18s",
                       }}
                       onClick={() => setFiltersModalOpen(true)}
                     >
@@ -589,13 +618,29 @@ export default function UrlMonitor() {
                         variant="contained"
                         className={styles.removeBtn}
                         sx={{
-                          background: theme.palette.primary.main,
-                          color: "#fff",
+                          background:
+                            theme.palette.mode === "dark"
+                              ? theme.palette.background.paper
+                              : theme.palette.primary.main,
+                          color:
+                            theme.palette.mode === "dark"
+                              ? theme.palette.text.primary
+                              : "#fff",
                           borderRadius: 3,
                           fontWeight: 600,
                           px: 2,
                           py: 0.5,
                           fontSize: 15,
+                          border:
+                            theme.palette.mode === "dark"
+                              ? "2px solid #232228"
+                              : undefined,
+                          "&:hover": {
+                            background:
+                              theme.palette.mode === "dark"
+                                ? "#232228"
+                                : theme.palette.primary.dark,
+                          },
                         }}
                         onClick={() => handleRemoveArtist(artist.id)}
                       >
@@ -877,13 +922,29 @@ export default function UrlMonitor() {
               <Button
                 variant="contained"
                 sx={{
-                  background: theme.palette.primary.main,
-                  color: "#fff",
+                  background:
+                    theme.palette.mode === "dark"
+                      ? theme.palette.background.paper
+                      : theme.palette.primary.main,
+                  color:
+                    theme.palette.mode === "dark"
+                      ? theme.palette.text.primary
+                      : "#fff",
                   borderRadius: 2,
                   fontWeight: 700,
                   px: 4,
                   py: 1,
                   mb: 2,
+                  border:
+                    theme.palette.mode === "dark"
+                      ? "2px solid #232228"
+                      : undefined,
+                  "&:hover": {
+                    background:
+                      theme.palette.mode === "dark"
+                        ? "#232228"
+                        : theme.palette.primary.dark,
+                  },
                 }}
               >
                 Add Filter
@@ -972,12 +1033,28 @@ export default function UrlMonitor() {
                   <Button
                     variant="contained"
                     sx={{
-                      background: theme.palette.primary.main,
-                      color: "#fff",
+                      background:
+                        theme.palette.mode === "dark"
+                          ? theme.palette.background.paper
+                          : theme.palette.primary.main,
+                      color:
+                        theme.palette.mode === "dark"
+                          ? theme.palette.text.primary
+                          : "#fff",
                       borderRadius: 2,
                       fontWeight: 700,
                       px: 4,
                       py: 1,
+                      border:
+                        theme.palette.mode === "dark"
+                          ? "2px solid #232228"
+                          : undefined,
+                      "&:hover": {
+                        background:
+                          theme.palette.mode === "dark"
+                            ? "#232228"
+                            : theme.palette.primary.dark,
+                      },
                     }}
                   >
                     Add Filter
@@ -1091,13 +1168,29 @@ export default function UrlMonitor() {
             <Button
               variant="contained"
               sx={{
-                background: theme.palette.primary.main,
-                color: "#fff",
+                background:
+                  theme.palette.mode === "dark"
+                    ? theme.palette.background.paper
+                    : theme.palette.primary.main,
+                color:
+                  theme.palette.mode === "dark"
+                    ? theme.palette.text.primary
+                    : "#fff",
                 borderRadius: 2,
                 fontWeight: 700,
                 px: 5,
                 py: 1.5,
                 fontSize: 18,
+                border:
+                  theme.palette.mode === "dark"
+                    ? "2px solid #232228"
+                    : undefined,
+                "&:hover": {
+                  background:
+                    theme.palette.mode === "dark"
+                      ? "#232228"
+                      : theme.palette.primary.dark,
+                },
               }}
             >
               Submit
@@ -1140,15 +1233,18 @@ export default function UrlMonitor() {
           <Button
             variant="contained"
             sx={{
-              background: theme.palette.primary.main,
-              color: "#fff",
+              background: "#fff",
+              color: "#0f172a",
               borderRadius: 2,
               fontWeight: 700,
               px: 4,
               py: 1,
               fontSize: 16,
               boxShadow: 1,
-              "&:hover": { background: theme.palette.primary.dark },
+              "&:hover": {
+                background: "#f3f4f6",
+                color: "#0f172a",
+              },
             }}
             onClick={() => setBetaModalOpen(false)}
           >

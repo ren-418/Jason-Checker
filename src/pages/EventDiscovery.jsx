@@ -24,7 +24,7 @@ const dummyEvents = [
       quantity: 4,
       price: 219,
     },
-    phantom: {
+    Jason: {
       getIn: 50,
       avg: 581,
     },
@@ -42,7 +42,7 @@ const dummyEvents = [
       quantity: 2,
       price: 207.8,
     },
-    phantom: {
+    Jason: {
       getIn: 186,
       avg: 452,
     },
@@ -135,10 +135,10 @@ export default function EventDetailView() {
                   </Box>
 
                   <Box mt={1} sx={{ color: "plum" }}>
-                    <Typography variant="body2">Phantom Data</Typography>
+                    <Typography variant="body2">Jason Data</Typography>
                     <Typography variant="body2">
-                      Get In: <strong>${event.phantom.getIn}</strong> Average: {" "}
-                      <strong>${event.phantom.avg}</strong>
+                      Get In: <strong>${event.Jason.getIn}</strong> Average: {" "}
+                      <strong>${event.Jason.avg}</strong>
                     </Typography>
                   </Box>
                 </Box>

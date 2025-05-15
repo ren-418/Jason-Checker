@@ -4,16 +4,20 @@ const getTheme = (mode = "dark") =>
   createTheme({
     palette: {
       mode,
-      primary: { main: "rgb(82, 17, 20)" }, // Deep red
-      secondary: { main: "#ffffff" },
-      ...(mode === "dark"
-        ? {}
-        : {
-            background: { default: "#fff", paper: "#f5f5f5" },
-          }),
+      primary: { main: mode === "dark" ? "#fff" : "#0f172a" }, // White in dark, navy in light
+      secondary: { main: mode === "dark" ? "#232323" : "#f8fafc" },
+      background: {
+        default: mode === "dark" ? "#181818" : "#fff",
+        paper: mode === "dark" ? "#232323" : "#fff",
+        sidebar: mode === "dark" ? "#181818" : "#f8fafc",
+      },
+      text: {
+        primary: mode === "dark" ? "#fff" : "#1e293b",
+        secondary: mode === "dark" ? "#d1d5db" : "#64748b",
+      },
     },
     typography: {
-      fontFamily: "Roboto, sans-serif",
+      fontFamily: "Roboto, 'Helvetica Neue', Arial, sans-serif",
     },
   });
 
