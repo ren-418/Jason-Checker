@@ -26,7 +26,7 @@ import Tab from "@mui/material/Tab";
 import { v4 as uuidv4 } from "uuid";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// Generate 100 sample events
+// Generate 200 sample events
 function generateSampleEvents() {
   const venues = [
     "The Bell House, Brooklyn, NY",
@@ -61,11 +61,11 @@ function generateSampleEvents() {
     "Dave Matthews Band",
     "Billy Joel",
   ];
-  // Generate events for 5 different days
+  // Generate events for 10 different days, 20 per day
   const baseDate = new Date();
   baseDate.setHours(0, 0, 0, 0);
   let events = [];
-  for (let d = 0; d < 5; d++) {
+  for (let d = 0; d < 10; d++) {
     for (let i = 0; i < 20; i++) {
       const minutes = (i % 48) * 15;
       const eventDate = new Date(
@@ -91,6 +91,31 @@ function generateSampleEvents() {
         dateStr,
       });
     }
+  }
+  // Add 100 more events for more data
+  for (let i = 0; i < 100; i++) {
+    const eventDate = new Date(
+      baseDate.getTime() + (i % 5) * 86400000 + (i % 48) * 15 * 60000
+    );
+    const dateStr = eventDate.toLocaleString("en-US", {
+      weekday: "short",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    events.push({
+      id: uuidv4(),
+      name: names[i % names.length] + (i % 2 === 0 ? " LATE SHOW" : ""),
+      venue: venues[i % venues.length],
+      datetime: eventDate,
+      offer: offers[i % offers.length],
+      price: prices[i % prices.length],
+      url: Math.random().toString(36).substring(2, 12).toUpperCase(),
+      dateStr,
+    });
   }
   return events;
 }
@@ -168,54 +193,52 @@ export default function SalesMonitor() {
         }}
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            value={selectedDate}
-            onChange={(newDate) => setSelectedDate(newDate)}
-            slotProps={{
-              textField: {
-                variant: "outlined",
-                size: "small",
-                fullWidth: true,
-                sx: {
-                  minWidth: { xs: "100%", sm: 180 },
-                  width: { xs: "100%", sm: "auto" },
-                  bgcolor: theme.palette.mode === "dark" ? "#23293a" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
-                  borderRadius: 999,
-                  border:
-                    theme.palette.mode === "dark"
-                      ? "1.5px solid #444"
-                      : "1.5px solid #d1d5db",
-                  fontSize: 16,
-                  boxShadow: "0 2px 8px 0 rgba(0,0,0,0.08)",
-                  px: 2,
-                  py: 1.5,
-                  height: 48,
-                  "& .MuiInputBase-input": {
-                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
-                    fontSize: 16,
-                    padding: 0,
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                  outline: "none",
-                },
-                InputLabelProps: {
-                  shrink: true,
-                  style: {
-                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
-                  },
-                },
-              },
+          <Box
+            sx={{
+              bgcolor: theme.palette.mode === "dark" ? "#262626" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+              borderRadius: 999,
+              border:
+                theme.palette.mode === "dark"
+                  ? "1.5px solid #444"
+                  : "1.5px solid #d1d5db",
+              fontSize: 16,
+              boxShadow: "0 2px 8px 0 rgba(0,0,0,0.08)",
+              px: 2,
+              py: 1.5,
+              height: 48,
+              minWidth: { xs: "100%", sm: 260 },
+              display: "flex",
+              alignItems: "center",
+              width: { xs: "100%", sm: 260 },
             }}
-          />
+          >
+            <DatePicker
+              value={selectedDate}
+              onChange={(newDate) => setSelectedDate(newDate)}
+              slotProps={{
+                textField: {
+                  variant: "standard",
+                  InputProps: {
+                    disableUnderline: true,
+                    sx: {
+                      fontSize: 16,
+                      color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                      bgcolor: "transparent",
+                      borderRadius: 999,
+                      height: 48,
+                      px: 0,
+                    },
+                  },
+                  sx: {
+                    width: "100%",
+                    bgcolor: "transparent",
+                    borderRadius: 999,
+                  },
+                },
+              }}
+            />
+          </Box>
         </LocalizationProvider>
         <TextField
           placeholder="Search"
@@ -231,7 +254,7 @@ export default function SalesMonitor() {
               </InputAdornment>
             ),
             sx: {
-              bgcolor: theme.palette.mode === "dark" ? "#23293a" : "#fff",
+              bgcolor: theme.palette.mode === "dark" ? "#262626" : "#fff",
               color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
               borderRadius: 999,
               border:
@@ -281,14 +304,21 @@ export default function SalesMonitor() {
 
       {/* Table */}
       <Paper
-        sx={{ boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)", borderRadius: 4 }}
+        sx={{
+          boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          backgroundColor: theme.palette.mode === "dark" ? "#262626" : "#fff",
+        }}
       >
         <Table>
           <TableHead>
             <TableRow
               sx={{
                 backgroundColor:
-                  theme.palette.mode === "dark" ? "#23293a" : "#0f172a",
+                  theme.palette.mode === "dark" ? "#262626" : "#0f172a",
               }}
             >
               <TableCell
@@ -416,10 +446,14 @@ export default function SalesMonitor() {
                     variant="contained"
                     size="small"
                     sx={{
-                      background: "#0f172a",
-                      color: "#fff",
+                      background:
+                        theme.palette.mode === "light"
+                          ? theme.palette.primary.main
+                          : "#fff",
+                      color:
+                        theme.palette.mode === "light" ? "#fff" : "#232323",
                       borderRadius: 16,
-                      fontWeight: 600,
+                      fontWeight: 400,
                       px: 3,
                       py: 1,
                       minWidth: 90,
@@ -428,8 +462,12 @@ export default function SalesMonitor() {
                       fontSize: 15,
                       whiteSpace: "nowrap",
                       "&:hover": {
-                        background: "#23293a",
-                        color: "#fff",
+                        background:
+                          theme.palette.mode === "light"
+                            ? "#17213a"
+                            : "#f3f4f6",
+                        color:
+                          theme.palette.mode === "light" ? "#fff" : "#232323",
                       },
                       transition: "background 0.18s, color 0.18s",
                     }}
@@ -442,10 +480,14 @@ export default function SalesMonitor() {
                     variant="contained"
                     size="small"
                     sx={{
-                      background: "#0f172a",
-                      color: "#fff",
+                      background:
+                        theme.palette.mode === "light"
+                          ? theme.palette.primary.main
+                          : "#fff",
+                      color:
+                        theme.palette.mode === "light" ? "#fff" : "#232323",
                       borderRadius: 16,
-                      fontWeight: 600,
+                      fontWeight: 400,
                       px: 3,
                       py: 1,
                       minWidth: 90,
@@ -454,8 +496,12 @@ export default function SalesMonitor() {
                       fontSize: 15,
                       whiteSpace: "nowrap",
                       "&:hover": {
-                        background: "#23293a",
-                        color: "#fff",
+                        background:
+                          theme.palette.mode === "light"
+                            ? "#17213a"
+                            : "#f3f4f6",
+                        color:
+                          theme.palette.mode === "light" ? "#fff" : "#232323",
                       },
                       transition: "background 0.18s, color 0.18s",
                     }}
@@ -471,3 +517,5 @@ export default function SalesMonitor() {
     </Container>
   );
 }
+
+export { allEvents };
