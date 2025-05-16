@@ -35,6 +35,9 @@ import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import DialogActions from "@mui/material/DialogActions";
 import dayjs from "dayjs";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Popover from "@mui/material/Popover";
+import Divider from "@mui/material/Divider";
+import AddIcon from "@mui/icons-material/Add";
 const urlsArray = Object.entries(urlsData); // [ [eventId, data], ... ]
 
 export default function UrlMonitor() {
@@ -69,6 +72,25 @@ export default function UrlMonitor() {
   const topRef = useRef(null);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [eventManagerModalOpen, setEventManagerModalOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState({ type: null, id: null });
+  const [templateModalOpen, setTemplateModalOpen] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+  const [templates, setTemplates] = useState([
+    "Benjamin",
+    "Certification",
+    "C#, Python, Software, Software Engnnier, React, CSS",
+  ]);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [eventLogsModalOpen, setEventLogsModalOpen] = useState(false);
+  const eventLogs = [
+    {
+      timestamp: "5/15/2025, 4:09:19 PM",
+      event: "URL_Addition",
+      user: "mini@richtooth.com",
+    },
+  ];
 
   useEffect(() => {
     const onScroll = () => setShowToTop(window.scrollY > 200);
@@ -281,6 +303,40 @@ export default function UrlMonitor() {
           Artist Added Date Monitor
         </Button>
       </Box>
+      {/* Search Input */}
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mb: 3 }}>
+        <TextField
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search"
+          variant="outlined"
+          fullWidth
+          sx={{
+            maxWidth: 500,
+            bgcolor: theme.palette.background.paper,
+            borderRadius: 3,
+            boxShadow: 1,
+            input: {
+              fontSize: 18,
+              p: '12px 16px',
+            },
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              fontSize: 18,
+              p: 0,
+            },
+          }}
+          InputProps={{
+            sx: {
+              borderRadius: 3,
+              fontSize: 18,
+              height: '44px',
+              p: 0,
+              color: theme.palette.text.primary,
+            },
+          }}
+        />
+      </Box>
       <div
         className={styles.tableWrapper}
         style={{
@@ -372,20 +428,10 @@ export default function UrlMonitor() {
                   {/* Remove */}
                   <TableCell className={styles.td}>
                     <IconButton
-                      onClick={() => handleRemove(eventId)}
-                      sx={{
-                        color: theme.palette.error.main,
-                        p: 0.5,
-                        "&:hover": {
-                          background: theme.palette.action.hover,
-                          color:
-                            theme.palette.mode === "dark"
-                              ? "#ff5252"
-                              : theme.palette.error.dark,
-                        },
-                      }}
+                      onClick={() => setDeleteTarget({ type: 'event', id: eventId }) || setDeleteConfirmOpen(true)}
+                      sx={{ color: theme.palette.error.main, p: 0.5, '&:hover': { bgcolor: theme.palette.action.hover, color: theme.palette.error.dark } }}
                     >
-                      <DeleteIcon sx={{ color: "inherit" }} />
+                      <DeleteIcon sx={{ color: 'inherit' }} />
                     </IconButton>
                   </TableCell>
                   {/* Price Range */}
@@ -514,7 +560,7 @@ export default function UrlMonitor() {
         onClose={() => setArtistModalOpen(false)}
         maxWidth="md"
         fullWidth
-        fullScreen={typeof window !== 'undefined' && window.innerWidth < 600}
+        fullScreen={typeof window !== "undefined" && window.innerWidth < 600}
         PaperProps={{
           sx: {
             background: theme.palette.background.default,
@@ -522,9 +568,9 @@ export default function UrlMonitor() {
             color: theme.palette.text.primary,
             boxShadow: 8,
             p: 0,
-            width: '100%',
-            minHeight: { xs: '100vh', sm: 'auto' },
-            maxHeight: { xs: '100vh', sm: '90vh' },
+            width: "100%",
+            minHeight: { xs: "100vh", sm: "auto" },
+            maxHeight: { xs: "100vh", sm: "90vh" },
             m: 0,
           },
         }}
@@ -558,11 +604,11 @@ export default function UrlMonitor() {
           sx={{
             p: { xs: 2, sm: 3 },
             bgcolor: theme.palette.background.default,
-            minHeight: { xs: 'calc(100vh - 56px)', sm: 'auto' },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
+            minHeight: { xs: "calc(100vh - 56px)", sm: "auto" },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "flex-start",
           }}
         >
           <TextField
@@ -592,24 +638,27 @@ export default function UrlMonitor() {
               mt: 2,
               bgcolor: theme.palette.background.default,
               borderRadius: 2,
-              overflowX: 'auto',
-              overflowY: 'auto',
-              width: '100%',
-              maxWidth: '100%',
-              maxHeight: { xs: '55vh', sm: 400 },
+              overflowX: "auto",
+              overflowY: "auto",
+              width: "100%",
+              maxWidth: "100%",
+              maxHeight: { xs: "55vh", sm: 400 },
               boxShadow: 1,
-              '::-webkit-scrollbar': {
+              "::-webkit-scrollbar": {
                 height: 8,
                 width: 8,
-                background: theme.palette.mode === 'dark' ? '#232228' : '#e0e0e0',
+                background:
+                  theme.palette.mode === "dark" ? "#232228" : "#e0e0e0",
                 borderRadius: 8,
               },
-              '::-webkit-scrollbar-thumb': {
-                background: theme.palette.mode === 'dark' ? '#444' : '#bdbdbd',
+              "::-webkit-scrollbar-thumb": {
+                background: theme.palette.mode === "dark" ? "#444" : "#bdbdbd",
                 borderRadius: 8,
               },
-              scrollbarColor: `${theme.palette.mode === 'dark' ? '#444' : '#bdbdbd'} ${theme.palette.mode === 'dark' ? '#232228' : '#e0e0e0'}`,
-              scrollbarWidth: 'thin',
+              scrollbarColor: `${
+                theme.palette.mode === "dark" ? "#444" : "#bdbdbd"
+              } ${theme.palette.mode === "dark" ? "#232228" : "#e0e0e0"}`,
+              scrollbarWidth: "thin",
             }}
           >
             <Table
@@ -677,20 +726,10 @@ export default function UrlMonitor() {
                     </TableCell>
                     <TableCell>
                       <IconButton
-                        onClick={() => handleRemoveArtist(artist.id)}
-                        sx={{
-                          color: theme.palette.error.main,
-                          p: 0.5,
-                          '&:hover': {
-                            background: theme.palette.action.hover,
-                            color:
-                              theme.palette.mode === 'dark'
-                                ? '#ff5252'
-                                : theme.palette.error.dark,
-                          },
-                        }}
+                        onClick={() => setDeleteTarget({ type: 'artist', id: artist.id }) || setDeleteConfirmOpen(true)}
+                        sx={{ color: theme.palette.error.main, p: 0.5, '&:hover': { bgcolor: theme.palette.action.hover, color: theme.palette.error.dark } }}
                       >
-                        <DeleteIcon sx={{ color: "inherit" }} />
+                        <DeleteIcon sx={{ color: 'inherit' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -961,7 +1000,7 @@ export default function UrlMonitor() {
                   variant="contained"
                   sx={{
                     bgcolor: theme.palette.primary.main,
-                    color: "#fff",
+                    color: theme.palette.primary.contrastText,
                     fontWeight: 400,
                     borderRadius: 2,
                     px: 3,
@@ -1005,7 +1044,7 @@ export default function UrlMonitor() {
                       variant="contained"
                       sx={{
                         bgcolor: theme.palette.primary.main,
-                        color: "#fff",
+                        color: theme.palette.primary.contrastText,
                         fontWeight: 400,
                         borderRadius: 2,
                         px: 2,
@@ -1044,7 +1083,7 @@ export default function UrlMonitor() {
                 variant="contained"
                 sx={{
                   bgcolor: theme.palette.primary.main,
-                  color: "#fff",
+                  color: theme.palette.primary.contrastText,
                   fontWeight: 400,
                   borderRadius: 2,
                   minWidth: 40,
@@ -1060,7 +1099,7 @@ export default function UrlMonitor() {
                 variant="contained"
                 sx={{
                   bgcolor: theme.palette.primary.main,
-                  color: "#fff",
+                  color: theme.palette.primary.contrastText,
                   fontWeight: 400,
                   borderRadius: 2,
                   minWidth: 40,
@@ -1097,7 +1136,7 @@ export default function UrlMonitor() {
           variant="contained"
           sx={{
             bgcolor: theme.palette.primary.main,
-            color: "#fff",
+            color: theme.palette.primary.contrastText,
             fontWeight: 400,
             borderRadius: 2,
             px: 4,
@@ -1224,130 +1263,1208 @@ export default function UrlMonitor() {
         onClose={() => setDetailModalOpen(false)}
         maxWidth="xl"
         fullWidth
-        fullScreen={typeof window !== 'undefined' && window.innerWidth < 600}
+        fullScreen={typeof window !== "undefined" && window.innerWidth < 600}
         PaperProps={{
           sx: {
-            bgcolor: theme.palette.mode === "dark" ? "#181818" : '#f5f7fa',
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#f5f7fa",
             borderRadius: { xs: 0, sm: 4 },
             color: theme.palette.text.primary,
             boxShadow: 8,
             p: 0,
-            width: '100%',
-            minHeight: { xs: '100vh', sm: 'auto' },
-            maxHeight: { xs: '100vh', sm: '90vh' },
+            width: "100%",
+            minHeight: { xs: "100vh", sm: "auto" },
+            maxHeight: { xs: "100vh", sm: "90vh" },
             m: 0,
           },
         }}
       >
         {/* Modal Header with Event Logs, Templates, Event Manager */}
-        <Box sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: { xs: 2, sm: 3 },
-          pt: { xs: 2, sm: 3 },
-          pb: { xs: 1, sm: 2 },
-          bgcolor: theme.palette.mode === 'dark' ? '#181818' : theme.palette.primary.main,
-          borderTopLeftRadius: { xs: 0, sm: 4 },
-          borderTopRightRadius: { xs: 0, sm: 4 },
-        }}>
-          <Box sx={{ display: 'flex', gap: 2, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'center', sm: 'flex-start' }, mb: { xs: 2, sm: 0 } }}>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT LOGS</Button>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>TEMPLATES</Button>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT MANAGER</Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            px: { xs: 2, sm: 3 },
+            pt: { xs: 2, sm: 3 },
+            pb: { xs: 1, sm: 2 },
+            bgcolor:
+              theme.palette.mode === "dark"
+                ? "#181818"
+                : theme.palette.primary.main,
+            borderTopLeftRadius: { xs: 0, sm: 4 },
+            borderTopRightRadius: { xs: 0, sm: 4 },
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              width: { xs: "100%", sm: "auto" },
+              justifyContent: { xs: "center", sm: "flex-start" },
+              mb: { xs: 2, sm: 0 },
+            }}
+          >
+            <Button
+              variant="contained"
+              size={
+                typeof window !== "undefined" && window.innerWidth < 600
+                  ? "small"
+                  : "medium"
+              }
+              sx={{
+                bgcolor:
+                  theme.palette.mode === "dark"
+                    ? "#fff"
+                    : theme.palette.primary.main,
+                color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1.2 },
+                fontSize: { xs: 13, sm: 16 },
+                minWidth: { xs: 80, sm: 120 },
+                boxShadow: 1,
+                textTransform: "none",
+                width: { xs: "100%", sm: "auto" },
+                "&:hover": {
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#f3f4f6"
+                      : theme.palette.primary.dark,
+                  color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                },
+              }}
+              onClick={() => setEventLogsModalOpen(true)}
+            >
+              EVENT LOGS
+            </Button>
+            <Button
+              variant="contained"
+              size={
+                typeof window !== "undefined" && window.innerWidth < 600
+                  ? "small"
+                  : "medium"
+              }
+              sx={{
+                bgcolor:
+                  theme.palette.mode === "dark"
+                    ? "#fff"
+                    : theme.palette.primary.main,
+                color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1.2 },
+                fontSize: { xs: 13, sm: 16 },
+                minWidth: { xs: 80, sm: 120 },
+                boxShadow: 1,
+                textTransform: "none",
+                width: { xs: "100%", sm: "auto" },
+                "&:hover": {
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#f3f4f6"
+                      : theme.palette.primary.dark,
+                  color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                },
+              }}
+              onClick={() => setTemplateModalOpen(true)}
+            >
+              TEMPLATES
+            </Button>
+            <Button
+              variant="contained"
+              size={
+                typeof window !== "undefined" && window.innerWidth < 600
+                  ? "small"
+                  : "medium"
+              }
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1.2 },
+                fontSize: { xs: 13, sm: 16 },
+                minWidth: { xs: 80, sm: 120 },
+                boxShadow: 1,
+                textTransform: "none",
+                width: { xs: "100%", sm: "auto" },
+                "&:hover": {
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#f3f4f6"
+                      : theme.palette.primary.dark,
+                  color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                },
+              }}
+              onClick={() => setEventManagerModalOpen(true)}
+            >
+              EVENT MANAGER
+            </Button>
           </Box>
-          <IconButton onClick={() => setDetailModalOpen(false)} sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#fff', ml: 2, alignSelf: { xs: 'flex-end', sm: 'center' } }}>
+          <IconButton
+            onClick={() => setDetailModalOpen(false)}
+            sx={{
+              color: theme.palette.mode === "dark" ? "#fff" : "#fff",
+              ml: 2,
+              alignSelf: { xs: "flex-end", sm: "center" },
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </Box>
         {/* Event Info Row */}
-        <Box sx={{ px: { xs: 2, sm: 4 }, pt: 2, pb: 1, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa', borderBottom: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.primary }}>{selectedRow?.name || ""}</Typography>
-          <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary, mb: 0.5 }}>
-            <b>Date:</b> {selectedRow?.date || ""} &nbsp; <b>Venue:</b> {selectedRow?.venue || ""}
+        <Box
+          sx={{
+            px: { xs: 2, sm: 4 },
+            pt: 2,
+            pb: 1,
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#f5f7fa",
+            borderBottom: `1.5px solid ${
+              theme.palette.mode === "dark" ? "#333" : theme.palette.divider
+            }`,
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              mb: 0.5,
+              color:
+                theme.palette.mode === "dark"
+                  ? "#fff"
+                  : theme.palette.text.primary,
+            }}
+          >
+            {selectedRow?.name || ""}
           </Typography>
-          <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color:
+                theme.palette.mode === "dark"
+                  ? "#fff"
+                  : theme.palette.text.secondary,
+              mb: 0.5,
+            }}
+          >
+            <b>Date:</b> {selectedRow?.date || ""} &nbsp; <b>Venue:</b>{" "}
+            {selectedRow?.venue || ""}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color:
+                theme.palette.mode === "dark"
+                  ? "#fff"
+                  : theme.palette.text.secondary,
+            }}
+          >
             <b>Price Range:</b> {selectedRow?.priceRange || "N/A"}
           </Typography>
         </Box>
         {/* Main Content Grid */}
-        <Box sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          gap: 3,
-          px: { xs: 2, sm: 4 },
-          py: { xs: 2, sm: 3 },
-          bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa',
-          alignItems: { xs: 'center', sm: 'flex-start' },
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 3,
+            px: { xs: 2, sm: 4 },
+            py: { xs: 2, sm: 3 },
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#f5f7fa",
+            alignItems: { xs: "center", sm: "flex-start" },
+          }}
+        >
           {/* Left: Filters, Notes, Extra Filter Options */}
-          <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 3, width: { xs: '100%', sm: 'auto' }, alignItems: { xs: 'center', sm: 'stretch' } }}>
+          <Box
+            sx={{
+              flex: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              width: { xs: "100%", sm: "auto" },
+              alignItems: { xs: "center", sm: "stretch" },
+            }}
+          >
             {/* Filter Row */}
-            <Box sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              gap: 2,
-              bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff',
-              borderRadius: 2,
-              boxShadow: 1,
-              p: 2,
-              mb: 1,
-              border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`,
-              width: { xs: '100%', sm: 'auto' },
-              alignItems: { xs: 'center', sm: 'flex-start' },
-            }}>
-              <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 120 }, mb: { xs: 1, sm: 0 } }}><option>Sections</option></TextField>
-              <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }}><option>Rows</option></TextField>
-              <TextField label="Price Min" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }} />
-              <TextField label="Price Max" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }} />
-              <TextField select label="Min. Seats" SelectProps={{ native: true }} sx={{ minWidth: 90, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 90 }, mb: { xs: 1, sm: 0 } }}><option>2+</option></TextField>
-              <TextField select label="Ticket Types" SelectProps={{ native: true }} sx={{ minWidth: 130, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 130 }, mb: { xs: 1, sm: 0 } }}><option>Ticket Types</option></TextField>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 2,
+                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                borderRadius: 2,
+                boxShadow: 1,
+                p: 2,
+                mb: 1,
+                border: `1.5px solid ${
+                  theme.palette.mode === "dark" ? "#333" : theme.palette.divider
+                }`,
+                width: { xs: "100%", sm: "auto" },
+                alignItems: { xs: "center", sm: "flex-start" },
+              }}
+            >
+              <TextField
+                select
+                label="Sections"
+                SelectProps={{ native: true }}
+                sx={{
+                  minWidth: 120,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 120 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                <option>Sections</option>
+              </TextField>
+              <TextField
+                select
+                label="Rows"
+                SelectProps={{ native: true }}
+                sx={{
+                  minWidth: 100,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 100 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                <option>Rows</option>
+              </TextField>
+              <TextField
+                label="Price Min"
+                type="number"
+                sx={{
+                  minWidth: 100,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 100 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              />
+              <TextField
+                label="Price Max"
+                type="number"
+                sx={{
+                  minWidth: 100,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 100 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              />
+              <TextField
+                select
+                label="Min. Seats"
+                SelectProps={{ native: true }}
+                sx={{
+                  minWidth: 90,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 90 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                <option>2+</option>
+              </TextField>
+              <TextField
+                select
+                label="Ticket Types"
+                SelectProps={{ native: true }}
+                sx={{
+                  minWidth: 130,
+                  bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                  borderRadius: 1,
+                  color: theme.palette.text.primary,
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.text.primary,
+                  },
+                  width: { xs: "100%", sm: 130 },
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                <option>Ticket Types</option>
+              </TextField>
             </Box>
             {/* Notes */}
-            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, minHeight: 120, boxShadow: 1, mb: 1, width: { xs: '100%', sm: 'auto' } }}>
-              <Typography variant="subtitle1" sx={{ color: theme.palette.text.primary, fontWeight: 700, fontSize: 18, mb: 1, letterSpacing: 0.2, textAlign: "left" }}>Notes</Typography>
-              <TextField multiline minRows={4} placeholder="Add your notes here..." fullWidth InputProps={{ sx: { bgcolor: "transparent", border: "none", fontWeight: 400, fontSize: 17, px: 1, py: 1.5, color: theme.palette.text.primary }, disableUnderline: true }} variant="standard" />
+            <Box
+              sx={{
+                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                border: `1.5px solid ${
+                  theme.palette.mode === "dark" ? "#333" : theme.palette.divider
+                }`,
+                borderRadius: 2,
+                p: 2,
+                minHeight: 120,
+                boxShadow: 1,
+                mb: 1,
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: theme.palette.text.primary,
+                  fontWeight: 700,
+                  fontSize: 18,
+                  mb: 1,
+                  letterSpacing: 0.2,
+                  textAlign: "left",
+                }}
+              >
+                Notes
+              </Typography>
+              <TextField
+                multiline
+                minRows={4}
+                placeholder="Add your notes here..."
+                fullWidth
+                InputProps={{
+                  sx: {
+                    bgcolor: "transparent",
+                    border: "none",
+                    fontWeight: 400,
+                    fontSize: 17,
+                    px: 1,
+                    py: 1.5,
+                    color: theme.palette.text.primary,
+                  },
+                  disableUnderline: true,
+                }}
+                variant="standard"
+              />
             </Box>
             {/* Extra Filter Options */}
-            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, boxShadow: 1, width: { xs: '100%', sm: 'auto' } }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Extra Filter Options</Typography>
-              <Box sx={{ display: 'flex', gap: 2, mb: 2, flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
-                <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 120 }, mb: { xs: 1, sm: 0 } }}><option>Sections</option></TextField>
-                <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }}><option>Rows</option></TextField>
+            <Box
+              sx={{
+                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                border: `1.5px solid ${
+                  theme.palette.mode === "dark" ? "#333" : theme.palette.divider
+                }`,
+                borderRadius: 2,
+                p: 2,
+                boxShadow: 1,
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 1,
+                  color: theme.palette.text.primary,
+                }}
+              >
+                Extra Filter Options
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  mb: 2,
+                  flexDirection: { xs: "column", sm: "row" },
+                  width: "100%",
+                }}
+              >
+                <TextField
+                  select
+                  label="Sections"
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 120,
+                    bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                    borderRadius: 1,
+                    color: theme.palette.text.primary,
+                    "& .MuiInputBase-input": {
+                      color: theme.palette.text.primary,
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: theme.palette.text.primary,
+                    },
+                    width: { xs: "100%", sm: 120 },
+                    mb: { xs: 1, sm: 0 },
+                  }}
+                >
+                  <option>Sections</option>
+                </TextField>
+                <TextField
+                  select
+                  label="Rows"
+                  SelectProps={{ native: true }}
+                  sx={{
+                    minWidth: 100,
+                    bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                    borderRadius: 1,
+                    color: theme.palette.text.primary,
+                    "& .MuiInputBase-input": {
+                      color: theme.palette.text.primary,
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: theme.palette.text.primary,
+                    },
+                    width: { xs: "100%", sm: 100 },
+                    mb: { xs: 1, sm: 0 },
+                  }}
+                >
+                  <option>Rows</option>
+                </TextField>
               </Box>
-              <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>Add Filter</Button>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
+                  fontWeight: 400,
+                  borderRadius: 2,
+                  px: 3,
+                  boxShadow: 1,
+                  textTransform: "none",
+                  "&:hover": { bgcolor: theme.palette.primary.dark },
+                }}
+              >
+                Add Filter
+              </Button>
             </Box>
           </Box>
           {/* Right: Seat Map and Section Types */}
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center', width: { xs: '100%', sm: 'auto' }, mt: { xs: 3, sm: 0 } }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              alignItems: "center",
+              width: { xs: "100%", sm: "auto" },
+              mt: { xs: 3, sm: 0 },
+            }}
+          >
             {/* Seat Map Placeholder */}
-            <Box sx={{ width: '100%', minHeight: 180, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
-              <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>SEAT MAP</Typography>
+            <Box
+              sx={{
+                width: "100%",
+                minHeight: 180,
+                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                borderRadius: 2,
+                mb: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: 1,
+                border: `1.5px solid ${
+                  theme.palette.mode === "dark" ? "#333" : theme.palette.divider
+                }`,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ color: theme.palette.text.primary }}
+              >
+                SEAT MAP
+              </Typography>
             </Box>
             {/* Section Types */}
-            <Box sx={{ width: '100%' }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Section Types</Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, width: '100%' }}>
-                {[
-                  "ADA",
-                  "CENTER",
-                  "LAWN",
-                  "LEFT",
-                  "PIT",
-                  "RIGHT",
-                ].map(type => (
-                  <Button key={type} variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 2, py: 0.5, fontSize: 14, minWidth: 60, textTransform: 'none', boxShadow: 1, width: { xs: '48%', sm: 'auto' }, mb: { xs: 1, sm: 0 }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>{type}</Button>
-                ))}
+            <Box sx={{ width: "100%" }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 1,
+                  color: theme.palette.text.primary,
+                }}
+              >
+                Section Types
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 1,
+                  width: "100%",
+                }}
+              >
+                {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(
+                  (type) => (
+                    <Button
+                      key={type}
+                      variant="contained"
+                      sx={{
+                        bgcolor:
+                          theme.palette.mode === "dark"
+                            ? "#fff"
+                            : theme.palette.primary.main,
+                        color:
+                          theme.palette.mode === "dark" ? "#181818" : "#fff",
+                        fontWeight: 400,
+                        borderRadius: 2,
+                        px: 2,
+                        py: 0.5,
+                        fontSize: 14,
+                        minWidth: 60,
+                        textTransform: "none",
+                        boxShadow: 1,
+                        width: { xs: "48%", sm: "auto" },
+                        mb: { xs: 1, sm: 0 },
+                        "&:hover": {
+                          bgcolor:
+                            theme.palette.mode === "dark"
+                              ? "#f3f4f6"
+                              : theme.palette.primary.dark,
+                          color:
+                            theme.palette.mode === "dark" ? "#181818" : "#fff",
+                        },
+                      }}
+                    >
+                      {type}
+                    </Button>
+                  )
+                )}
               </Box>
             </Box>
           </Box>
         </Box>
-        <DialogActions sx={{ justifyContent: { xs: 'center', sm: 'flex-end' }, px: { xs: 2, sm: 4 }, pb: 2, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
-          <Button variant="contained" sx={{ borderRadius: 2, fontWeight: 400, px: 4, py: 1, fontSize: 16, bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', boxShadow: 2, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }} onClick={() => setDetailModalOpen(false)}>
+        <DialogActions
+          sx={{
+            justifyContent: { xs: "center", sm: "flex-end" },
+            px: { xs: 2, sm: 4 },
+            pb: 2,
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#f5f7fa",
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              fontWeight: 400,
+              px: 4,
+              py: 1,
+              fontSize: 16,
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "#fff"
+                  : theme.palette.primary.main,
+              color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+              boxShadow: 2,
+              textTransform: "none",
+              '&:hover': {
+                bgcolor:
+                  theme.palette.mode === "dark"
+                    ? "#f3f4f6"
+                    : theme.palette.primary.dark,
+                color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+              },
+            }}
+            onClick={() => setDetailModalOpen(false)}
+          >
             SUBMIT
           </Button>
         </DialogActions>
+      </Dialog>
+      <Dialog
+        open={eventManagerModalOpen}
+        onClose={() => setEventManagerModalOpen(false)}
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            background: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            borderRadius: 4,
+            boxShadow: 8,
+            p: 0,
+            width: { xs: "90vw", sm: 900 },
+            maxWidth: { xs: 420, sm: 900 },
+            minWidth: { xs: 320, sm: 600 },
+            height: "auto",
+            maxHeight: { xs: "90vh", sm: "90vh" },
+            m: { xs: "auto", sm: 0 },
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontWeight: 700,
+            fontSize: 20,
+            letterSpacing: 0.2,
+            px: { xs: 2, sm: 4 },
+            pt: '15px',
+            pb: { xs: 1, sm: 2 },
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
+          }}
+        >
+          <span
+            style={{
+              fontWeight: 700,
+              fontSize: 20,
+              color: "#fff",
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+            }}
+          >
+            Codes & DID ID Manager
+          </span>
+          <IconButton
+            onClick={() => setEventManagerModalOpen(false)}
+            sx={{ color: "#fff" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            pt: 8,
+            pb: 3,
+            px: { xs: 2, sm: 4 },
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            minHeight: 80,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "stretch", sm: "center" },
+              gap: 2,
+              mt: { xs: 2, sm: 0 },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 2,
+                flex: 1,
+              }}
+            >
+              <TextField
+                placeholder="Enter codes, one per line"
+                size="small"
+                variant="outlined"
+                sx={{
+                  bgcolor: theme.palette.background.paper,
+                  borderRadius: 2,
+                  mb: 0,
+                  fontSize: 14,
+                  flex: 1,
+                  "& .MuiInputBase-input": { fontSize: 14, py: 1 },
+                }}
+              />
+              <Button
+                variant="contained"
+                size="small"
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                  fontWeight: 400,
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1,
+                  fontSize: 14,
+                  minWidth: 80,
+                  textTransform: "none",
+                  boxShadow: 1,
+                  "&:hover": { bgcolor: theme.palette.primary.dark },
+                }}
+              >
+                ADD CODE
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 2,
+                flex: 1,
+                mt: { xs: 2, sm: 0 },
+              }}
+            >
+              <TextField
+                placeholder="Enter URL with DID ID"
+                size="small"
+                variant="outlined"
+                sx={{
+                  bgcolor: theme.palette.background.paper,
+                  borderRadius: 2,
+                  mb: 0,
+                  fontSize: 14,
+                  flex: 1,
+                  "& .MuiInputBase-input": { fontSize: 14, py: 1 },
+                }}
+              />
+              <Button
+                variant="contained"
+                size="small"
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: theme.palette.mode === "dark" ? "#181818" : "#fff",
+                  fontWeight: 400,
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1,
+                  fontSize: 14,
+                  minWidth: 80,
+                  textTransform: "none",
+                  boxShadow: 1,
+                  "&:hover": { bgcolor: theme.palette.primary.dark },
+                }}
+              >
+                ADD DID ID
+              </Button>
+            </Box>
+          </Box>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={deleteConfirmOpen}
+        onClose={() => setDeleteConfirmOpen(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            boxShadow: 8,
+            p: 0,
+            minWidth: 320,
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: 700, fontSize: 18, textAlign: 'center', pt: 3, pb: 1 }}>
+          Are you sure you want to delete this {deleteTarget.type}?
+        </DialogTitle>
+        <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+          <Button
+            onClick={() => setDeleteConfirmOpen(false)}
+            sx={{
+              borderRadius: 2,
+              fontWeight: 500,
+              px: 3,
+              py: 1,
+              color: theme.palette.primary.contrastText,
+              bgcolor: theme.palette.primary.main,
+              mr: 2,
+              boxShadow: 1,
+              textTransform: 'none',
+              '&:hover': { bgcolor: theme.palette.primary.dark },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              if (deleteTarget.type === 'event') handleRemove(deleteTarget.id);
+              if (deleteTarget.type === 'artist') handleRemoveArtist(deleteTarget.id);
+              if (deleteTarget.type === 'template') setTemplates(templates.filter(t => t !== deleteTarget.id));
+              setDeleteConfirmOpen(false);
+            }}
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              fontWeight: 700,
+              px: 3,
+              py: 1,
+              bgcolor: theme.palette.error.main,
+              color: '#fff',
+              boxShadow: 1,
+              textTransform: 'none',
+              '&:hover': { bgcolor: theme.palette.error.dark },
+            }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={templateModalOpen}
+        onClose={() => setTemplateModalOpen(false)}
+        maxWidth="xs"
+        PaperProps={{
+          sx: {
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            borderRadius: 4,
+            boxShadow: 8,
+            p: 0,
+            minWidth: 380,
+            maxWidth: 420,
+            width: "95vw",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontSize: 18,
+            color: "#fff",
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
+            pt: 2,
+            pb: 1,
+          }}
+        >
+          Template Manager
+          <IconButton
+            aria-label="close"
+            onClick={() => setTemplateModalOpen(false)}
+            sx={{ position: "absolute", right: 8, top: 8, color: "#fff" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            px: 3,
+            pt: 2,
+            pb: 1,
+            minWidth: 320,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
+          <TextField
+            value={templateName}
+            onChange={e => setTemplateName(e.target.value)}
+            placeholder="Template Name"
+            variant="outlined"
+            fullWidth
+            sx={{
+              mb: 2,
+              bgcolor: "transparent",
+              borderRadius: 2,
+              input: {
+                color: "#fff",
+                fontWeight: 500,
+                fontSize: 18,
+                px: 2,
+                py: 1.5,
+              },
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                '& fieldset': {
+                  borderColor: theme.palette.primary.main,
+                },
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "#fff",
+              },
+            }}
+          />
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              borderRadius: 2,
+              fontWeight: 700,
+              fontSize: 16,
+              py: 1,
+              mb: 2,
+              textTransform: "none",
+              '&:hover': { bgcolor: theme.palette.primary.dark },
+            }}
+            onClick={() => {
+              if (templateName.trim() && !templates.includes(templateName.trim())) {
+                setTemplates([templateName.trim(), ...templates]);
+                setTemplateName("");
+              }
+            }}
+          >
+            Save Template
+          </Button>
+          <Divider sx={{ my: 2, borderColor: theme.palette.mode === "dark" ? "#444" : "#555" }} />
+          <Typography sx={{ fontWeight: 500, fontSize: 16, mb: 1, textAlign: "center" }}>
+            Existing Templates
+          </Typography>
+          <Box sx={{ mb: 2 }}>
+            {templates.map((tpl, idx) => (
+              <Box
+                key={tpl}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  py: 0.5,
+                  px: 1,
+                  borderRadius: 2,
+                  bgcolor: selectedTemplate === tpl ? theme.palette.primary.main : "transparent",
+                  color: selectedTemplate === tpl ? theme.palette.primary.contrastText : "#fff",
+                  cursor: "pointer",
+                  mb: 0.5,
+                  transition: "background 0.18s, color 0.18s",
+                }}
+                onClick={() => setSelectedTemplate(tpl)}
+              >
+                <Typography
+                  sx={{
+                    flex: 1,
+                    fontWeight: 500,
+                    fontSize: 15,
+                    color: selectedTemplate === tpl ? theme.palette.primary.contrastText : "#fff",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {tpl}
+                </Typography>
+                <IconButton
+                  size="small"
+                  onClick={e => { e.stopPropagation(); setDeleteTarget({ type: 'template', id: tpl }); setDeleteConfirmOpen(true); }}
+                  sx={{ color: theme.palette.error.main, ml: 1, p: 0.5, '&:hover': { bgcolor: theme.palette.action.hover, color: theme.palette.error.dark } }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ bgcolor: "transparent", px: 3, pb: 2, pt: 1 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              borderRadius: 2,
+              fontWeight: 700,
+              fontSize: 16,
+              py: 1,
+              textTransform: "none",
+              '&:hover': { bgcolor: theme.palette.primary.dark },
+            }}
+            disabled={!selectedTemplate}
+            onClick={() => {
+              // handle apply and save selected template
+              setTemplateModalOpen(false);
+            }}
+          >
+            APPLY AND SAVE SELECTED TEMPLATE
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={eventLogsModalOpen}
+        onClose={() => setEventLogsModalOpen(false)}
+        maxWidth="md"
+        fullScreen={typeof window !== 'undefined' && window.innerWidth < 600}
+        PaperProps={{
+          sx: {
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            borderRadius: { xs: 0, sm: 4 },
+            boxShadow: 8,
+            p: 0,
+            minWidth: { xs: '100vw', sm: 500 },
+            maxWidth: { xs: '100vw', sm: 700 },
+            width: { xs: '100vw', sm: '95vw' },
+            m: 0,
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontSize: { xs: 16, sm: 18 },
+            color: "#fff",
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            borderTopLeftRadius: { xs: 0, sm: 4 },
+            borderTopRightRadius: { xs: 0, sm: 4 },
+            pt: { xs: 1.5, sm: 2 },
+            pb: { xs: 0.5, sm: 1 },
+            px: { xs: 2, sm: 4 },
+          }}
+        >
+          Event Logs
+          <IconButton
+            aria-label="close"
+            onClick={() => setEventLogsModalOpen(false)}
+            sx={{ position: "absolute", right: 8, top: 8, color: "#fff" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+            color: "#fff",
+            px: { xs: 1, sm: 3 },
+            pt: { xs: 1, sm: 2 },
+            pb: { xs: 1.5, sm: 2 },
+            minWidth: { xs: 0, sm: 400 },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
+          <Box
+            sx={{
+              bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+              borderRadius: 2,
+              overflow: "auto",
+              width: "100%",
+              boxShadow: 0,
+              mb: 1,
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
+            <Table sx={{ minWidth: 400, width: "100%", bgcolor: "transparent" }}>
+              <TableHead>
+                <TableRow sx={{ bgcolor: "transparent" }}>
+                  <TableCell
+                    sx={{ color: "#fff", fontWeight: 700, fontSize: { xs: 14, sm: 17 }, textAlign: "center", borderBottom: "none", px: { xs: 1, sm: 2 } }}
+                  >
+                    Timestamp
+                  </TableCell>
+                  <TableCell
+                    sx={{ color: "#fff", fontWeight: 700, fontSize: { xs: 14, sm: 17 }, textAlign: "center", borderBottom: "none", px: { xs: 1, sm: 2 } }}
+                  >
+                    Event
+                  </TableCell>
+                  <TableCell
+                    sx={{ color: "#fff", fontWeight: 700, fontSize: { xs: 14, sm: 17 }, textAlign: "center", borderBottom: "none", px: { xs: 1, sm: 2 } }}
+                  >
+                    User
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {eventLogs.map((log, idx) => (
+                  <TableRow key={idx} sx={{ bgcolor: "transparent" }}>
+                    <TableCell
+                      sx={{
+                        color: "#fff",
+                        fontWeight: 500,
+                        fontSize: { xs: 15, sm: 18 },
+                        textAlign: "center",
+                        borderBottom: "none",
+                        bgcolor: "transparent",
+                        px: { xs: 1, sm: 2 },
+                        py: { xs: 1, sm: 2 },
+                      }}
+                    >
+                      {log.timestamp}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderBottom: "none",
+                        textAlign: "center",
+                        bgcolor: "transparent",
+                        px: { xs: 1, sm: 2 },
+                        py: { xs: 1, sm: 2 },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          bgcolor: "#3ec96b",
+                          color: "#fff",
+                          borderRadius: 999,
+                          px: { xs: 1.5, sm: 2.5 },
+                          py: { xs: 0.5, sm: 0.5 },
+                          fontWeight: 700,
+                          fontSize: { xs: 15, sm: 17 },
+                          gap: 1,
+                          cursor: "pointer",
+                          boxShadow: 2,
+                          transition: "background 0.18s, box-shadow 0.18s",
+                          '&:hover': {
+                            bgcolor: '#2fa85a',
+                            boxShadow: 4,
+                          },
+                          outline: 'none',
+                          whiteSpace: 'nowrap',
+                          minWidth: 120,
+                          justifyContent: 'center',
+                        }}
+                        tabIndex={0}
+                        role="button"
+                        aria-label="URL Addition"
+                      >
+                        <AddIcon sx={{ fontSize: { xs: 18, sm: 22 }, mr: 1 }} /> URL Addition
+                      </Box>
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        color: "#fff",
+                        fontWeight: 500,
+                        fontSize: { xs: 15, sm: 18 },
+                        textAlign: "center",
+                        borderBottom: "none",
+                        bgcolor: "transparent",
+                        px: { xs: 1, sm: 2 },
+                        py: { xs: 1, sm: 2 },
+                      }}
+                    >
+                      {log.user}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </DialogContent>
       </Dialog>
     </Box>
   );

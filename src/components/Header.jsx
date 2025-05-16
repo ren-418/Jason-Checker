@@ -228,7 +228,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     color: theme.palette.primary.contrastText,
                     background: theme.palette.primary.main,
                     ml: 1,
-                    '&:hover': {
+                    "&:hover": {
                       background: theme.palette.primary.dark,
                     },
                   }}
@@ -336,7 +336,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                   px: 2.5,
                   py: 1,
                   boxShadow: "none",
-                  '&:hover': { background: theme.palette.primary.dark },
+                  "&:hover": { background: theme.palette.primary.dark },
                 }}
                 disableElevation
                 onClick={handleNotifClick}
@@ -592,7 +592,11 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
           </Box>
           <IconButton
             onClick={handleModalClose}
-            sx={{ color: theme.palette.text.secondary, ml: 2, p: 0.5 }}
+            sx={{
+              color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+              ml: 2,
+              p: 0.5,
+            }}
             size="small"
             aria-label="Close audio modal"
           >
@@ -618,7 +622,12 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
               <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
                 Choose your audio from the list below:
               </Typography>
-              <Stack direction="row" spacing={2} alignItems="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
+              <Stack
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                sx={{ flexWrap: "wrap", gap: 2 }}
+              >
                 <Select
                   value={audio}
                   onChange={(e) => setAudio(e.target.value)}
@@ -632,8 +641,8 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     pl: 2,
                     pr: 2,
                     boxShadow: "none",
-                    '& .MuiSelect-icon': { color: "#fff", fontSize: 20 },
-                    '& .MuiOutlinedInput-notchedOutline': { border: "none" },
+                    "& .MuiSelect-icon": { color: "#fff", fontSize: 20 },
+                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                   }}
                   MenuProps={{
                     PaperProps: {
@@ -665,7 +674,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                         px: 2,
                         py: 0.5,
                         minHeight: 28,
-                        '&:hover': { background: theme.palette.action.hover },
+                        "&:hover": { background: theme.palette.action.hover },
                       }}
                     >
                       {file}
@@ -685,8 +694,8 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     height: 36,
                     boxShadow: "none",
                     textTransform: "none",
-                    whiteSpace: 'nowrap',
-                    '&:hover': { background: theme.palette.primary.dark },
+                    whiteSpace: "nowrap",
+                    "&:hover": { background: theme.palette.primary.dark },
                   }}
                   component="label"
                   startIcon={<PlayArrowIcon />}
@@ -826,7 +835,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
         </DialogTitle>
         <DialogContent
           sx={{
-            bgcolor: theme.palette.mode === "dark" ? "#e5e5e5" : "#e5e5e5",
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#e5e5e5",
             p: { xs: 2, sm: 4 },
             minHeight: 400,
             display: "flex",

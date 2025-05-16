@@ -37,6 +37,10 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Divider from "@mui/material/Divider";
+import Checkbox from "@mui/material/Checkbox";
+import Popover from "@mui/material/Popover";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 // Utility to format date
 function formatDate(val) {
@@ -73,6 +77,23 @@ export default function EventDetailView() {
   const topRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const [filterState, setFilterState] = useState({
+    tm: false,
+    axs: false,
+    mlb: false,
+    seatgeek: false,
+    evenue: false,
+    stubhub: false,
+    early: false,
+    price: false,
+    onsale: false,
+    artist: false,
+    low: false,
+    remove: false,
+  });
+  const [sortOption, setSortOption] = useState("Ticket Quantity");
 
   // Scroll to top button logic
   useEffect(() => {
@@ -133,7 +154,14 @@ export default function EventDetailView() {
                   : "0 2px 8px 0 rgba(0,0,0,0.08)",
               }}
             >
-              <FilterListIcon sx={{ color: isDark ? "#aaa" : "#444", mr: 1 }} />
+              <FilterListIcon
+                sx={{
+                  color: isDark ? "#aaa" : "#444",
+                  mr: 1,
+                  cursor: "pointer",
+                }}
+                onClick={(e) => setFilterAnchorEl(e.currentTarget)}
+              />
               <TextField
                 placeholder="Search"
                 value={search}
@@ -785,6 +813,25 @@ export default function EventDetailView() {
               >
                 Filters
               </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: 2,
+                  fontWeight: 400,
+                  px: 4,
+                  py: 1.2,
+                  fontSize: 16,
+                  bgcolor: isDark ? "#fff" : theme.palette.primary.main,
+                  boxShadow: 2,
+                  textTransform: "none",
+                  "&:hover": {
+                    bgcolor: isDark ? "#f3f4f6" : theme.palette.primary.dark,
+                  },
+                  color: isDark ? "#23293a" : "#fff",
+                }}
+              >
+                Enable ACO
+              </Button>
               <IconButton
                 sx={{
                   bgcolor: isDark ? "#232228" : "#e5e7eb",
@@ -864,9 +911,58 @@ export default function EventDetailView() {
                 mx: "auto",
               }}
             >
+              {/* Buy All Button */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  px: 2,
+                  pt: 2,
+                  mb: 1,
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={selectedRows.length === 0}
+                  sx={{
+                    borderRadius: 2,
+                    fontWeight: 700,
+                    px: 3,
+                    py: 1,
+                    fontSize: 15,
+                    boxShadow: 1,
+                    textTransform: "none",
+                    bgcolor: theme.palette.primary.main,
+                    color: theme.palette.mode === "light" ? "#fff" : "#23293a",
+                    "&:hover": { bgcolor: theme.palette.primary.dark },
+                    ml: 2,
+                  }}
+                  onClick={() => {
+                    /* handle buy all action */
+                  }}
+                >
+                  Buy All ({selectedRows.length})
+                </Button>
+              </Box>
               <Table sx={{ minWidth: 500, width: "100%" }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: "#23293a" }}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedRows.length === 2}
+                        indeterminate={
+                          selectedRows.length > 0 && selectedRows.length < 2
+                        }
+                        onChange={(e) => {
+                          if (e.target.checked) setSelectedRows([0, 1]);
+                          else setSelectedRows([]);
+                        }}
+                        sx={{ color: "#fff" }}
+                        inputProps={{ "aria-label": "select all tickets" }}
+                      />
+                    </TableCell>
                     <TableCell
                       sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
                     >
@@ -895,72 +991,63 @@ export default function EventDetailView() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow hover>
-                    <TableCell>Standard Admission</TableCell>
-                    <TableCell>224</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>
-                      1, 2, 3 <b>(3)</b>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        size="small"
-                        sx={{
-                          ml: 1,
-                          bgcolor: isDark
-                            ? "#23293a"
-                            : theme.palette.primary.main,
-                          color: "#fff",
-                          borderRadius: 2,
-                          fontWeight: 400,
-                          px: 2,
-                          py: 0.5,
-                          fontSize: 14,
-                          boxShadow: 1,
-                          "&:hover": {
+                  {[0, 1].map((idx) => (
+                    <TableRow
+                      hover
+                      key={idx}
+                      selected={selectedRows.includes(idx)}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedRows.includes(idx)}
+                          onChange={(e) => {
+                            if (e.target.checked)
+                              setSelectedRows([...selectedRows, idx]);
+                            else
+                              setSelectedRows(
+                                selectedRows.filter((i) => i !== idx)
+                              );
+                          }}
+                          sx={{ color: theme.palette.primary.main }}
+                          inputProps={{
+                            "aria-label": `select ticket row ${idx + 1}`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>Standard Admission</TableCell>
+                      <TableCell>{idx === 0 ? 224 : 225}</TableCell>
+                      <TableCell>5</TableCell>
+                      <TableCell>
+                        {idx === 0 ? "1, 2, 3" : "11, 12"}{" "}
+                        <b>({idx === 0 ? 3 : 2})</b>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          size="small"
+                          sx={{
+                            ml: 1,
                             bgcolor: isDark
-                              ? "#171c2b"
-                              : theme.palette.primary.dark,
-                          },
-                        }}
-                      >
-                        BUY
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow hover>
-                    <TableCell>Standard Admission</TableCell>
-                    <TableCell>225</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell>
-                      11, 12 <b>(2)</b>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        size="small"
-                        sx={{
-                          ml: 1,
-                          bgcolor: isDark
-                            ? "#23293a"
-                            : theme.palette.primary.main,
-                          color: "#fff",
-                          borderRadius: 2,
-                          fontWeight: isDark ? 700 : 400,
-                          px: 2,
-                          py: 0.5,
-                          fontSize: 14,
-                          boxShadow: 1,
-                          "&:hover": {
-                            bgcolor: isDark
-                              ? "#171c2b"
-                              : theme.palette.primary.dark,
-                          },
-                        }}
-                      >
-                        BUY
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                              ? "#23293a"
+                              : theme.palette.primary.main,
+                            color: "#fff",
+                            borderRadius: 2,
+                            fontWeight: 400,
+                            px: 2,
+                            py: 0.5,
+                            fontSize: 14,
+                            boxShadow: 1,
+                            "&:hover": {
+                              bgcolor: isDark
+                                ? "#171c2b"
+                                : theme.palette.primary.dark,
+                            },
+                          }}
+                        >
+                          BUY
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -1178,6 +1265,246 @@ export default function EventDetailView() {
           </Box>
         </DialogActions>
       </Dialog>
+      {/* Filter Popover */}
+      <Popover
+        open={Boolean(filterAnchorEl)}
+        anchorEl={filterAnchorEl}
+        onClose={() => setFilterAnchorEl(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        PaperProps={{
+          sx: {
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#23293a",
+            color: "#fff",
+            borderRadius: 3,
+            boxShadow: 6,
+            p: 2,
+            minWidth: 220,
+            maxWidth: 260,
+          },
+        }}
+      >
+        <Box sx={{ mb: 2, textAlign: "center" }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 16, mb: 1 }}>
+            Sort Options
+          </Typography>
+          <TextField
+            select
+            fullWidth
+            size="small"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            style={{
+              color: theme.palette.mode === "dark" ? "#fff" : "#fff",
+            }}
+            sx={{
+              bgcolor: theme.palette.mode === "dark" ? "#232228" : "#23293a",
+              borderRadius: 1,
+              mb: 1,
+              "& .MuiSelect-select": {
+                color: theme.palette.mode === "dark" ? "#fff" : "#fff",
+                fontWeight: 600,
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.main,
+              },
+              "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
+            }}
+            SelectProps={{
+              native: true,
+              sx: { color: theme.palette.mode === "dark" ? "#fff" : "#fff" },
+              MenuProps: {
+                PaperProps: {
+                  sx: {
+                    bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                    color: "#000",
+                  },
+                },
+                MenuListProps: {
+                  sx: {
+                    "& .MuiMenuItem-root": {
+                      color: "#000",
+                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                    },
+                  },
+                },
+              },
+            }}
+            InputProps={{
+              sx: { color: theme.palette.mode === "dark" ? "#fff" : "#fff" },
+            }}
+          >
+            <option value="Ticket Quantity" style={{ color: "#000" }}>Ticket Quantity</option>
+            <option value="Price" style={{ color: "#000" }}>Price</option>
+            <option value="Date" style={{ color: "#000" }}>Date</option>
+          </TextField>
+        </Box>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.tm}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, tm: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Ticketmaster / Live Nation"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.axs}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, axs: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="AXS"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.mlb}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, mlb: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="MLB"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.seatgeek}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, seatgeek: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="SeatGeek"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.evenue}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, evenue: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Evenue"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.stubhub}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, stubhub: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Stubhub"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.early}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, early: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Early Monitor"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.price}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, price: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Price Drops"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.onsale}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, onsale: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Onsale / Presale"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.artist}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, artist: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Artist Add"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.low}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, low: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Low Stock"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={filterState.remove}
+                onChange={(e) =>
+                  setFilterState((s) => ({ ...s, remove: e.target.checked }))
+                }
+                sx={{ color: "#fff" }}
+              />
+            }
+            label="Remove Onsale / Presale"
+          />
+        </FormGroup>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              borderRadius: 2,
+              fontWeight: 700,
+              px: 4,
+              py: 1,
+              fontSize: 15,
+              boxShadow: 1,
+              textTransform: "none",
+              "&:hover": { bgcolor: theme.palette.primary.dark },
+            }}
+            onClick={() => setFilterAnchorEl(null)}
+          >
+            APPLY
+          </Button>
+        </Box>
+      </Popover>
     </Box>
   );
 }

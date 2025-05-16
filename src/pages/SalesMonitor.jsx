@@ -419,10 +419,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     {event.name}
@@ -430,10 +431,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     {event.venue}
@@ -441,10 +443,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     {event.datetime.toLocaleString("en-US", {
@@ -460,10 +463,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     {event.offer}
@@ -471,10 +475,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     {event.price}
@@ -482,10 +487,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                     }}
                   >
                     <a
@@ -494,7 +500,7 @@ export default function SalesMonitor() {
                         color: "#40a9ff",
                         textDecoration: "underline",
                         fontWeight: 500,
-                        wordBreak: 'break-all',
+                        wordBreak: "break-all",
                       }}
                     >
                       {event.url}
@@ -503,10 +509,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                       p: { xs: 0.5, sm: 1.5 },
                     }}
                   >
@@ -525,14 +532,14 @@ export default function SalesMonitor() {
                         px: { xs: 1.5, sm: 3 },
                         py: { xs: 0.5, sm: 1 },
                         minWidth: { xs: 0, sm: 90 },
-                        maxWidth: { xs: 110, sm: 'none' },
+                        maxWidth: { xs: 110, sm: "none" },
                         boxShadow: 1,
                         textTransform: "none",
                         fontSize: { xs: 13, sm: 15 },
                         whiteSpace: "nowrap",
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        '&:hover': {
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        "&:hover": {
                           background:
                             theme.palette.mode === "light"
                               ? "#17213a"
@@ -549,10 +556,11 @@ export default function SalesMonitor() {
                   <TableCell
                     sx={{
                       textAlign: "center",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                       border: `1px solid ${theme.palette.divider}`,
-                      wordBreak: 'break-word',
-                      verticalAlign: 'middle',
+                      wordBreak: "break-word",
+                      verticalAlign: "middle",
                       p: { xs: 0.5, sm: 1.5 },
                     }}
                   >
@@ -571,14 +579,14 @@ export default function SalesMonitor() {
                         px: { xs: 1.5, sm: 3 },
                         py: { xs: 0.5, sm: 1 },
                         minWidth: { xs: 0, sm: 90 },
-                        maxWidth: { xs: 110, sm: 'none' },
+                        maxWidth: { xs: 110, sm: "none" },
                         boxShadow: 1,
                         textTransform: "none",
                         fontSize: { xs: 13, sm: 15 },
                         whiteSpace: "nowrap",
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        '&:hover': {
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        "&:hover": {
                           background:
                             theme.palette.mode === "light"
                               ? "#17213a"
