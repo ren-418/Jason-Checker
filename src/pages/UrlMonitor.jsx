@@ -514,13 +514,18 @@ export default function UrlMonitor() {
         onClose={() => setArtistModalOpen(false)}
         maxWidth="md"
         fullWidth
+        fullScreen={typeof window !== 'undefined' && window.innerWidth < 600}
         PaperProps={{
           sx: {
             background: theme.palette.background.default,
-            borderRadius: 3,
+            borderRadius: { xs: 0, sm: 3 },
             color: theme.palette.text.primary,
             boxShadow: 8,
             p: 0,
+            width: '100%',
+            minHeight: { xs: '100vh', sm: 'auto' },
+            maxHeight: { xs: '100vh', sm: '90vh' },
+            m: 0,
           },
         }}
       >
@@ -530,6 +535,9 @@ export default function UrlMonitor() {
             fontWeight: 500,
             color: theme.palette.text.primary,
             bgcolor: theme.palette.background.default,
+            px: { xs: 2, sm: 3 },
+            pt: { xs: 2, sm: 3 },
+            pb: { xs: 1, sm: 2 },
           }}
         >
           Artist Added Date Monitor
@@ -546,7 +554,17 @@ export default function UrlMonitor() {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ p: 3, bgcolor: theme.palette.background.default }}>
+        <DialogContent
+          sx={{
+            p: { xs: 2, sm: 3 },
+            bgcolor: theme.palette.background.default,
+            minHeight: { xs: 'calc(100vh - 56px)', sm: 'auto' },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
+        >
           <TextField
             variant="outlined"
             placeholder="Search or paste URL"
@@ -574,7 +592,24 @@ export default function UrlMonitor() {
               mt: 2,
               bgcolor: theme.palette.background.default,
               borderRadius: 2,
-              overflow: "hidden",
+              overflowX: 'auto',
+              overflowY: 'auto',
+              width: '100%',
+              maxWidth: '100%',
+              maxHeight: { xs: '55vh', sm: 400 },
+              boxShadow: 1,
+              '::-webkit-scrollbar': {
+                height: 8,
+                width: 8,
+                background: theme.palette.mode === 'dark' ? '#232228' : '#e0e0e0',
+                borderRadius: 8,
+              },
+              '::-webkit-scrollbar-thumb': {
+                background: theme.palette.mode === 'dark' ? '#444' : '#bdbdbd',
+                borderRadius: 8,
+              },
+              scrollbarColor: `${theme.palette.mode === 'dark' ? '#444' : '#bdbdbd'} ${theme.palette.mode === 'dark' ? '#232228' : '#e0e0e0'}`,
+              scrollbarWidth: 'thin',
             }}
           >
             <Table
@@ -646,11 +681,11 @@ export default function UrlMonitor() {
                         sx={{
                           color: theme.palette.error.main,
                           p: 0.5,
-                          "&:hover": {
+                          '&:hover': {
                             background: theme.palette.action.hover,
                             color:
-                              theme.palette.mode === "dark"
-                                ? "#ff5252"
+                              theme.palette.mode === 'dark'
+                                ? '#ff5252'
                                 : theme.palette.error.dark,
                           },
                         }}
@@ -1189,31 +1224,45 @@ export default function UrlMonitor() {
         onClose={() => setDetailModalOpen(false)}
         maxWidth="xl"
         fullWidth
+        fullScreen={typeof window !== 'undefined' && window.innerWidth < 600}
         PaperProps={{
           sx: {
             bgcolor: theme.palette.mode === "dark" ? "#181818" : '#f5f7fa',
-            borderRadius: 4,
+            borderRadius: { xs: 0, sm: 4 },
             color: theme.palette.text.primary,
             boxShadow: 8,
             p: 0,
-            minWidth: { xs: "100vw", sm: 600, md: 900 },
-            maxWidth: 1600,
+            width: '100%',
+            minHeight: { xs: '100vh', sm: 'auto' },
+            maxHeight: { xs: '100vh', sm: '90vh' },
+            m: 0,
           },
         }}
       >
         {/* Modal Header with Event Logs, Templates, Event Manager */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 3, pt: 3, pb: 2, bgcolor: theme.palette.mode === 'dark' ? '#181818' : theme.palette.primary.main, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT LOGS</Button>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>TEMPLATES</Button>
-            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT MANAGER</Button>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: { xs: 2, sm: 3 },
+          pt: { xs: 2, sm: 3 },
+          pb: { xs: 1, sm: 2 },
+          bgcolor: theme.palette.mode === 'dark' ? '#181818' : theme.palette.primary.main,
+          borderTopLeftRadius: { xs: 0, sm: 4 },
+          borderTopRightRadius: { xs: 0, sm: 4 },
+        }}>
+          <Box sx={{ display: 'flex', gap: 2, width: { xs: '100%', sm: 'auto' }, justifyContent: { xs: 'center', sm: 'flex-start' }, mb: { xs: 2, sm: 0 } }}>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT LOGS</Button>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>TEMPLATES</Button>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT MANAGER</Button>
           </Box>
-          <IconButton onClick={() => setDetailModalOpen(false)} sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#fff', ml: 2 }}>
+          <IconButton onClick={() => setDetailModalOpen(false)} sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#fff', ml: 2, alignSelf: { xs: 'flex-end', sm: 'center' } }}>
             <CloseIcon />
           </IconButton>
         </Box>
         {/* Event Info Row */}
-        <Box sx={{ px: 4, pt: 2, pb: 1, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa', borderBottom: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
+        <Box sx={{ px: { xs: 2, sm: 4 }, pt: 2, pb: 1, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa', borderBottom: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
           <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.primary }}>{selectedRow?.name || ""}</Typography>
           <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary, mb: 0.5 }}>
             <b>Date:</b> {selectedRow?.date || ""} &nbsp; <b>Venue:</b> {selectedRow?.venue || ""}
@@ -1223,52 +1272,79 @@ export default function UrlMonitor() {
           </Typography>
         </Box>
         {/* Main Content Grid */}
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3, px: 4, py: 3, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: 3,
+          px: { xs: 2, sm: 4 },
+          py: { xs: 2, sm: 3 },
+          bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa',
+          alignItems: { xs: 'center', sm: 'flex-start' },
+        }}>
           {/* Left: Filters, Notes, Extra Filter Options */}
-          <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 3, width: { xs: '100%', sm: 'auto' }, alignItems: { xs: 'center', sm: 'stretch' } }}>
             {/* Filter Row */}
-            <Box sx={{ display: 'flex', gap: 2, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, boxShadow: 1, p: 2, mb: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
-              <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Sections</option></TextField>
-              <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Rows</option></TextField>
-              <TextField label="Price Min" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }} />
-              <TextField label="Price Max" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }} />
-              <TextField select label="Min. Seats" SelectProps={{ native: true }} sx={{ minWidth: 90, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>2+</option></TextField>
-              <TextField select label="Ticket Types" SelectProps={{ native: true }} sx={{ minWidth: 130, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Ticket Types</option></TextField>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
+              bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff',
+              borderRadius: 2,
+              boxShadow: 1,
+              p: 2,
+              mb: 1,
+              border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`,
+              width: { xs: '100%', sm: 'auto' },
+              alignItems: { xs: 'center', sm: 'flex-start' },
+            }}>
+              <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 120 }, mb: { xs: 1, sm: 0 } }}><option>Sections</option></TextField>
+              <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }}><option>Rows</option></TextField>
+              <TextField label="Price Min" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }} />
+              <TextField label="Price Max" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }} />
+              <TextField select label="Min. Seats" SelectProps={{ native: true }} sx={{ minWidth: 90, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 90 }, mb: { xs: 1, sm: 0 } }}><option>2+</option></TextField>
+              <TextField select label="Ticket Types" SelectProps={{ native: true }} sx={{ minWidth: 130, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 130 }, mb: { xs: 1, sm: 0 } }}><option>Ticket Types</option></TextField>
             </Box>
             {/* Notes */}
-            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, minHeight: 120, boxShadow: 1, mb: 1 }}>
+            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, minHeight: 120, boxShadow: 1, mb: 1, width: { xs: '100%', sm: 'auto' } }}>
               <Typography variant="subtitle1" sx={{ color: theme.palette.text.primary, fontWeight: 700, fontSize: 18, mb: 1, letterSpacing: 0.2, textAlign: "left" }}>Notes</Typography>
               <TextField multiline minRows={4} placeholder="Add your notes here..." fullWidth InputProps={{ sx: { bgcolor: "transparent", border: "none", fontWeight: 400, fontSize: 17, px: 1, py: 1.5, color: theme.palette.text.primary }, disableUnderline: true }} variant="standard" />
             </Box>
             {/* Extra Filter Options */}
-            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, boxShadow: 1 }}>
+            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, boxShadow: 1, width: { xs: '100%', sm: 'auto' } }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Extra Filter Options</Typography>
-              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Sections</option></TextField>
-                <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Rows</option></TextField>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2, flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+                <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 120 }, mb: { xs: 1, sm: 0 } }}><option>Sections</option></TextField>
+                <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary }, width: { xs: '100%', sm: 100 }, mb: { xs: 1, sm: 0 } }}><option>Rows</option></TextField>
               </Box>
-              <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>Add Filter</Button>
+              <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>Add Filter</Button>
             </Box>
           </Box>
           {/* Right: Seat Map and Section Types */}
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center', width: { xs: '100%', sm: 'auto' }, mt: { xs: 3, sm: 0 } }}>
             {/* Seat Map Placeholder */}
-            <Box sx={{ width: '100%', minHeight: 220, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
+            <Box sx={{ width: '100%', minHeight: 180, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
               <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>SEAT MAP</Typography>
             </Box>
             {/* Section Types */}
             <Box sx={{ width: '100%' }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Section Types</Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(type => (
-                  <Button key={type} variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 2, py: 0.5, fontSize: 14, minWidth: 60, textTransform: 'none', boxShadow: 1, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>{type}</Button>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, width: '100%' }}>
+                {[
+                  "ADA",
+                  "CENTER",
+                  "LAWN",
+                  "LEFT",
+                  "PIT",
+                  "RIGHT",
+                ].map(type => (
+                  <Button key={type} variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 2, py: 0.5, fontSize: 14, minWidth: 60, textTransform: 'none', boxShadow: 1, width: { xs: '48%', sm: 'auto' }, mb: { xs: 1, sm: 0 }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>{type}</Button>
                 ))}
               </Box>
             </Box>
           </Box>
         </Box>
-        <DialogActions sx={{ justifyContent: "flex-end", px: 4, pb: 2, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
-          <Button variant="contained" sx={{ borderRadius: 2, fontWeight: 400, px: 4, py: 1, fontSize: 16, bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', boxShadow: 2, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }} onClick={() => setDetailModalOpen(false)}>
+        <DialogActions sx={{ justifyContent: { xs: 'center', sm: 'flex-end' }, px: { xs: 2, sm: 4 }, pb: 2, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
+          <Button variant="contained" sx={{ borderRadius: 2, fontWeight: 400, px: 4, py: 1, fontSize: 16, bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', boxShadow: 2, textTransform: 'none', width: { xs: '100%', sm: 'auto' }, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }} onClick={() => setDetailModalOpen(false)}>
             SUBMIT
           </Button>
         </DialogActions>
