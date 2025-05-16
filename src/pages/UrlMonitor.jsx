@@ -371,9 +371,10 @@ export default function UrlMonitor() {
             borderCollapse: "separate",
             borderSpacing: 0,
             width: "100%",
-            minWidth: 700,
+            minWidth: 900,
             background: "none",
             borderRadius: 0,
+            tableLayout: 'fixed',
           }}
         >
           <TableHead>
@@ -406,6 +407,41 @@ export default function UrlMonitor() {
                       fontWeight: 700,
                       whiteSpace: "nowrap",
                       textAlign: "center",
+                      width:
+                        col.key === 'remove' ? 60 :
+                        col.key === 'priceRange' ? 120 :
+                        col.key === 'date' ? 120 :
+                        col.key === 'name' ? 180 :
+                        col.key === 'venue' ? 140 :
+                        col.key === 'vivid' ? 60 :
+                        col.key === 'eventId' ? 120 :
+                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'filters' ? 120 :
+                        undefined,
+                      minWidth:
+                        col.key === 'remove' ? 60 :
+                        col.key === 'priceRange' ? 120 :
+                        col.key === 'date' ? 120 :
+                        col.key === 'name' ? 180 :
+                        col.key === 'venue' ? 140 :
+                        col.key === 'vivid' ? 60 :
+                        col.key === 'eventId' ? 120 :
+                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'filters' ? 120 :
+                        undefined,
+                      maxWidth:
+                        col.key === 'remove' ? 60 :
+                        col.key === 'priceRange' ? 120 :
+                        col.key === 'date' ? 120 :
+                        col.key === 'name' ? 180 :
+                        col.key === 'venue' ? 140 :
+                        col.key === 'vivid' ? 60 :
+                        col.key === 'eventId' ? 120 :
+                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'filters' ? 120 :
+                        undefined,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     {col.label}
@@ -439,7 +475,7 @@ export default function UrlMonitor() {
                   }}
                 >
                   {/* Remove */}
-                  <TableCell className={styles.td}>
+                  <TableCell className={styles.td} sx={{ width: 60, minWidth: 60, maxWidth: 60, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     <IconButton
                       onClick={() => setDeleteTarget({ type: 'event', id: eventId }) || setDeleteConfirmOpen(true)}
                       sx={{ color: theme.palette.error.main, p: 0.5, '&:hover': { bgcolor: theme.palette.action.hover, color: theme.palette.error.dark } }}
@@ -448,27 +484,19 @@ export default function UrlMonitor() {
                     </IconButton>
                   </TableCell>
                   {/* Price Range */}
-                  <TableCell className={styles.td}>{data.priceRange}</TableCell>
+                  <TableCell className={styles.td} sx={{ width: 120, minWidth: 120, maxWidth: 120, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.priceRange}</TableCell>
                   {/* Date */}
-                  <TableCell
-                    className={styles.td}
-                    style={{ whiteSpace: "pre-line" }}
-                  >
+                  <TableCell className={styles.td} sx={{ width: 120, minWidth: 120, maxWidth: 120, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {data.date}
                   </TableCell>
                   {/* Name */}
-                  <TableCell
-                    className={styles.td}
-                    style={{
-                      color: idx === 0 ? theme.palette.primary.main : undefined,
-                    }}
-                  >
+                  <TableCell className={styles.td} sx={{ width: 180, minWidth: 180, maxWidth: 180, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: idx === 0 ? theme.palette.primary.main : undefined }}>
                     {data.name}
                   </TableCell>
                   {/* Venue */}
-                  <TableCell className={styles.td}>{data.venue}</TableCell>
+                  <TableCell className={styles.td} sx={{ width: 140, minWidth: 140, maxWidth: 140, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.venue}</TableCell>
                   {/* Vivid Link */}
-                  <TableCell className={styles.td} align="center">
+                  <TableCell className={styles.td} align="center" sx={{ width: 60, minWidth: 60, maxWidth: 60, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {showVivid && (
                       <img
                         src={vividIcon}
@@ -479,10 +507,7 @@ export default function UrlMonitor() {
                     )}
                   </TableCell>
                   {/* Event ID */}
-                  <TableCell
-                    className={styles.td}
-                    sx={{ whiteSpace: "nowrap", textAlign: "center" }}
-                  >
+                  <TableCell className={styles.td} sx={{ width: 120, minWidth: 120, maxWidth: 120, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'center' }}>
                     <a
                       href="#"
                       style={{
@@ -497,14 +522,14 @@ export default function UrlMonitor() {
                     </a>
                   </TableCell>
                   {/* Early Monitor */}
-                  <TableCell className={styles.td} align="center">
+                  <TableCell className={styles.td} align="center" sx={{ width: 80, minWidth: 80, maxWidth: 80, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     <Checkbox
                       checked={!!checkedRows[eventId]}
                       onChange={() => handleCheck(eventId)}
                     />
                   </TableCell>
                   {/* Filters Button */}
-                  <TableCell className={styles.td} align="center">
+                  <TableCell className={styles.td} align="center" sx={{ width: 100, minWidth: 100, maxWidth: 100, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     <Button
                       variant="contained"
                       className={styles.filtersBtn}
