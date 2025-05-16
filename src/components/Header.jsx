@@ -225,8 +225,14 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                 </IconButton>
                 <IconButton
                   sx={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#23293a",
+                    color: theme.palette.primary.contrastText,
+                    background: theme.palette.primary.main,
+                    ml: 1,
+                    '&:hover': {
+                      background: theme.palette.primary.dark,
+                    },
                   }}
+                  onClick={handleNotifClick}
                 >
                   <NotificationsIcon />
                 </IconButton>
@@ -309,7 +315,8 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
               transformOrigin={{ vertical: "top", horizontal: "left" }}
               PaperProps={{
                 sx: {
-                  background: "#232228",
+                  background: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
                   boxShadow: 3,
                   borderRadius: 2,
                   mt: 1,
@@ -321,15 +328,15 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                 variant="contained"
                 startIcon={<NotificationsIcon />}
                 sx={{
-                  background: "#4b5bdc",
-                  color: "#fff",
+                  background: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
                   borderRadius: 2,
                   textTransform: "none",
                   fontWeight: 500,
                   px: 2.5,
                   py: 1,
                   boxShadow: "none",
-                  "&:hover": { background: "#3a47b3" },
+                  '&:hover': { background: theme.palette.primary.dark },
                 }}
                 disableElevation
                 onClick={handleNotifClick}
@@ -611,7 +618,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
               <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
                 Choose your audio from the list below:
               </Typography>
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ flexWrap: 'wrap', gap: 2 }}>
                 <Select
                   value={audio}
                   onChange={(e) => setAudio(e.target.value)}
@@ -619,15 +626,14 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     background: theme.palette.primary.main,
                     color: theme.palette.mode === "light" ? "#fff" : "black",
                     borderRadius: 999,
-                    fontWeight: 700,
                     fontSize: 14,
                     minWidth: 120,
                     height: 36,
                     pl: 2,
                     pr: 2,
                     boxShadow: "none",
-                    "& .MuiSelect-icon": { color: "#fff", fontSize: 20 },
-                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                    '& .MuiSelect-icon': { color: "#fff", fontSize: 20 },
+                    '& .MuiOutlinedInput-notchedOutline': { border: "none" },
                   }}
                   MenuProps={{
                     PaperProps: {
@@ -655,12 +661,11 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                             ? theme.palette.action.selected
                             : "transparent",
                         color: theme.palette.text.primary,
-                        fontWeight: 700,
                         fontSize: 14,
                         px: 2,
                         py: 0.5,
                         minHeight: 28,
-                        "&:hover": { background: theme.palette.action.hover },
+                        '&:hover': { background: theme.palette.action.hover },
                       }}
                     >
                       {file}
@@ -673,7 +678,6 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     background: theme.palette.primary.main,
                     color: theme.palette.mode === "light" ? "#fff" : "black",
                     borderRadius: 999,
-                    fontWeight: 700,
                     fontSize: 14,
                     px: 2.5,
                     py: 0.5,
@@ -681,7 +685,8 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
                     height: 36,
                     boxShadow: "none",
                     textTransform: "none",
-                    "&:hover": { background: theme.palette.primary.dark },
+                    whiteSpace: 'nowrap',
+                    '&:hover': { background: theme.palette.primary.dark },
                   }}
                   component="label"
                   startIcon={<PlayArrowIcon />}

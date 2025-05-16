@@ -36,6 +36,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import Divider from "@mui/material/Divider";
 
 // Utility to format date
 function formatDate(val) {
@@ -133,10 +134,10 @@ export default function EventDetailView() {
               }}
             >
               <FilterListIcon sx={{ color: isDark ? "#aaa" : "#444", mr: 1 }} />
-          <TextField
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+              <TextField
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 variant="standard"
                 InputProps={{ disableUnderline: true }}
                 sx={{
@@ -164,8 +165,8 @@ export default function EventDetailView() {
                 <SearchIcon />
               </IconButton>
             </Box>
-          <Button
-            variant="contained"
+            <Button
+              variant="contained"
               sx={{
                 background: theme.palette.primary.main,
                 color: theme.palette.mode === "light" ? "#fff" : "#232323",
@@ -187,15 +188,15 @@ export default function EventDetailView() {
               onClick={() => setExpanded((v) => !v)}
             >
               {expanded ? "Expanded View" : "Compact View"}
-          </Button>
-        </Box>
+            </Button>
+          </Box>
         </Container>
       </Box>
 
       {/* Margin between search and blog */}
       <Box sx={{ height: 70 }} />
 
-        {/* Event Cards */}
+      {/* Event Cards */}
       <Container maxWidth="md" sx={{ pt: 1, px: { xs: 1, sm: 2, md: 0 } }}>
         {pagedEvents.map((event, idx) => {
           const hasBadge =
@@ -590,7 +591,7 @@ export default function EventDetailView() {
               width: 56,
               height: 56,
               "&:hover": {
-                bgcolor: isDark ? "#f3f4f6" : "#7a0a0a",
+                bgcolor: isDark ? "#ffffff" : "#7a0a0a",
                 color: isDark ? "#0f172a" : "#fff",
               },
               fontSize: 32,
@@ -627,8 +628,15 @@ export default function EventDetailView() {
         PaperProps={{
           sx: {
             bgcolor: isDark ? "#181818" : "#fff",
-            borderRadius: 3,
+            borderRadius: { xs: 0, sm: 4 },
             boxShadow: 8,
+            m: { xs: 0, sm: 2 },
+            width: { xs: "100vw", sm: 720, md: 900 },
+            minHeight: { xs: "100vh", sm: "auto" },
+            maxHeight: { xs: "100vh", sm: "90vh" },
+            display: "flex",
+            flexDirection: "column",
+            p: 0,
           },
         }}
       >
@@ -637,37 +645,95 @@ export default function EventDetailView() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            fontWeight: 700,
-            fontSize: 24,
-            pb: 1,
+            fontWeight: 800,
+            fontSize: { xs: 22, sm: 28 },
+            letterSpacing: 0.2,
+            pb: 0,
+            pt: { xs: 2, sm: 3 },
+            px: { xs: 2, sm: 4 },
+            position: { xs: "fixed", sm: "static" },
+            top: 0,
+            left: 0,
+            width: { xs: "100vw", sm: "auto" },
+            zIndex: 1201,
+            bgcolor: isDark ? "#181818" : "#fff",
+            borderTopLeftRadius: { xs: 0, sm: 4 },
+            borderTopRightRadius: { xs: 0, sm: 4 },
+            boxShadow: { xs: 3, sm: 0 },
+            borderBottom: { xs: "1px solid #e5e7eb", sm: "none" },
+            mb: { xs: "0px", sm: 0 },
           }}
         >
-          {selectedEvent?.name || ""}
+          <span
+            style={{
+              fontWeight: 800,
+              fontSize: "inherit",
+              color: isDark ? "#fff" : "#23293a",
+              textTransform: "uppercase",
+              letterSpacing: 0.5,
+            }}
+          >
+            {selectedEvent?.name || ""}
+          </span>
           <IconButton onClick={() => setModalOpen(false)}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
+        <Box sx={{ height: { xs: "450px", sm: 0 } }} />
         <DialogContent
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: 3,
-            pt: 1,
+            pt: { xs: 15, sm: 2 },
+            pb: { xs: 2, sm: 3 },
+            px: { xs: 1, sm: 4 },
+            width: { xs: "100vw", sm: "auto" },
+            minHeight: { xs: "calc(100vh - 64px)", sm: "auto" },
+            overflowY: "auto",
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1.2fr 1fr" },
+            gap: { xs: 3, sm: 4 },
+            bgcolor: isDark ? "#181818" : "#fff",
+            justifyItems: { xs: "center", md: "stretch" },
           }}
         >
-          {/* Left: Event Info */}
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Box sx={{ display: "flex", gap: 2, mb: 1, flexWrap: "wrap" }}>
+          {/* Left: Event Info, Table, Jason Data */}
+          <Box
+            sx={{
+              width: { xs: "95vw", sm: "100%" },
+              maxWidth: { xs: 360, sm: "none" },
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              mx: "auto",
+              alignItems: { xs: "center", md: "flex-start" },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 2,
+                mb: 1,
+                justifyContent: { xs: "center", md: "flex-start" },
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
               <Typography
                 variant="body2"
                 sx={{
                   fontWeight: 700,
-                  color: theme.palette.mode === "light" ? "#23293a" : "white",
+                  color: isDark ? "#fff" : "#23293a",
+                  fontSize: 16,
+                  display: "inline",
                 }}
               >
                 Date:
               </Typography>
-              <Typography variant="body2">
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 16, display: "inline", ml: 1 }}
+              >
                 {formatDate(selectedEvent?.datetime) ||
                   formatDate(selectedEvent?.dateStr) ||
                   ""}
@@ -676,50 +742,82 @@ export default function EventDetailView() {
                 variant="body2"
                 sx={{
                   fontWeight: 700,
-                  color: theme.palette.mode === "light" ? "#23293a" : "white",
+                  color: isDark ? "#fff" : "#23293a",
                   ml: 2,
+                  fontSize: 16,
+                  display: "inline",
                 }}
               >
                 Venue:
               </Typography>
-              <Typography variant="body2">
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 16, display: "inline", ml: 1 }}
+              >
                 {selectedEvent?.venue || ""}
               </Typography>
             </Box>
-            <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1.5,
+                mb: 2,
+                justifyContent: { xs: "center", md: "flex-start" },
+                width: "100%",
+              }}
+            >
               <Button
                 variant="contained"
-                style={{
-                  color: theme.palette.mode === "light" ? "white" : "black",
-                }}
                 sx={{
                   borderRadius: 2,
-                  fontWeight: "normal",
-                  px: 3,
-                  py: 0.5,
+                  fontWeight: 400,
+                  px: 4,
+                  py: 1.2,
                   fontSize: 16,
+                  bgcolor: isDark ? "#fff" : theme.palette.primary.main,
+                  boxShadow: 2,
+                  textTransform: "none",
+                  "&:hover": {
+                    bgcolor: isDark ? "#f3f4f6" : theme.palette.primary.dark,
+                  },
+                  color: isDark ? "#23293a" : "#fff",
                 }}
               >
                 Filters
               </Button>
               <IconButton
                 sx={{
-                  bgcolor: "#e5e7eb",
-                  color: "#23293a",
+                  bgcolor: isDark ? "#232228" : "#e5e7eb",
+                  color: isDark ? "#fff" : "#23293a",
                   borderRadius: 2,
                   ml: 1,
                   width: 40,
                   height: 40,
+                  boxShadow: 1,
                 }}
               >
                 <VolumeUpIcon sx={{ fontSize: 24 }} />
               </IconButton>
             </Box>
-            <Typography variant="body2" sx={{ mb: 1 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: 1,
+                textAlign: { xs: "center", md: "left" },
+                fontWeight: 500,
+                fontSize: 16,
+              }}
+            >
               Total Quantity: <b>5</b>
             </Typography>
-            <Box sx={{ mb: 2 }}>
-              {/* Show URL as clickable link, not input */}
+            <Box
+              sx={{
+                mb: 2,
+                width: "100%",
+                display: "flex",
+                justifyContent: { xs: "center", md: "flex-start" },
+              }}
+            >
               <Box
                 sx={{
                   bgcolor: isDark ? "#232228" : "#f5f7fa",
@@ -729,6 +827,10 @@ export default function EventDetailView() {
                   display: "flex",
                   alignItems: "center",
                   minHeight: 48,
+                  width: "100%",
+                  justifyContent: { xs: "center", md: "flex-start" },
+                  boxShadow: 0,
+                  fontWeight: 600,
                 }}
               >
                 <a
@@ -737,7 +839,7 @@ export default function EventDetailView() {
                   rel="noopener noreferrer"
                   style={{
                     color: "#2563eb",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     fontSize: 17,
                     textDecoration: "underline",
                     wordBreak: "break-all",
@@ -748,30 +850,52 @@ export default function EventDetailView() {
                 </a>
               </Box>
             </Box>
-            {/* Table */}
-            <Box sx={{ borderRadius: 2, overflow: "hidden", mb: 2 }}>
-              <Table sx={{ minWidth: 400 }}>
+            <Divider sx={{ my: 2, borderColor: isDark ? "#333" : "#e5e7eb" }} />
+            <Box
+              sx={{
+                borderRadius: 3,
+                overflowX: "auto",
+                overflowY: "hidden",
+                mb: 2,
+                width: "100%",
+                boxShadow: 1,
+                bgcolor: isDark ? "#232228" : "#f8fafc",
+                maxWidth: { xs: 360, sm: "none" },
+                mx: "auto",
+              }}
+            >
+              <Table sx={{ minWidth: 500, width: "100%" }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: "#23293a" }}>
-                    <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                    <TableCell
+                      sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                    >
                       Ticket Type
                     </TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                    <TableCell
+                      sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                    >
                       Section
                     </TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                    <TableCell
+                      sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                    >
                       Row
                     </TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                    <TableCell
+                      sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                    >
                       Seats (Qty)
                     </TableCell>
-                    <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                    <TableCell
+                      sx={{ color: "#fff", fontWeight: 700, fontSize: 15 }}
+                    >
                       Links
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
+                  <TableRow hover>
                     <TableCell>Standard Admission</TableCell>
                     <TableCell>224</TableCell>
                     <TableCell>5</TableCell>
@@ -783,24 +907,28 @@ export default function EventDetailView() {
                         size="small"
                         sx={{
                           ml: 1,
-                          bgcolor:
-                            theme.palette.mode === "light"
-                              ? "#0f172a"
-                              : "white",
-                          color:
-                            theme.palette.mode === "light" ? "#fff" : "black",
+                          bgcolor: isDark
+                            ? "#23293a"
+                            : theme.palette.primary.main,
+                          color: "#fff",
                           borderRadius: 2,
-                          fontWeight: "normal",
+                          fontWeight: 400,
                           px: 2,
                           py: 0.5,
                           fontSize: 14,
+                          boxShadow: 1,
+                          "&:hover": {
+                            bgcolor: isDark
+                              ? "#171c2b"
+                              : theme.palette.primary.dark,
+                          },
                         }}
                       >
-                        Buy
+                        BUY
                       </Button>
                     </TableCell>
                   </TableRow>
-                  <TableRow>
+                  <TableRow hover>
                     <TableCell>Standard Admission</TableCell>
                     <TableCell>225</TableCell>
                     <TableCell>5</TableCell>
@@ -812,55 +940,68 @@ export default function EventDetailView() {
                         size="small"
                         sx={{
                           ml: 1,
-                          bgcolor:
-                            theme.palette.mode === "light"
-                              ? "#0f172a"
-                              : "white",
-                          color:
-                            theme.palette.mode === "light" ? "#fff" : "black",
+                          bgcolor: isDark
+                            ? "#23293a"
+                            : theme.palette.primary.main,
+                          color: "#fff",
                           borderRadius: 2,
-                          fontWeight: "normal",
+                          fontWeight: isDark ? 700 : 400,
                           px: 2,
                           py: 0.5,
                           fontSize: 14,
+                          boxShadow: 1,
+                          "&:hover": {
+                            bgcolor: isDark
+                              ? "#171c2b"
+                              : theme.palette.primary.dark,
+                          },
                         }}
                       >
-                        Buy
+                        BUY
                       </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </Box>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                color: theme.palette.mode === "light" ? "#7c3aed" : "white",
-                fontWeight: 700,
-                mt: 1,
-              }}
-            >
-              Jason Data
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: theme.palette.mode === "light" ? "#23293a" : "white",
-                mb: 1,
-              }}
-            >
-              Get In: <b>$140</b> Average: <b>$336</b>
-            </Typography>
+            <Divider sx={{ my: 2, borderColor: isDark ? "#333" : "#e5e7eb" }} />
+            <Box sx={{ mt: 1 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: 700,
+                  fontSize: 16,
+                  mb: 0.5,
+                  textAlign: { xs: "center", md: "left" },
+                }}
+              >
+                Jason Data
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: isDark ? "#fff" : "#23293a",
+                  mb: 1,
+                  textAlign: { xs: "center", md: "left" },
+                  fontWeight: 500,
+                  fontSize: 16,
+                }}
+              >
+                Get In: <b>$140</b> Average: <b>$336</b>
+              </Typography>
+            </Box>
           </Box>
-          {/* Right: Stadium Image and Ticketmaster Data + Notes */}
+          {/* Right: Stadium Image, Ticketmaster Data, Notes */}
           <Box
             sx={{
-              minWidth: 320,
+              width: { xs: "95vw", sm: "100%" },
+              maxWidth: { xs: 360, sm: "none" },
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
               gap: 2,
-              flex: 1,
+              alignItems: "center",
+              mx: "auto",
             }}
           >
             <Box
@@ -868,26 +1009,32 @@ export default function EventDetailView() {
               src={stadiumImages[0]}
               alt="venue map"
               sx={{
-                width: 260,
-                height: 180,
+                width: { xs: 180, sm: 220, md: 260 },
+                height: { xs: 100, sm: 140, md: 180 },
                 objectFit: "contain",
-                borderRadius: 2,
+                borderRadius: 3,
                 mb: 1,
+                boxShadow: 1,
+                mx: "auto",
+                bgcolor: isDark ? "#232228" : "#f8fafc",
               }}
             />
             <Box
               sx={{
                 width: "100%",
-                bgcolor: "#f5f7fa",
-                borderRadius: 2,
+                bgcolor: isDark ? "#232228" : "#f5f7fa",
+                borderRadius: 3,
                 p: 2,
                 mb: 1,
+                mx: "auto",
+                textAlign: "center",
+                boxShadow: 1,
               }}
             >
               <a
                 href="#"
                 style={{
-                  color: "#2563eb",
+                  color: theme.palette.primary.main,
                   fontWeight: 700,
                   fontSize: 16,
                   textDecoration: "underline",
@@ -897,13 +1044,22 @@ export default function EventDetailView() {
               </a>
               <Typography
                 variant="body2"
-                sx={{ color: "#23293a", fontWeight: 500, mt: 1 }}
+                sx={{
+                  color: isDark ? "#fff" : "#23293a",
+                  fontWeight: 500,
+                  mt: 1,
+                  fontSize: 15,
+                }}
               >
                 Total Seats: <b>9</b>
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: "#2563eb", fontWeight: 500 }}
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: 500,
+                  fontSize: 15,
+                }}
               >
                 Price Range: N/A
               </Typography>
@@ -914,25 +1070,27 @@ export default function EventDetailView() {
                 width: "100%",
                 bgcolor: isDark ? "#232228" : "#fff",
                 border: `1.5px solid ${borderColor}`,
-                borderRadius: 2,
-                p: 2.5,
+                borderRadius: 3,
+                p: { xs: 1.5, sm: 2.5 },
                 mb: 2,
                 minHeight: 120,
                 boxShadow: isDark ? 2 : 1,
                 display: "flex",
                 flexDirection: "column",
                 gap: 1.5,
+                alignItems: "center",
+                mx: "auto",
               }}
             >
               <Typography
                 variant="subtitle1"
                 sx={{
-                  color: textColor,
+                  color: isDark ? "#fff" : textColor,
                   fontWeight: 700,
                   fontSize: 18,
                   mb: 1,
                   letterSpacing: 0.2,
-                  textAlign: "left",
+                  textAlign: "center",
                 }}
               >
                 Notes
@@ -950,7 +1108,8 @@ export default function EventDetailView() {
                     fontSize: 17,
                     px: 1,
                     py: 1.5,
-                    color: textColor,
+                    color: isDark ? "#fff" : textColor,
+                    textAlign: "center",
                   },
                   disableUnderline: true,
                 }}
@@ -959,36 +1118,62 @@ export default function EventDetailView() {
             </Box>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ justifyContent: "space-between", px: 3, pb: 2 }}>
+        <DialogActions
+          sx={{
+            justifyContent: "space-between",
+            px: { xs: 2, sm: 4 },
+            pb: 2,
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "center", sm: "flex-end" },
+            borderTop: { xs: "1px solid #e5e7eb", sm: "none" },
+            width: "100%",
+            background: "none",
+            position: { xs: "fixed", sm: "static" },
+            left: 0,
+            bottom: 0,
+            zIndex: 1301,
+            bgcolor: { xs: isDark ? "#181818" : "#fff", sm: "transparent" },
+          }}
+        >
           <Typography
             variant="body2"
             sx={{
-              color: theme.palette.mode === "light" ? "#23293a" : "white",
+              color: isDark ? "#fff" : "#23293a",
               fontWeight: 700,
+              textAlign: { xs: "center", sm: "left" },
+              mb: { xs: 2, sm: 0 },
+              fontSize: 15,
             }}
           >
             Release Time: {formatDate(selectedEvent?.dateStr)}
           </Typography>
-          {/* Two buttons: Disable and Remove */}
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              justifyContent: { xs: "center", sm: "flex-end" },
+              width: { xs: "100%", sm: "auto" },
+            }}
+          >
             <Button
               variant="contained"
               color="error"
               sx={{
                 borderRadius: 2,
-                fontWeight: "normal",
+                fontWeight: 400,
                 px: 4,
-                py: 1,
+                py: 1.2,
                 fontSize: 16,
                 bgcolor: isDark ? "#b91c1c" : "#ef4444",
                 color: "#fff",
                 boxShadow: 2,
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": {
                   bgcolor: isDark ? "#991b1b" : "#dc2626",
                 },
               }}
             >
-              Remove
+              REMOVE
             </Button>
           </Box>
         </DialogActions>
