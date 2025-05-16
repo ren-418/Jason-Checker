@@ -458,7 +458,7 @@ export default function UrlMonitor() {
                           theme.palette.mode === "light" ? "#fff" : "#0f172a",
                         borderRadius: 12,
                         boxShadow: 1,
-                        fontWeight: 500,
+                        fontWeight: 400,
                         px: 3,
                         py: 1,
                         minWidth: 90,
@@ -672,32 +672,105 @@ export default function UrlMonitor() {
         fullWidth
         PaperProps={{
           className: styles.filterModal,
-          sx: { p: 0, borderRadius: 4, minWidth: 1200, maxWidth: 1600 },
+          sx: {
+            p: 0,
+            borderRadius: 4,
+            minWidth: 1200,
+            maxWidth: 1600,
+            bgcolor:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.default
+                : "#f5f7fa",
+          },
         }}
       >
-        <div className={styles.filterModalHeader}>
-          <div className={styles.filterModalHeaderLeft}>
-            <button className={styles.filterModalHeaderButton}>
+        <div
+          className={styles.filterModalHeader}
+          style={{
+            background: theme.palette.primary.main,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "16px 24px",
+          }}
+        >
+          <div style={{ display: "flex", gap: 12 }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: 3,
+                boxShadow: 1,
+                textTransform: "none",
+                "&:hover": { bgcolor: theme.palette.primary.dark },
+              }}
+            >
               EVENT LOGS
-            </button>
-            <button className={styles.filterModalHeaderButton}>
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: 3,
+                boxShadow: 1,
+                textTransform: "none",
+                "&:hover": { bgcolor: theme.palette.primary.dark },
+              }}
+            >
               TEMPLATES
-            </button>
-            <button className={styles.filterModalHeaderButton}>
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: "#fff",
+                fontWeight: 400,
+                borderRadius: 2,
+                px: 3,
+                boxShadow: 1,
+                textTransform: "none",
+                "&:hover": { bgcolor: theme.palette.primary.dark },
+              }}
+            >
               EVENT MANAGER
-            </button>
+            </Button>
           </div>
-          <button
-            className={styles.filterModalCloseBtn}
+          <IconButton
             onClick={() => setFiltersModalOpen(false)}
+            sx={{ color: "#fff", ml: 2 }}
           >
-            <CloseIcon fontSize="inherit" />
-          </button>
+            <CloseIcon />
+          </IconButton>
         </div>
-        <div className={styles.filterModalContent}>
-          <div className={styles.filterModalLeft}>
+        <div
+          className={styles.filterModalContent}
+          style={{
+            background:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.default
+                : "#f5f7fa",
+            padding: 24,
+            borderBottomLeftRadius: 16,
+            borderBottomRightRadius: 16,
+          }}
+        >
+          <div
+            className={styles.filterModalLeft}
+            style={{ flex: 2, marginRight: 24 }}
+          >
             {/* Filter Row */}
-            <div className={styles.filterModalFilterRow}>
+            <div
+              className={styles.filterModalFilterRow}
+              style={{ display: "flex", gap: 16, marginBottom: 24 }}
+            >
               <div className={styles.filterModalFilterCol}>
                 <label className={styles.filterModalFilterLabel}>
                   Sections
@@ -755,17 +828,58 @@ export default function UrlMonitor() {
               </button>
             </div>
             {/* Notes & Extra Filter Options */}
-            <div className={styles.filterModalMainRow}>
-              <div className={styles.filterModalNotes}>
+            <div
+              className={styles.filterModalMainRow}
+              style={{ display: "flex", gap: 24 }}
+            >
+              <div
+                className={styles.filterModalNotes}
+                style={{
+                  flex: 1,
+                  background: theme.palette.background.paper,
+                  borderRadius: 8,
+                  boxShadow: theme.palette.mode === "dark" ? 2 : 1,
+                  padding: 16,
+                  border: `1.5px solid ${theme.palette.divider}`,
+                }}
+              >
                 <textarea
                   className={styles.filterModalTextarea}
                   placeholder="Notes"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
+                  style={{
+                    width: "100%",
+                    minHeight: 120,
+                    border: "none",
+                    background: "transparent",
+                    color: theme.palette.text.primary,
+                    fontSize: 16,
+                    fontWeight: 400,
+                    outline: "none",
+                  }}
                 />
               </div>
-              <div className={styles.filterModalExtraOptions}>
-                <div className={styles.filterModalSectionLabel}>
+              <div
+                className={styles.filterModalExtraOptions}
+                style={{
+                  flex: 1,
+                  background: theme.palette.background.paper,
+                  borderRadius: 8,
+                  boxShadow: theme.palette.mode === "dark" ? 2 : 1,
+                  padding: 16,
+                  border: `1.5px solid ${theme.palette.divider}`,
+                }}
+              >
+                <div
+                  className={styles.filterModalSectionLabel}
+                  style={{
+                    fontWeight: 700,
+                    fontSize: 16,
+                    marginBottom: 12,
+                    color: theme.palette.text.primary,
+                  }}
+                >
                   Extra Filter Options
                 </div>
                 <div style={{ display: "flex", gap: 12, marginBottom: 18 }}>
@@ -773,7 +887,17 @@ export default function UrlMonitor() {
                     <label className={styles.filterModalFilterLabel}>
                       Sections
                     </label>
-                    <select className={styles.filterModalSelect}>
+                    <select
+                      className={styles.filterModalSelect}
+                      style={{
+                        width: "100%",
+                        borderRadius: 4,
+                        padding: 8,
+                        background: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                        border: `1px solid ${theme.palette.divider}`,
+                      }}
+                    >
                       <option className={styles.filterModalOption}>
                         Sections
                       </option>
@@ -783,49 +907,176 @@ export default function UrlMonitor() {
                     <label className={styles.filterModalFilterLabel}>
                       Rows
                     </label>
-                    <select className={styles.filterModalSelect}>
+                    <select
+                      className={styles.filterModalSelect}
+                      style={{
+                        width: "100%",
+                        borderRadius: 4,
+                        padding: 8,
+                        background: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                        border: `1px solid ${theme.palette.divider}`,
+                      }}
+                    >
                       <option className={styles.filterModalOption}>Rows</option>
                     </select>
                   </div>
                 </div>
-                <button className={styles.filterModalAddFilterBtn}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: theme.palette.primary.main,
+                    color: "#fff",
+                    fontWeight: 400,
+                    borderRadius: 2,
+                    px: 3,
+                    boxShadow: 1,
+                    textTransform: "none",
+                    "&:hover": { bgcolor: theme.palette.primary.dark },
+                  }}
+                >
                   Add Filter
-                </button>
+                </Button>
               </div>
             </div>
             {/* Section Types */}
-            <div className={styles.filterModalSection}>
-              <div className={styles.filterModalSectionLabel}>
+            <div
+              className={styles.filterModalSection}
+              style={{ marginTop: 24 }}
+            >
+              <div
+                className={styles.filterModalSectionLabel}
+                style={{
+                  fontWeight: 700,
+                  fontSize: 16,
+                  color: theme.palette.text.primary,
+                }}
+              >
                 Section Types
               </div>
-              <div className={styles.filterModalSectionTypes}>
+              <div
+                className={styles.filterModalSectionTypes}
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  flexWrap: "wrap",
+                  marginTop: 8,
+                }}
+              >
                 {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(
                   (type) => (
-                    <button
+                    <Button
                       key={type}
-                      className={styles.filterModalSectionTypeBtn}
+                      variant="contained"
+                      sx={{
+                        bgcolor: theme.palette.primary.main,
+                        color: "#fff",
+                        fontWeight: 400,
+                        borderRadius: 2,
+                        px: 2,
+                        py: 0.5,
+                        fontSize: 14,
+                        minWidth: 60,
+                        textTransform: "none",
+                        boxShadow: 1,
+                        "&:hover": { bgcolor: theme.palette.primary.dark },
+                      }}
                     >
                       {type}
-                    </button>
+                    </Button>
                   )
                 )}
               </div>
             </div>
           </div>
           {/* Right: Seat Map */}
-          <div className={styles.filterModalRight}>
-            <div className={styles.filterModalZoomControls}>
-              <button className={styles.filterModalZoomBtn}>
+          <div
+            className={styles.filterModalRight}
+            style={{
+              flex: 1,
+              background: theme.palette.background.paper,
+              borderRadius: 8,
+              boxShadow: theme.palette.mode === "dark" ? 2 : 1,
+              padding: 16,
+              border: `1.5px solid ${theme.palette.divider}`,
+            }}
+          >
+            <div
+              className={styles.filterModalZoomControls}
+              style={{ display: "flex", gap: 8, marginBottom: 16 }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: "#fff",
+                  fontWeight: 400,
+                  borderRadius: 2,
+                  minWidth: 40,
+                  minHeight: 40,
+                  boxShadow: 1,
+                  textTransform: "none",
+                  "&:hover": { bgcolor: theme.palette.primary.dark },
+                }}
+              >
                 <ZoomInIcon fontSize="inherit" />
-              </button>
-              <button className={styles.filterModalZoomBtn}>
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: theme.palette.primary.main,
+                  color: "#fff",
+                  fontWeight: 400,
+                  borderRadius: 2,
+                  minWidth: 40,
+                  minHeight: 40,
+                  boxShadow: 1,
+                  textTransform: "none",
+                  "&:hover": { bgcolor: theme.palette.primary.dark },
+                }}
+              >
                 <ZoomOutIcon fontSize="inherit" />
-              </button>
+              </Button>
             </div>
-            <div className={styles.filterModalSeatMap}>SEAT MAP</div>
+            <div
+              className={styles.filterModalSeatMap}
+              style={{
+                width: "100%",
+                minHeight: 220,
+                background: theme.palette.background.default,
+                borderRadius: 8,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: theme.palette.text.secondary,
+                fontWeight: 500,
+                fontSize: 18,
+              }}
+            >
+              SEAT MAP
+            </div>
           </div>
         </div>
-        <button className={styles.filterModalSubmitBtn}>Submit</button>
+        <Button
+          className={styles.filterModalSubmitBtn}
+          variant="contained"
+          sx={{
+            bgcolor: theme.palette.primary.main,
+            color: "#fff",
+            fontWeight: 400,
+            borderRadius: 2,
+            px: 4,
+            py: 1.2,
+            fontSize: 16,
+            boxShadow: 1,
+            textTransform: "none",
+            margin: "24px auto 0 auto",
+            display: "block",
+            "&:hover": { bgcolor: theme.palette.primary.dark },
+          }}
+        >
+          Submit
+        </Button>
       </Dialog>
       <Dialog
         open={betaModalOpen}
@@ -940,7 +1191,7 @@ export default function UrlMonitor() {
         fullWidth
         PaperProps={{
           sx: {
-            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#fff",
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : '#f5f7fa',
             borderRadius: 4,
             color: theme.palette.text.primary,
             boxShadow: 8,
@@ -950,276 +1201,75 @@ export default function UrlMonitor() {
           },
         }}
       >
-        <DialogTitle
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            alignItems: { xs: "flex-start", sm: "center" },
-            justifyContent: "space-between",
-            fontWeight: 700,
-            fontSize: { xs: 20, sm: 24 },
-            pb: 1,
-            gap: 2,
-            bgcolor: theme.palette.mode === "dark" ? "#232228" : "#f5f7fa",
-          }}
-        >
-          <Box>
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 700, fontSize: { xs: 16, sm: 20 } }}
-            >
-              {selectedRow?.name || ""}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme.palette.text.secondary, mt: 0.5 }}
-            >
-              <b>Date:</b> {selectedRow?.date || ""} &nbsp; <b>Venue:</b>{" "}
-              {selectedRow?.venue || ""}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme.palette.text.secondary, mt: 0.5 }}
-            >
-              <b>Price Range:</b> {selectedRow?.priceRange || "N/A"}
-            </Typography>
+        {/* Modal Header with Event Logs, Templates, Event Manager */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 3, pt: 3, pb: 2, bgcolor: theme.palette.mode === 'dark' ? '#181818' : theme.palette.primary.main, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT LOGS</Button>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>TEMPLATES</Button>
+            <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>EVENT MANAGER</Button>
           </Box>
-          <IconButton onClick={() => setDetailModalOpen(false)}>
+          <IconButton onClick={() => setDetailModalOpen(false)} sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#fff', ml: 2 }}>
             <CloseIcon />
           </IconButton>
-        </DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: 3,
-            pt: 2,
-            pb: 2,
-            px: { xs: 1, sm: 3 },
-            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#fff",
-          }}
-        >
-          {/* Left: Filters and Notes */}
-          <Box sx={{ flex: 1, minWidth: 0, mb: { xs: 3, md: 0 } }}>
-            {/* Filter Controls */}
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                mb: 3,
-                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#f5f7fa",
-                borderRadius: 2,
-                p: 2,
-                boxShadow: theme.palette.mode === "dark" ? 2 : 1,
-              }}
-            >
-              <TextField
-                select
-                label="Sections"
-                SelectProps={{ native: true }}
-                sx={{
-                  minWidth: 120,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              >
-                <option>Sections</option>
-              </TextField>
-              <TextField
-                select
-                label="Rows"
-                SelectProps={{ native: true }}
-                sx={{
-                  minWidth: 100,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              >
-                <option>Rows</option>
-              </TextField>
-              <TextField
-                label="Price Min"
-                type="number"
-                sx={{
-                  minWidth: 80,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              />
-              <TextField
-                label="Price Max"
-                type="number"
-                sx={{
-                  minWidth: 80,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              />
-              <TextField
-                select
-                label="Min. Seats"
-                SelectProps={{ native: true }}
-                sx={{
-                  minWidth: 90,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              >
-                <option>2+</option>
-              </TextField>
-              <TextField
-                select
-                label="Ticket Types"
-                SelectProps={{ native: true }}
-                sx={{
-                  minWidth: 130,
-                  bgcolor: "background.paper",
-                  borderRadius: 1,
-                }}
-              >
-                <option>Ticket Types</option>
-              </TextField>
+        </Box>
+        {/* Event Info Row */}
+        <Box sx={{ px: 4, pt: 2, pb: 1, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa', borderBottom: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.primary }}>{selectedRow?.name || ""}</Typography>
+          <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary, mb: 0.5 }}>
+            <b>Date:</b> {selectedRow?.date || ""} &nbsp; <b>Venue:</b> {selectedRow?.venue || ""}
+          </Typography>
+          <Typography variant="body2" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary }}>
+            <b>Price Range:</b> {selectedRow?.priceRange || "N/A"}
+          </Typography>
+        </Box>
+        {/* Main Content Grid */}
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3, px: 4, py: 3, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
+          {/* Left: Filters, Notes, Extra Filter Options */}
+          <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Filter Row */}
+            <Box sx={{ display: 'flex', gap: 2, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, boxShadow: 1, p: 2, mb: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
+              <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Sections</option></TextField>
+              <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Rows</option></TextField>
+              <TextField label="Price Min" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }} />
+              <TextField label="Price Max" type="number" sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }} />
+              <TextField select label="Min. Seats" SelectProps={{ native: true }} sx={{ minWidth: 90, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>2+</option></TextField>
+              <TextField select label="Ticket Types" SelectProps={{ native: true }} sx={{ minWidth: 130, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Ticket Types</option></TextField>
             </Box>
             {/* Notes */}
-            <Box
-              sx={{
-                mt: 2,
-                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#f5f7fa",
-                border: `1.5px solid ${theme.palette.divider}`,
-                borderRadius: 2,
-                p: 2,
-                minHeight: 120,
-                boxShadow: theme.palette.mode === "dark" ? 2 : 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontWeight: 700,
-                  fontSize: 18,
-                  mb: 1,
-                  letterSpacing: 0.2,
-                  textAlign: "left",
-                }}
-              >
-                Notes
-              </Typography>
-              <TextField
-                multiline
-                minRows={4}
-                placeholder="Add your notes here..."
-                fullWidth
-                InputProps={{
-                  sx: {
-                    bgcolor: "transparent",
-                    border: "none",
-                    fontWeight: 500,
-                    fontSize: 17,
-                    px: 1,
-                    py: 1.5,
-                    color: theme.palette.text.primary,
-                  },
-                  disableUnderline: true,
-                }}
-                variant="standard"
-              />
+            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, minHeight: 120, boxShadow: 1, mb: 1 }}>
+              <Typography variant="subtitle1" sx={{ color: theme.palette.text.primary, fontWeight: 700, fontSize: 18, mb: 1, letterSpacing: 0.2, textAlign: "left" }}>Notes</Typography>
+              <TextField multiline minRows={4} placeholder="Add your notes here..." fullWidth InputProps={{ sx: { bgcolor: "transparent", border: "none", fontWeight: 400, fontSize: 17, px: 1, py: 1.5, color: theme.palette.text.primary }, disableUnderline: true }} variant="standard" />
+            </Box>
+            {/* Extra Filter Options */}
+            <Box sx={{ bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}`, borderRadius: 2, p: 2, boxShadow: 1 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Extra Filter Options</Typography>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                <TextField select label="Sections" SelectProps={{ native: true }} sx={{ minWidth: 120, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Sections</option></TextField>
+                <TextField select label="Rows" SelectProps={{ native: true }} sx={{ minWidth: 100, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 1, color: theme.palette.text.primary, '& .MuiInputBase-input': { color: theme.palette.text.primary }, '& .MuiInputLabel-root': { color: theme.palette.text.primary } }}><option>Rows</option></TextField>
+              </Box>
+              <Button variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 3, boxShadow: 1, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>Add Filter</Button>
             </Box>
           </Box>
           {/* Right: Seat Map and Section Types */}
-          <Box
-            sx={{
-              minWidth: { xs: 0, md: 320 },
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
             {/* Seat Map Placeholder */}
-            <Box
-              sx={{
-                width: "100%",
-                minHeight: 220,
-                bgcolor: theme.palette.mode === "dark" ? "#232228" : "#f5f7fa",
-                borderRadius: 2,
-                mb: 2,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: theme.palette.mode === "dark" ? 2 : 1,
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ color: theme.palette.text.secondary }}
-              >
-                SEAT MAP
-              </Typography>
+            <Box sx={{ width: '100%', minHeight: 220, bgcolor: theme.palette.mode === 'dark' ? '#232228' : '#fff', borderRadius: 2, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 1, border: `1.5px solid ${theme.palette.mode === 'dark' ? '#333' : theme.palette.divider}` }}>
+              <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>SEAT MAP</Typography>
             </Box>
             {/* Section Types */}
-            <Box sx={{ width: "100%" }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
-                Section Types
-              </Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(
-                  (type) => (
-                    <Button
-                      key={type}
-                      variant="contained"
-                      sx={{
-                        bgcolor:
-                          theme.palette.mode === "dark" ? "#6366f1" : "#6366f1",
-                        color: "#fff",
-                        borderRadius: 2,
-                        fontWeight: 500,
-                        px: 2,
-                        py: 0.5,
-                        fontSize: 14,
-                        minWidth: 60,
-                        textTransform: "none",
-                        boxShadow: 1,
-                        "&:hover": {
-                          bgcolor:
-                            theme.palette.mode === "dark"
-                              ? "#4338ca"
-                              : "#4338ca",
-                        },
-                      }}
-                    >
-                      {type}
-                    </Button>
-                  )
-                )}
+            <Box sx={{ width: '100%' }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1, color: theme.palette.text.primary }}>Section Types</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {["ADA", "CENTER", "LAWN", "LEFT", "PIT", "RIGHT"].map(type => (
+                  <Button key={type} variant="contained" sx={{ bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', fontWeight: 400, borderRadius: 2, px: 2, py: 0.5, fontSize: 14, minWidth: 60, textTransform: 'none', boxShadow: 1, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }}>{type}</Button>
+                ))}
               </Box>
             </Box>
           </Box>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "flex-end", px: 4, pb: 2 }}>
-          <Button
-            variant="contained"
-            sx={{
-              borderRadius: 2,
-              fontWeight: 700,
-              px: 4,
-              py: 1,
-              fontSize: 16,
-              bgcolor: theme.palette.mode === "dark" ? "#b91c1c" : "#ef4444",
-              color: "#fff",
-              boxShadow: 2,
-              "&:hover": {
-                bgcolor: theme.palette.mode === "dark" ? "#991b1b" : "#dc2626",
-              },
-            }}
-            onClick={() => setDetailModalOpen(false)}
-          >
-            Submit
+        </Box>
+        <DialogActions sx={{ justifyContent: "flex-end", px: 4, pb: 2, bgcolor: theme.palette.mode === "dark" ? '#181818' : '#f5f7fa' }}>
+          <Button variant="contained" sx={{ borderRadius: 2, fontWeight: 400, px: 4, py: 1, fontSize: 16, bgcolor: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, color: theme.palette.mode === 'dark' ? '#181818' : '#fff', boxShadow: 2, textTransform: 'none', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#f3f4f6' : theme.palette.primary.dark, color: theme.palette.mode === 'dark' ? '#181818' : '#fff' } }} onClick={() => setDetailModalOpen(false)}>
+            SUBMIT
           </Button>
         </DialogActions>
       </Dialog>
