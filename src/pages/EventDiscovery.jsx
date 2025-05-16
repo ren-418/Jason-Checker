@@ -66,6 +66,9 @@ export default function EventDetailView() {
   const [page, setPage] = useState(1);
   const [showToTop, setShowToTop] = useState(false);
   const eventsPerPage = 6;
+  const [removedEvents, setRemovedEvents] = useState([]);
+  const [removeConfirmOpen, setRemoveConfirmOpen] = useState(false);
+  const [readdConfirmOpen, setReaddConfirmOpen] = useState(false);
   const filteredEvents = allEvents.filter((e) =>
     e.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -951,6 +954,7 @@ export default function EventDetailView() {
                   <TableRow sx={{ bgcolor: "#23293a" }}>
                     <TableCell padding="checkbox">
                       <Checkbox
+                        style={{ color: "white" }}
                         checked={selectedRows.length === 2}
                         indeterminate={
                           selectedRows.length > 0 && selectedRows.length < 2
@@ -1239,26 +1243,51 @@ export default function EventDetailView() {
               width: { xs: "100%", sm: "auto" },
             }}
           >
-            <Button
-              variant="contained"
-              color="error"
-              sx={{
-                borderRadius: 2,
-                fontWeight: 400,
-                px: 4,
-                py: 1.2,
-                fontSize: 16,
-                bgcolor: isDark ? "#b91c1c" : "#ef4444",
-                color: "#fff",
-                boxShadow: 2,
-                width: { xs: "100%", sm: "auto" },
-                "&:hover": {
-                  bgcolor: isDark ? "#991b1b" : "#dc2626",
-                },
-              }}
-            >
-              REMOVE
-            </Button>
+            {removedEvents.includes(selectedEvent?.id) ? (
+              <Button
+                variant="contained"
+                color="success"
+                sx={{
+                  borderRadius: 2,
+                  fontWeight: 400,
+                  px: 4,
+                  py: 1.2,
+                  fontSize: 16,
+                  bgcolor: theme.palette.success.main,
+                  color: "#fff",
+                  boxShadow: 2,
+                  width: { xs: "100%", sm: "auto" },
+                  "&:hover": {
+                    bgcolor: theme.palette.success.dark,
+                  },
+                }}
+                onClick={() => setReaddConfirmOpen(true)}
+              >
+                Re-add Event
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="error"
+                sx={{
+                  borderRadius: 2,
+                  fontWeight: 400,
+                  px: 4,
+                  py: 1.2,
+                  fontSize: 16,
+                  bgcolor: isDark ? "#b91c1c" : "#ef4444",
+                  color: "#fff",
+                  boxShadow: 2,
+                  width: { xs: "100%", sm: "auto" },
+                  "&:hover": {
+                    bgcolor: isDark ? "#991b1b" : "#dc2626",
+                  },
+                }}
+                onClick={() => setRemoveConfirmOpen(true)}
+              >
+                REMOVE
+              </Button>
+            )}
           </Box>
         </DialogActions>
       </Dialog>
@@ -1270,8 +1299,8 @@ export default function EventDetailView() {
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         PaperProps={{
           sx: {
-            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#23293a",
-            color: "#fff",
+            bgcolor: theme.palette.mode === "dark" ? "#181818" : "#fff",
+            color: "#181818",
             borderRadius: 3,
             boxShadow: 6,
             p: 2,
@@ -1281,7 +1310,12 @@ export default function EventDetailView() {
         }}
       >
         <Box sx={{ mb: 2, textAlign: "center" }}>
-          <Typography sx={{ fontWeight: 700, fontSize: 16, mb: 1 }}>
+          <Typography
+            sx={{ fontWeight: 700, fontSize: 16, mb: 1 }}
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
+          >
             Sort Options
           </Typography>
           <TextField
@@ -1331,13 +1365,22 @@ export default function EventDetailView() {
               sx: { color: theme.palette.mode === "dark" ? "#fff" : "#fff" },
             }}
           >
-            <option value="Ticket Quantity" style={{ color: "#000" }}>
+            <option
+              value="Ticket Quantity"
+              style={{ color: theme.palette.mode === "dark" ? "#fff" : "#000" }}
+            >
               Ticket Quantity
             </option>
-            <option value="Price" style={{ color: "#000" }}>
+            <option
+              value="Price"
+              style={{ color: theme.palette.mode === "dark" ? "#fff" : "#000" }}
+            >
               Price
             </option>
-            <option value="Date" style={{ color: "#000" }}>
+            <option
+              value="Date"
+              style={{ color: theme.palette.mode === "dark" ? "#fff" : "#000" }}
+            >
               Date
             </option>
           </TextField>
@@ -1350,10 +1393,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, tm: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Ticketmaster / Live Nation"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1362,10 +1410,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, axs: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="AXS"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1374,10 +1427,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, mlb: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="MLB"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1386,10 +1444,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, seatgeek: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="SeatGeek"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1398,10 +1461,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, evenue: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Evenue"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1410,10 +1478,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, stubhub: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Stubhub"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1422,10 +1495,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, early: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Early Monitor"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1434,10 +1512,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, price: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Price Drops"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1446,10 +1529,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, onsale: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Onsale / Presale"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1458,10 +1546,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, artist: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Artist Add"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1470,10 +1563,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, low: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Low Stock"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
           <FormControlLabel
             control={
@@ -1482,10 +1580,15 @@ export default function EventDetailView() {
                 onChange={(e) =>
                   setFilterState((s) => ({ ...s, remove: e.target.checked }))
                 }
-                sx={{ color: "#fff" }}
+                sx={{
+                  color: theme.palette.mode === "light" ? "#0f172a" : "#fff",
+                }}
               />
             }
             label="Remove Onsale / Presale"
+            style={{
+              color: theme.palette.mode === "dark" ? "white" : "black",
+            }}
           />
         </FormGroup>
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
@@ -1509,6 +1612,136 @@ export default function EventDetailView() {
           </Button>
         </Box>
       </Popover>
+      {/* Remove Confirm Dialog */}
+      <Dialog
+        open={removeConfirmOpen}
+        onClose={() => setRemoveConfirmOpen(false)}
+      >
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            fontSize: 18,
+            textAlign: "center",
+            pt: 3,
+            pb: 1,
+            bgcolor: isDark ? "#181818" : "#fff",
+            color: isDark ? "#fff" : "#23293a",
+          }}
+        >
+          Are you sure you want to remove this event?
+        </DialogTitle>
+        <DialogActions
+          sx={{
+            justifyContent: "center",
+            pb: 2,
+            bgcolor: isDark ? "#181818" : "#fff",
+          }}
+        >
+          <Button
+            onClick={() => setRemoveConfirmOpen(false)}
+            sx={{
+              borderRadius: 2,
+              fontWeight: 500,
+              px: 3,
+              py: 1,
+              color: theme.palette.primary.contrastText,
+              bgcolor: theme.palette.primary.main,
+              mr: 2,
+              boxShadow: 1,
+              textTransform: "none",
+              "&:hover": { bgcolor: theme.palette.primary.dark },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              setRemovedEvents([...removedEvents, selectedEvent.id]);
+              setRemoveConfirmOpen(false);
+            }}
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              fontWeight: 700,
+              px: 3,
+              py: 1,
+              bgcolor: theme.palette.error.main,
+              color: "#fff",
+              boxShadow: 1,
+              textTransform: "none",
+              "&:hover": { bgcolor: theme.palette.error.dark },
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Re-add Confirm Dialog */}
+      <Dialog
+        open={readdConfirmOpen}
+        onClose={() => setReaddConfirmOpen(false)}
+      >
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            fontSize: 18,
+            textAlign: "center",
+            pt: 3,
+            pb: 1,
+            bgcolor: isDark ? "#181818" : "#fff",
+            color: isDark ? "#fff" : "#23293a",
+          }}
+        >
+          Are you sure you want to re-add this event?
+        </DialogTitle>
+        <DialogActions
+          sx={{
+            justifyContent: "center",
+            pb: 2,
+            bgcolor: isDark ? "#181818" : "#fff",
+          }}
+        >
+          <Button
+            onClick={() => setReaddConfirmOpen(false)}
+            sx={{
+              borderRadius: 2,
+              fontWeight: 500,
+              px: 3,
+              py: 1,
+              color: theme.palette.primary.contrastText,
+              bgcolor: theme.palette.primary.main,
+              mr: 2,
+              boxShadow: 1,
+              textTransform: "none",
+              "&:hover": { bgcolor: theme.palette.primary.dark },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              setRemovedEvents(
+                removedEvents.filter((id) => id !== selectedEvent.id)
+              );
+              setReaddConfirmOpen(false);
+            }}
+            variant="contained"
+            sx={{
+              borderRadius: 2,
+              fontWeight: 700,
+              px: 3,
+              py: 1,
+              bgcolor: theme.palette.success.main,
+              color: "#fff",
+              boxShadow: 1,
+              textTransform: "none",
+              "&:hover": { bgcolor: theme.palette.success.dark },
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
