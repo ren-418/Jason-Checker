@@ -91,6 +91,19 @@ export default function UrlMonitor() {
       user: "mini@richtooth.com",
     },
   ];
+  // Add filterRows state and handlers at the top level of the component
+  const [filterRows, setFilterRows] = useState([
+    { section: "Sections", row: "Rows", priceMin: "", priceMax: "", minSeats: "2+", ticketType: "Special Offers, ..." },
+  ]);
+  const handleAddRow = () => {
+    setFilterRows([...filterRows, { section: "Sections", row: "Rows", priceMin: "", priceMax: "", minSeats: "2+", ticketType: "Special Offers, ..." }]);
+  };
+  const handleRemoveRow = (idx) => {
+    setFilterRows(filterRows.filter((_, i) => i !== idx));
+  };
+  const handleRowChange = (idx, key, value) => {
+    setFilterRows(filterRows.map((row, i) => i === idx ? { ...row, [key]: value } : row));
+  };
 
   useEffect(() => {
     const onScroll = () => setShowToTop(window.scrollY > 200);

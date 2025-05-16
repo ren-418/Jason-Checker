@@ -1026,21 +1026,18 @@ export default function EventDetailView() {
                           size="small"
                           sx={{
                             ml: 1,
-                            bgcolor: isDark
-                              ? "#23293a"
-                              : theme.palette.primary.main,
-                            color: "#fff",
+                            bgcolor:
+                              theme.palette.mode === "dark"
+                                ? "white"
+                                : theme.palette.primary.main,
+                            color:
+                              theme.palette.mode === "dark" ? "black" : "white",
                             borderRadius: 2,
                             fontWeight: 400,
                             px: 2,
                             py: 0.5,
                             fontSize: 14,
                             boxShadow: 1,
-                            "&:hover": {
-                              bgcolor: isDark
-                                ? "#171c2b"
-                                : theme.palette.primary.dark,
-                            },
                           }}
                         >
                           BUY
@@ -1323,7 +1320,8 @@ export default function EventDetailView() {
                   sx: {
                     "& .MuiMenuItem-root": {
                       color: "#000",
-                      bgcolor: theme.palette.mode === "dark" ? "#232228" : "#fff",
+                      bgcolor:
+                        theme.palette.mode === "dark" ? "#232228" : "#fff",
                     },
                   },
                 },
@@ -1333,9 +1331,15 @@ export default function EventDetailView() {
               sx: { color: theme.palette.mode === "dark" ? "#fff" : "#fff" },
             }}
           >
-            <option value="Ticket Quantity" style={{ color: "#000" }}>Ticket Quantity</option>
-            <option value="Price" style={{ color: "#000" }}>Price</option>
-            <option value="Date" style={{ color: "#000" }}>Date</option>
+            <option value="Ticket Quantity" style={{ color: "#000" }}>
+              Ticket Quantity
+            </option>
+            <option value="Price" style={{ color: "#000" }}>
+              Price
+            </option>
+            <option value="Date" style={{ color: "#000" }}>
+              Date
+            </option>
           </TextField>
         </Box>
         <FormGroup>

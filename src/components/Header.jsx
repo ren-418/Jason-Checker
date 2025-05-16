@@ -827,7 +827,7 @@ const Header = ({ mode = "dark", toggleMode = () => {} }) => {
               position: "absolute",
               right: 8,
               top: 8,
-              color: theme.palette.mode === "dark" ? "#232228" : "#232228",
+              color: theme.palette.mode === "dark" ? "white" : "#232228",
             }}
           >
             <CloseIcon />
