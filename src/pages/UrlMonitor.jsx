@@ -189,7 +189,7 @@ export default function UrlMonitor() {
     { key: "stubhub", label: "Stubhub Link", sortable: false },
     { key: "vivid", label: "Vivid Link", sortable: false },
     { key: "eventId", label: "Event ID", sortable: true },
-    { key: "earlyMonitor", label: "Early Monitor", sortable: false },
+    { key: "ACO", label: "ACO", sortable: false },
     { key: "filters", label: "Filters", sortable: false },
   ];
 
@@ -415,7 +415,7 @@ export default function UrlMonitor() {
                         col.key === 'venue' ? 140 :
                         col.key === 'vivid' ? 60 :
                         col.key === 'eventId' ? 120 :
-                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'ACO' ? 80 :
                         col.key === 'filters' ? 120 :
                         undefined,
                       minWidth:
@@ -426,7 +426,7 @@ export default function UrlMonitor() {
                         col.key === 'venue' ? 140 :
                         col.key === 'vivid' ? 60 :
                         col.key === 'eventId' ? 120 :
-                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'ACO' ? 80 :
                         col.key === 'filters' ? 120 :
                         undefined,
                       maxWidth:
@@ -437,7 +437,7 @@ export default function UrlMonitor() {
                         col.key === 'venue' ? 140 :
                         col.key === 'vivid' ? 60 :
                         col.key === 'eventId' ? 120 :
-                        col.key === 'earlyMonitor' ? 80 :
+                        col.key === 'ACO' ? 80 :
                         col.key === 'filters' ? 120 :
                         undefined,
                       overflow: 'hidden',
